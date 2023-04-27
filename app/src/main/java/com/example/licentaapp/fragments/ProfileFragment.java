@@ -130,10 +130,6 @@ public class ProfileFragment extends Fragment {
 
                     fAuth.signOut();
                     Toast.makeText(getContext(), "Logged out", Toast.LENGTH_SHORT).show();
-                    //user = new User();
-//                    getActivity().getSupportFragmentManager().beginTransaction()
-//                            .replace(R.id.fragment_container_main, AccountFragment.getInstance())
-//                            .commit();
                     startActivity(new Intent(view.getContext().getApplicationContext(), MainActivity.class));
                 }
             });

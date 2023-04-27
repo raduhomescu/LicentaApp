@@ -16,8 +16,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.licentaapp.R;
+import com.example.licentaapp.fragments.ProductFragment;
 import com.example.licentaapp.fragments.SearchFragment;
 
 import java.io.File;
@@ -32,14 +35,16 @@ public class PhoneAdapter extends ArrayAdapter<Phone> {
     private LayoutInflater inflater;
     private OnFavoriteButtonClickListener mListener;
     private User user;
+    private FragmentActivity activity;
 
-    public PhoneAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Phone> objects, LayoutInflater inflater, User user) {
+    public PhoneAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Phone> objects, LayoutInflater inflater, User user, FragmentActivity activity) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
         this.phones = objects;
         this.inflater = inflater;
         this.user = user;
+        this.activity = activity;
     }
 
     public void setOnFavoriteButtonClickListener(OnFavoriteButtonClickListener listener) {
@@ -85,6 +90,16 @@ public class PhoneAdapter extends ArrayAdapter<Phone> {
                     }
                 }
             });
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("ino click adapter", "merge");
+                activity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container_main, ProductFragment.getInstance(phone))
+                        .commit();
+            }
+        });
         return view;
     }
 
@@ -92,7 +107,6 @@ public class PhoneAdapter extends ArrayAdapter<Phone> {
         Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
         ImageView imageView = view.findViewById(R.id.row_item_image);
         imageView.setImageBitmap(bitmap);
-
     }
 
     private void addName(String brand, String model, View view) {

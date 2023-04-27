@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -76,11 +77,10 @@ public class SearchFragment extends Fragment implements PhoneAdapter.OnFavoriteB
 
     private void initComponents(View view) {
         lvPhones = view.findViewById(R.id.lv_phones);
-        PhoneAdapter adapter = new PhoneAdapter(view.getContext().getApplicationContext(),R.layout.lv_row_item, filteredPhoneList, getLayoutInflater(), user);
+        PhoneAdapter adapter = new PhoneAdapter(view.getContext().getApplicationContext(),R.layout.lv_row_item, filteredPhoneList, getLayoutInflater(), user, getActivity());
         adapter.setOnFavoriteButtonClickListener(this);
         lvPhones.setAdapter(adapter);
         tietSearch = view.findViewById(R.id.tiet_search);
-//        filteredPhoneList.addAll(phonesList);
         tietSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -112,11 +112,7 @@ public class SearchFragment extends Fragment implements PhoneAdapter.OnFavoriteB
             }
         });
 
-//        PhoneAdapter adapter = new PhoneAdapter(view.getContext().getApplicationContext(),R.layout.lv_row_item, phonesList, getLayoutInflater(), user);
-//        adapter.setOnFavoriteButtonClickListener(this);
-//        lvPhones.setAdapter(adapter);
         imageButton = view.findViewById(R.id.btn_search_sf);
-
     }
 
     @Override

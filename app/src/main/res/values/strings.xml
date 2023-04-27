@@ -33,4 +33,5 @@
     <string name="ro_item_culoare">Culoare</string>
     <string name="ro_item_pret_completation">%1$s Lei</string>
     <string name="ro_item_memorie_completation">%1$s GB</string>
+    <string name="show_specs">Show Specs</string>
 </resources>

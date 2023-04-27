@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.licentaapp.R;
@@ -59,7 +60,7 @@ public class FavouritesFragment extends Fragment implements PhoneAdapter.OnFavor
                 filteredList.add(phone);
             }
         }
-        PhoneAdapter adapter = new PhoneAdapter(view.getContext().getApplicationContext(),R.layout.lv_row_item, filteredList, getLayoutInflater(), user);
+        PhoneAdapter adapter = new PhoneAdapter(view.getContext().getApplicationContext(),R.layout.lv_row_item, filteredList, getLayoutInflater(), user, getActivity());
         adapter.setOnFavoriteButtonClickListener(this);
         lvPhones.setAdapter(adapter);
     }
