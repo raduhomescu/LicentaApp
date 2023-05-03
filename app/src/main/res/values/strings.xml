@@ -34,4 +34,24 @@
     <string name="ro_item_pret_completation">%1$s Lei</string>
     <string name="ro_item_memorie_completation">%1$s GB</string>
     <string name="show_specs">Show Specs</string>
+    <string name="dual_sim_yes">Dual sim: Yes</string>
+    <string name="dual_sim_no">Dual sim: No</string>
+    <string name="spec_platform">Operating system: %1$s</string>
+    <string name="spec_colour">Colour: %1$s</string>
+    <string name="spec_storage">Storage: %1$s Gb</string>
+    <string name="spec_ram">RAM memory: %1$s Gb</string>
+    <string name="spec_battery">Battery capacity: %1$s mAh</string>
+    <string name="spec_resolution">Resolution: %1$s pixels</string>
+    <string name="spec_dimensions">%1$smm x %2$smm x %3$smm</string>
+    <string name="spec_Mass">Mass: %1$s g</string>
+    <string name="spec_primary_camera">Primary Camera: %1$s Mpx</string>
+    <string name="spec_front_camera">Front Camera: %1$s Mpx</string>
+    <string name="spec_connector">Connector: %1$s</string>
+    <string name="spec_year">Year: %1$s</string>
+
+
+
+
+
+
 </resources>

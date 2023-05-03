@@ -4,16 +4,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
-import androidx.constraintlayout.helper.widget.Carousel;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -21,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.licentaapp.R;
 import com.example.licentaapp.utils.Phone;
+import com.example.licentaapp.utils.SpecAdapter;
 
 import java.util.ArrayList;
 
@@ -63,15 +59,14 @@ public class ProductFragment extends Fragment {
     }
 
     private void initComponents(View view) {
-        phoneSpecs.add(phone.getPlatform());
-        phoneSpecs.add(phone.getColour());
+        addPhoneSpecs(phone, view);
         //TODO DE ADAUGAT TOATE SPECS IN LISTA SI DE FACUT UN ADAPTER
         prodFragImage = view.findViewById(R.id.prod_frag_photo);
         prodFragTitle = view.findViewById(R.id.prod_frag_title);
         prodFragPrice = view.findViewById(R.id.prod_frag_price);
         prodPageBtnShowSpecs = view.findViewById(R.id.prod_frag_btn_show_specs);
         listView = view.findViewById(R.id.prod_frag_list_view);
-        ArrayAdapter adapter = new ArrayAdapter<>(view.getContext().getApplicationContext(), android.R.layout.simple_list_item_1, phoneSpecs);
+        SpecAdapter adapter = new SpecAdapter(view.getContext().getApplicationContext(), R.layout.lw_row_item_specs, phoneSpecs, getLayoutInflater());
 
 
         Bitmap bitmap = BitmapFactory.decodeFile(phone.getLocalFile().getAbsolutePath());
@@ -86,6 +81,27 @@ public class ProductFragment extends Fragment {
                 listView.setAdapter(adapter);
             }
         });
+
+    }
+
+    private void addPhoneSpecs(Phone phone, View view) {
+        phoneSpecs.add(view.getContext().getString(R.string.spec_platform, phone.getPlatform()));
+        phoneSpecs.add(view.getContext().getString(R.string.spec_colour, phone.getColour()));
+        phoneSpecs.add(view.getContext().getString(R.string.spec_storage, String.valueOf(phone.getStorage())));
+        phoneSpecs.add(view.getContext().getString(R.string.spec_ram, String.valueOf(phone.getRam())));
+        phoneSpecs.add(view.getContext().getString(R.string.spec_battery, String.valueOf(phone.getBattery())));
+        if(phone.isDualSim()) {
+            phoneSpecs.add(getString(R.string.dual_sim_yes));
+        } else {
+            phoneSpecs.add(getString(R.string.dual_sim_no));
+        }
+        phoneSpecs.add(view.getContext().getString(R.string.spec_resolution, phone.getResolution()));
+        phoneSpecs.add(view.getContext().getString(R.string.spec_dimensions, String.valueOf(phone.getHeight()), String.valueOf(phone.getWidth()), String.valueOf(phone.getDepth())));
+        phoneSpecs.add(view.getContext().getString(R.string.spec_Mass, String.valueOf(phone.getMass())));
+        phoneSpecs.add(view.getContext().getString(R.string.spec_primary_camera, String.valueOf(phone.getPrimaryCamera())));
+        phoneSpecs.add(view.getContext().getString(R.string.spec_front_camera, String.valueOf(phone.getFrontCamera())));
+        phoneSpecs.add(view.getContext().getString(R.string.spec_connector, phone.getConnector()));
+        phoneSpecs.add(view.getContext().getString(R.string.spec_year, String.valueOf(phone.getYear())));
 
     }
 }
