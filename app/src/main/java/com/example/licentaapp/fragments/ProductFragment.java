@@ -65,6 +65,7 @@ public class ProductFragment extends Fragment {
     private void initComponents(View view) {
         phoneSpecs.add(phone.getPlatform());
         phoneSpecs.add(phone.getColour());
+        //TODO DE ADAUGAT TOATE SPECS IN LISTA SI DE FACUT UN ADAPTER
         prodFragImage = view.findViewById(R.id.prod_frag_photo);
         prodFragTitle = view.findViewById(R.id.prod_frag_title);
         prodFragPrice = view.findViewById(R.id.prod_frag_price);
