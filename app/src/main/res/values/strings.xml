@@ -58,6 +58,11 @@
     <string name="question2">How much storage would you like your phone to have?</string>
     <string name="info_message_q1">Storage refers to the amount of internal space your phone has for apps, photos, videos, and other data. If you plan to store a lot of media on your phone, you\'ll need more storage.</string>
     <string name="okay">OKAY</string>
+    <string name="_64_gb">64 GB</string>
+    <string name="_128_gb">128 GB</string>
+    <string name="_256_gb">256 GB</string>
+    <string name="_512_gb">512 GB</string>
+    <string name="_1024_gb">1024 GB</string>
 
 
 </resources>
