@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.nav_home:
-                            currentFragment=HomeFragment.getInstance();
+                            currentFragment=HomeFragment.getInstance(phonesList);
                             break;
 
                         case R.id.nav_account:

@@ -48,10 +48,16 @@
     <string name="spec_front_camera">Front Camera: %1$s Mpx</string>
     <string name="spec_connector">Connector: %1$s</string>
     <string name="spec_year">Year: %1$s</string>
-
-
-
-
+    <string name="question1">What is your preferred phone brand?</string>
+    <string name="apple">Apple</string>
+    <string name="samsung">Samsung</string>
+    <string name="xiaomi">Xiaomi</string>
+    <string name="google">Google</string>
+    <string name="huawei">Huawei</string>
+    <string name="oneplus">OnePlus</string>
+    <string name="question2">How much storage would you like your phone to have?</string>
+    <string name="info_message_q1">Storage refers to the amount of internal space your phone has for apps, photos, videos, and other data. If you plan to store a lot of media on your phone, you\'ll need more storage.</string>
+    <string name="okay">OKAY</string>
 
 
 </resources>
