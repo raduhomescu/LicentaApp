@@ -33,6 +33,7 @@ public class StorageQ2Fragment extends Fragment {
     private static final String VAL_256 = "256";
     private static final String VAL_512 = "512";
     private static final String VAL_1024 = "1024";
+    public static final String FILTER_LIST_KEY = "filter list";
 
 
     public StorageQ2Fragment() {
@@ -42,7 +43,7 @@ public class StorageQ2Fragment extends Fragment {
     public static StorageQ2Fragment newInstance(ArrayList<String> filterList) {
         StorageQ2Fragment fragment = new StorageQ2Fragment();
         Bundle args = new Bundle();
-        args.putStringArrayList("filter list",filterList);
+        args.putStringArrayList(FILTER_LIST_KEY,filterList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,7 +52,7 @@ public class StorageQ2Fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            filterList = getArguments().getStringArrayList("filter list");
+            filterList = getArguments().getStringArrayList(FILTER_LIST_KEY);
             Log.d("filter listtt:", filterList.toString());
         }
     }
@@ -67,9 +68,9 @@ public class StorageQ2Fragment extends Fragment {
 
     private void initComponents(View view) {
         btnInfoQ2 = view.findViewById(R.id.btn_info_q2);
-        btn64GB = view.findViewById(R.id.btn_64_gb);
-        btn128GB = view.findViewById(R.id.btn_128_gb);
-        btn256GB = view.findViewById(R.id.btn_256_gb);
+        btn64GB = view.findViewById(R.id.btn_hd);
+        btn128GB = view.findViewById(R.id.btn_fhd);
+        btn256GB = view.findViewById(R.id.btn_qhd);
         btn512GB = view.findViewById(R.id.btn_512_gb);
         btn1024GB = view.findViewById(R.id.btn_1024_gb);
         btnInfoQ2.setOnClickListener(new View.OnClickListener() {

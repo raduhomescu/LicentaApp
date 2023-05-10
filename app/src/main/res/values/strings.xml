@@ -63,6 +63,24 @@
     <string name="_256_gb">256 GB</string>
     <string name="_512_gb">512 GB</string>
     <string name="_1024_gb">1024 GB</string>
+    <string name="question3">What battery capacity do you think you need?</string>
+    <string name="question4">What is your preferred screen resolution?</string>
+    <string name="question5">How much RAM suits you the best?</string>
+    <string name="question6">What\'s your favorite resolution for the main camera?</string>
+    <string name="question7">How about your front camera?</string>
+    <string name="question8">Please choose a price range so that we can find the best options for you</string>
+    <string name="_3000_mah">3000 mAh</string>
+    <string name="_4000_mah">4000 mAh</string>
+    <string name="_5000_mah">5000 mAh</string>
+    <string name="_6000_mah">6000 mAh</string>
+    <string name="hd_720p">HD (720p)</string>
+    <string name="fhd_1080p">FHD (1080p)</string>
+    <string name="qhd_1440p">QHD (1440p)</string>
+    <string name="_4k_2160p">4K (2160p)</string>
+    <string name="_4_gb">4 GB</string>
+    <string name="_6_gb">6 GB</string>
+    <string name="_8_gb">8 GB</string>
+    <string name="_12_gb">12 GB</string>
 
 
 </resources>

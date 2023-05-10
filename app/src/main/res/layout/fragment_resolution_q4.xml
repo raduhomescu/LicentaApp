@@ -5,91 +5,91 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_beige"
-    tools:context=".fragments.quetionnaire.BatteryQ3Fragment">
+    tools:context=".fragments.quetionnaire.ResolutionQ4Fragment">
 
     <TextView
-        android:id="@+id/tv_question3"
+        android:id="@+id/tv_question4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/audiowide"
+        android:text="@string/question4"
+        android:textSize="28sp"
         android:gravity="center"
-        android:text="@string/question3"
-        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"  />
 
     <Button
-        android:id="@+id/btn_3000_mah"
-        android:layout_width="142dp"
+        android:id="@+id/btn_hd"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_corner"
         android:fontFamily="@font/audiowide"
-        android:text="@string/_3000_mah"
-        android:textColor="@android:color/secondary_text_light"
-        android:textSize="28sp"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_question3"
-        app:layout_constraintVertical_bias="0.3" />
-
-    <Button
-        android:id="@+id/btn_4000_mah"
-        android:layout_width="142dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corner"
-        android:fontFamily="@font/audiowide"
-        android:text="@string/_4000_mah"
-        android:textAllCaps="false"
+        android:text="@string/hd_720p"
         android:textColor="@android:color/secondary_text_light"
         android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_question3"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_question4"
+        app:layout_constraintVertical_bias="0.16000003" />
 
     <Button
-        android:id="@+id/btn_5000_mah"
-        android:layout_width="142dp"
+        android:id="@+id/btn_fhd"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_corner"
         android:fontFamily="@font/audiowide"
-        android:text="@string/_5000_mah"
-        android:textAllCaps="false"
+        android:text="@string/fhd_1080p"
         android:textColor="@android:color/secondary_text_light"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_3000_mah" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_hd" />
 
     <Button
-        android:id="@+id/btn_6000_mah"
-        android:layout_width="142dp"
+        android:id="@+id/btn_qhd"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_corner"
         android:fontFamily="@font/audiowide"
-        android:text="@string/_6000_mah"
-        android:textAllCaps="false"
+        android:text="@string/qhd_1440p"
         android:textColor="@android:color/secondary_text_light"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_4000_mah" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_fhd" />
+
+    <Button
+        android:id="@+id/btn_4k"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_corner"
+        android:fontFamily="@font/audiowide"
+        android:text="@string/_4k_2160p"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_qhd" />
 
     <ImageButton
-        android:id="@+id/btn_info_q3"
+        android:id="@+id/btn_info_q4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"

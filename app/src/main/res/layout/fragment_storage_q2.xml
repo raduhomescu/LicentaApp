@@ -5,12 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_beige"
-
     tools:context=".fragments.quetionnaire.StorageQ2Fragment">
 
 
     <TextView
-        android:id="@+id/tv_question1"
+        android:id="@+id/tv_question2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -37,7 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_question1"
+        app:layout_constraintTop_toBottomOf="@+id/tv_question2"
         app:layout_constraintVertical_bias="0.16000003" />
 
     <Button
@@ -53,7 +52,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_question1"
+        app:layout_constraintTop_toBottomOf="@+id/tv_question2"
         app:layout_constraintVertical_bias="0.16000003" />
 
     <Button

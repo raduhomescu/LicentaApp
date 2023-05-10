@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +12,19 @@ import com.example.licentaapp.R;
 
 import java.util.ArrayList;
 
-public class BatteryQ3Fragment extends Fragment {
+
+public class RamQ5Fragment extends Fragment {
+
     private ArrayList<String> filterList;
     private Fragment currentFragment;
     public static final String FILTER_LIST_KEY = "filter list";
-    public BatteryQ3Fragment() {
+
+    public RamQ5Fragment() {
         // Required empty public constructor
     }
 
-
-    public static BatteryQ3Fragment newInstance(ArrayList<String> filterList) {
-        BatteryQ3Fragment fragment = new BatteryQ3Fragment();
+    public static RamQ5Fragment newInstance(ArrayList<String> filterList) {
+        RamQ5Fragment fragment = new RamQ5Fragment();
         Bundle args = new Bundle();
         args.putStringArrayList(FILTER_LIST_KEY,filterList);
         fragment.setArguments(args);
@@ -35,7 +36,6 @@ public class BatteryQ3Fragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             filterList = getArguments().getStringArrayList(FILTER_LIST_KEY);
-            Log.d("filter listtt:", filterList.toString());
         }
     }
 
@@ -43,7 +43,7 @@ public class BatteryQ3Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_battery_q3, container, false);
+        View view = inflater.inflate(R.layout.fragment_ram_q5, container, false);
         initComponents(view);
         return view;
     }
