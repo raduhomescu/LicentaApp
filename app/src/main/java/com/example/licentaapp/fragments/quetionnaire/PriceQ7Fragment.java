@@ -1,5 +1,6 @@
 package com.example.licentaapp.fragments.quetionnaire;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,8 +8,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.example.licentaapp.R;
+import com.example.licentaapp.utils.User;
 
 import java.util.ArrayList;
 
@@ -16,16 +19,21 @@ public class PriceQ7Fragment extends Fragment {
 
     private ArrayList<String> filterList;
     private Fragment currentFragment;
+    public static final String USER_KEY = "User key";
+    private User user;
+
+
     public static final String FILTER_LIST_KEY = "filter list";
     public PriceQ7Fragment() {
         // Required empty public constructor
     }
 
 
-    public static PriceQ7Fragment newInstance(ArrayList<String> filterList) {
+    public static PriceQ7Fragment newInstance(ArrayList<String> filterList, User user) {
         PriceQ7Fragment fragment = new PriceQ7Fragment();
         Bundle args = new Bundle();
         args.putStringArrayList(FILTER_LIST_KEY,filterList);
+        args.putParcelable(USER_KEY, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -35,6 +43,7 @@ public class PriceQ7Fragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             filterList = getArguments().getStringArrayList(FILTER_LIST_KEY);
+            user = getArguments().getParcelable(USER_KEY);
         }
     }
 

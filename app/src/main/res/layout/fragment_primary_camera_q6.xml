@@ -22,6 +22,72 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/btn_0_50_mpx"
+        android:layout_width="142dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner"
+        android:fontFamily="@font/audiowide"
+        android:text="@string/_0_50_mpx"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="28sp"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_question6"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <Button
+        android:id="@+id/btn_50_mpx"
+        android:layout_width="142dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner"
+        android:fontFamily="@font/audiowide"
+        android:text="@string/_50_mpx"
+        android:textAllCaps="false"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_question6"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <Button
+        android:id="@+id/btn_64_mpx"
+        android:layout_width="142dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_corner"
+        android:fontFamily="@font/audiowide"
+        android:text="@string/_64_mpx"
+        android:textAllCaps="false"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_0_50_mpx" />
+
+    <Button
+        android:id="@+id/btn_64_more_mpx"
+        android:layout_width="142dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_corner"
+        android:fontFamily="@font/audiowide"
+        android:text="@string/_64_more_mpx"
+        android:textAllCaps="false"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_50_mpx" />
+
     <ImageButton
         android:id="@+id/btn_info_q6"
         android:layout_width="wrap_content"

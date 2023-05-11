@@ -10,4 +10,5 @@
     <color name="primary_green">#A6D8C0</color>
     <color name="background_beige">#EDECDA</color>
     <color name="bottom_grey">#AAA9A3</color>
+    <color name="clicked_button_color">#D89D7C</color>
 </resources>

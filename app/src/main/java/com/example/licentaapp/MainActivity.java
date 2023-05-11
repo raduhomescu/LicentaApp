@@ -18,6 +18,8 @@ import com.example.licentaapp.fragments.FavouritesFragment;
 import com.example.licentaapp.fragments.HomeFragment;
 import com.example.licentaapp.fragments.ProfileFragment;
 import com.example.licentaapp.fragments.SearchFragment;
+import com.example.licentaapp.fragments.quetionnaire.PreferredPhoneQ1Fragment;
+import com.example.licentaapp.fragments.quetionnaire.StorageQ2Fragment;
 import com.example.licentaapp.utils.Phone;
 import com.example.licentaapp.utils.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     String userID;
     ProgressBar progressBarMain;
     ProgressBar progressBarMain2;
+    private ArrayList<String> filterList = new ArrayList<>();
 
     //TODO de verificat valori null prin aplicatie
     private static final String PHONES_COLLECTION_KEY = "phones";
@@ -195,14 +198,22 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         bottomNavigationView=findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
-        currentFragment=new HomeFragment();
+        currentFragment=HomeFragment.getInstance(phonesList, filterList, user);
         openFragment(currentFragment);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.nav_home:
-                            currentFragment=HomeFragment.getInstance(phonesList);
+                            if(filterList.size() == 0) {
+                                Log.d("main listtt: ", filterList.toString());
+                                currentFragment = HomeFragment.getInstance(phonesList, filterList, user);
+                            } else if (filterList.size() == 1) {
+                                Log.d("main listtt: ", filterList.toString());
+                                currentFragment = PreferredPhoneQ1Fragment.newInstance(filterList, user);
+                            } else if (filterList.size() == 2) {
+                                currentFragment = StorageQ2Fragment.newInstance(filterList, user);
+                            }
                             break;
 
                         case R.id.nav_account:

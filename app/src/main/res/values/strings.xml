@@ -56,8 +56,12 @@
     <string name="huawei">Huawei</string>
     <string name="oneplus">OnePlus</string>
     <string name="question2">How much storage would you like your phone to have?</string>
-    <string name="info_message_q1">Storage refers to the amount of internal space your phone has for apps, photos, videos, and other data. If you plan to store a lot of media on your phone, you\'ll need more storage.</string>
-    <string name="okay">OKAY</string>
+    <string name="info_message_q2">Storage refers to the amount of internal space your phone has for apps, photos, videos, and other data. If you plan to store a lot of media on your phone, you\'ll need more storage.</string>
+    <string name="info_message_q3">Battery capacity refers to the amount of power your phone\'s battery can hold. A higher battery capacity means your phone will last longer between charges.</string>
+    <string name="info_message_q4">Screen resolution refers to the number of pixels on the screen. A higher resolution means a clearer and more detailed display, but it also uses more battery life.</string>
+    <string name="info_message_q5">RAM (Random Access Memory) is the amount of memory your phone has available to run apps and processes. The more RAM your phone has, the faster it will be able to handle multiple tasks at once.</string>
+    <string name="info_message_q6">Primary camera resolution refers to the number of megapixels on your phone\'s main camera. A higher resolution means your photos will be sharper and more detailed.</string>
+<string name="okay">OKAY</string>
     <string name="_64_gb">64 GB</string>
     <string name="_128_gb">128 GB</string>
     <string name="_256_gb">256 GB</string>
@@ -81,6 +85,10 @@
     <string name="_6_gb">6 GB</string>
     <string name="_8_gb">8 GB</string>
     <string name="_12_gb">12 GB</string>
+    <string name="_0_50_mpx">0-50 Mpx</string>
+    <string name="_50_mpx">50 Mpx</string>
+    <string name="_64_mpx">64 Mpx</string>
+    <string name="_64_more_mpx"><![CDATA[64> Mpx]]></string>
 
 
 </resources>

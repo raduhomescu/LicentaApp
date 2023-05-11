@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 
 import com.example.licentaapp.R;
 import com.example.licentaapp.utils.Phone;
+import com.example.licentaapp.utils.User;
 
 import java.util.ArrayList;
 
@@ -23,14 +24,19 @@ public class PreferredPhoneQ1Fragment extends Fragment {
     private ImageButton btn_huawei_logo;
     private ImageButton btn_onePlus_logo;
     private Fragment currentFragment;
+    public static final String FILTER_LIST_KEY = "filter list";
+    public static final String USER_KEY = "User key";
+    private User user;
 
     public PreferredPhoneQ1Fragment() {
         // Required empty public constructor
     }
 
-    public static PreferredPhoneQ1Fragment newInstance() {
+    public static PreferredPhoneQ1Fragment newInstance(ArrayList<String> filterList, User user) {
         PreferredPhoneQ1Fragment fragment = new PreferredPhoneQ1Fragment();
         Bundle args = new Bundle();
+        args.putStringArrayList(FILTER_LIST_KEY,filterList);
+        args.putParcelable(USER_KEY, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,7 +45,8 @@ public class PreferredPhoneQ1Fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
+            filterList = getArguments().getStringArrayList(FILTER_LIST_KEY);
+            user = getArguments().getParcelable(USER_KEY);
         }
     }
 
@@ -64,7 +71,7 @@ public class PreferredPhoneQ1Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(getString(R.string.apple));
-                currentFragment = StorageQ2Fragment.newInstance(filterList);
+                currentFragment = StorageQ2Fragment.newInstance(filterList, user);
                 openFragment(currentFragment);
             }
         });
@@ -72,7 +79,7 @@ public class PreferredPhoneQ1Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(getString(R.string.samsung));
-                currentFragment = StorageQ2Fragment.newInstance(filterList);
+                currentFragment = StorageQ2Fragment.newInstance(filterList, user);
                 openFragment(currentFragment);
             }
         });
@@ -80,7 +87,7 @@ public class PreferredPhoneQ1Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(getString(R.string.xiaomi));
-                currentFragment = StorageQ2Fragment.newInstance(filterList);
+                currentFragment = StorageQ2Fragment.newInstance(filterList, user);
                 openFragment(currentFragment);
             }
         });
@@ -88,7 +95,7 @@ public class PreferredPhoneQ1Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(getString(R.string.google));
-                currentFragment = StorageQ2Fragment.newInstance(filterList);
+                currentFragment = StorageQ2Fragment.newInstance(filterList, user);
                 openFragment(currentFragment);
             }
         });
@@ -96,7 +103,7 @@ public class PreferredPhoneQ1Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(getString(R.string.huawei));
-                currentFragment = StorageQ2Fragment.newInstance(filterList);
+                currentFragment = StorageQ2Fragment.newInstance(filterList, user);
                 openFragment(currentFragment);
             }
         });
@@ -104,7 +111,7 @@ public class PreferredPhoneQ1Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(getString(R.string.oneplus));
-                currentFragment = StorageQ2Fragment.newInstance(filterList);
+                currentFragment = StorageQ2Fragment.newInstance(filterList, user);
                 openFragment(currentFragment);
             }
         });

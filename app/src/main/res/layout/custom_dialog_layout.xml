@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/rounded_box_alert_dialog">
+
+    <TextView
+        android:id="@+id/alert_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="16sp"
+        android:fontFamily="@font/audiowide"
+        android:text="Alert message goes here." />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/alert_ok_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/rounded_corner"
+            android:padding="8dp"
+            android:text="OK"
+            android:textColor="@android:color/secondary_text_light"
+            android:fontFamily="@font/audiowide"
+            android:textSize="14sp"
+            android:backgroundTint="#D89D7C"/>
+
+    </LinearLayout>
+
+</LinearLayout>
