@@ -36,14 +36,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.39">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiet_min_price_q7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/audiowide"
-            android:hint="Min price"
+            android:inputType="numberDecimal"
+            android:hint="@string/min_price"
             android:singleLine="true"
             android:textSize="24sp" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -67,9 +69,23 @@
             android:id="@+id/tiet_max_price_q7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Max price"
+            android:hint="@string/max_price"
+            android:inputType="numberDecimal"
             android:fontFamily="@font/audiowide"
             android:singleLine="true"
             android:textSize="24sp" />
     </com.google.android.material.textfield.TextInputLayout>
+    <Button
+        android:id="@+id/btn_find_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner"
+        android:text="@string/find"
+        android:fontFamily="@font/audiowide"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/til_max_price_q7" />
 </androidx.constraintlayout.widget.ConstraintLayout>

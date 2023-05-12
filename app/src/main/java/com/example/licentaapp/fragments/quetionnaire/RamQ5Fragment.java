@@ -27,6 +27,14 @@ public class RamQ5Fragment extends Fragment {
     public static final String FILTER_LIST_KEY = "filter list";
     public static final String USER_KEY = "User key";
     private User user;
+    private Button btn4GB;
+    private Button btn6GB;
+    private Button btn8GB;
+    private Button btn12GB;
+    private static final String VAL_4 = "4";
+    private static final String VAL_6 = "6";
+    private static final String VAL_8 = "8";
+    private static final String VAL_12 = "12";
 
     public RamQ5Fragment() {
         // Required empty public constructor
@@ -60,6 +68,10 @@ public class RamQ5Fragment extends Fragment {
     }
 
     private void initComponents(View view) {
+        btn4GB = view.findViewById(R.id.btn_ram_4gb);
+        btn6GB = view.findViewById(R.id.btn_ram_6gb);
+        btn8GB = view.findViewById(R.id.btn_ram_8gb);
+        btn12GB = view.findViewById(R.id.btn_ram_12gb);
         btnInfoQ5 = view.findViewById(R.id.btn_info_q5);
         btnInfoQ5.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +92,41 @@ public class RamQ5Fragment extends Fragment {
                 dialog = builder.create();
                 dialog.show();
 
+            }
+        });
+
+        btn4GB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterList.add(VAL_4);
+                currentFragment = PrimaryCameraQ6Fragment.newInstance(filterList, user);
+                openFragment(currentFragment);
+            }
+        });
+
+        btn6GB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterList.add(VAL_6);
+                currentFragment = PrimaryCameraQ6Fragment.newInstance(filterList, user);
+                openFragment(currentFragment);
+            }
+        });
+        btn8GB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterList.add(VAL_8);
+                currentFragment = PrimaryCameraQ6Fragment.newInstance(filterList, user);
+                openFragment(currentFragment);
+            }
+        });
+
+        btn12GB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterList.add(VAL_12);
+                currentFragment = PrimaryCameraQ6Fragment.newInstance(filterList, user);
+                openFragment(currentFragment);
             }
         });
     }

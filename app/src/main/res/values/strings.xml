@@ -89,6 +89,9 @@
     <string name="_50_mpx">50 Mpx</string>
     <string name="_64_mpx">64 Mpx</string>
     <string name="_64_more_mpx"><![CDATA[64> Mpx]]></string>
+    <string name="min_price">Min price</string>
+    <string name="max_price">Max price</string>
+    <string name="find">Find</string>
 
 
 </resources>

@@ -23,9 +23,18 @@ public class ResolutionQ4Fragment extends Fragment {
     private Fragment currentFragment;
     AlertDialog dialog;
     private ImageButton btnInfoQ4;
+    private Button btnHD;
+    private Button btnFHD;
+    private Button btnQHD;
+    private Button btn4K;
     public static final String FILTER_LIST_KEY = "filter list";
     public static final String USER_KEY = "User key";
     private User user;
+    private static final String VAL_HD = "720";
+    private static final String VAL_FHD = "1080";
+    private static final String VAL_QHD = "1440";
+    private static final String VAL_4K = "2160";
+
     public ResolutionQ4Fragment() {
         // Required empty public constructor
     }
@@ -58,7 +67,10 @@ public class ResolutionQ4Fragment extends Fragment {
     }
 
     private void initComponents(View view) {
-
+        btnHD = view.findViewById(R.id.btn_hd);
+        btnFHD = view.findViewById(R.id.btn_fhd);
+        btnQHD = view.findViewById(R.id.btn_qhd);
+        btn4K = view.findViewById(R.id.btn_4k);
         btnInfoQ4 = view.findViewById(R.id.btn_info_q4);
         btnInfoQ4.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +91,38 @@ public class ResolutionQ4Fragment extends Fragment {
                 dialog = builder.create();
                 dialog.show();
 
+            }
+        });
+        btnHD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterList.add(VAL_HD);
+                currentFragment = RamQ5Fragment.newInstance(filterList, user);
+                openFragment(currentFragment);
+            }
+        });
+        btnFHD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterList.add(VAL_FHD);
+                currentFragment = RamQ5Fragment.newInstance(filterList, user);
+                openFragment(currentFragment);
+            }
+        });
+        btnQHD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterList.add(VAL_QHD);
+                currentFragment = RamQ5Fragment.newInstance(filterList, user);
+                openFragment(currentFragment);
+            }
+        });
+        btn4K.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterList.add(VAL_4K);
+                currentFragment = RamQ5Fragment.newInstance(filterList, user);
+                openFragment(currentFragment);
             }
         });
     }
