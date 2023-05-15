@@ -61,7 +61,7 @@
     <string name="info_message_q4">Screen resolution refers to the number of pixels on the screen. A higher resolution means a clearer and more detailed display, but it also uses more battery life.</string>
     <string name="info_message_q5">RAM (Random Access Memory) is the amount of memory your phone has available to run apps and processes. The more RAM your phone has, the faster it will be able to handle multiple tasks at once.</string>
     <string name="info_message_q6">Primary camera resolution refers to the number of megapixels on your phone\'s main camera. A higher resolution means your photos will be sharper and more detailed.</string>
-<string name="okay">OKAY</string>
+    <string name="okay">OKAY</string>
     <string name="_64_gb">64 GB</string>
     <string name="_128_gb">128 GB</string>
     <string name="_256_gb">256 GB</string>
@@ -92,6 +92,7 @@
     <string name="min_price">Min price</string>
     <string name="max_price">Max price</string>
     <string name="find">Find</string>
+    <string name="q7_error_msg">Please insert minimum and maximum price</string>
 
 
 </resources>

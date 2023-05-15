@@ -18,8 +18,14 @@ import com.example.licentaapp.fragments.FavouritesFragment;
 import com.example.licentaapp.fragments.HomeFragment;
 import com.example.licentaapp.fragments.ProfileFragment;
 import com.example.licentaapp.fragments.SearchFragment;
+import com.example.licentaapp.fragments.quetionnaire.BatteryQ3Fragment;
 import com.example.licentaapp.fragments.quetionnaire.PreferredPhoneQ1Fragment;
+import com.example.licentaapp.fragments.quetionnaire.PriceQ7Fragment;
+import com.example.licentaapp.fragments.quetionnaire.PrimaryCameraQ6Fragment;
+import com.example.licentaapp.fragments.quetionnaire.RamQ5Fragment;
+import com.example.licentaapp.fragments.quetionnaire.ResolutionQ4Fragment;
 import com.example.licentaapp.fragments.quetionnaire.StorageQ2Fragment;
+import com.example.licentaapp.fragments.quetionnaire.SuggestionFragment;
 import com.example.licentaapp.utils.Phone;
 import com.example.licentaapp.utils.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -213,6 +219,18 @@ public class MainActivity extends AppCompatActivity {
                                 currentFragment = PreferredPhoneQ1Fragment.newInstance(filterList, user);
                             } else if (filterList.size() == 2) {
                                 currentFragment = StorageQ2Fragment.newInstance(filterList, user);
+                            } else if (filterList.size() == 3) {
+                                currentFragment = BatteryQ3Fragment.newInstance(filterList, user);
+                            } else if (filterList.size() == 4) {
+                                currentFragment = ResolutionQ4Fragment.newInstance(filterList, user);
+                            } else if (filterList.size() == 5) {
+                                currentFragment = RamQ5Fragment.newInstance(filterList, user);
+                            } else if (filterList.size() == 6) {
+                                currentFragment = PrimaryCameraQ6Fragment.newInstance(filterList, user);
+                            } else if (filterList.size() == 7) {
+                                currentFragment = PriceQ7Fragment.newInstance(filterList, user);
+                            } else if (filterList.size() == 8) {
+                                currentFragment = SuggestionFragment.newInstance(filterList, user);
                             }
                             break;
 

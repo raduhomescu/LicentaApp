@@ -70,14 +70,13 @@ public class PriceQ7Fragment extends Fragment {
         btnFindPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String min_text = minPrice.getText().toString();
-                String max_text = maxPrice.getText().toString();
                 if(!minPrice.getText().toString().isEmpty() && !maxPrice.getText().toString().isEmpty()) {
                     priceRange = minPrice.getText().toString() + "/" + maxPrice.getText().toString();
                     filterList.add(priceRange);
-                    Log.d("filter final listtt:", filterList.toString());
+                    currentFragment = SuggestionFragment.newInstance(filterList, user);
+                    openFragment(currentFragment);
                 } else {
-                    Toast.makeText(view.getContext(), "Please insert minimum and maximum price", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), getString(R.string.q7_error_msg), Toast.LENGTH_SHORT).show();
                 }
             }
         });
