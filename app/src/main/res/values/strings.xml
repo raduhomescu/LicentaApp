@@ -93,6 +93,7 @@
     <string name="max_price">Max price</string>
     <string name="find">Find</string>
     <string name="q7_error_msg">Please insert minimum and maximum price</string>
+    <string name="start_over">START OVER</string>
 
 
 </resources>
