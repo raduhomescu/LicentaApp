@@ -31,10 +31,10 @@ public class PrimaryCameraQ6Fragment extends Fragment {
     private Button btn64Mpx;
     private Button btn64moreMpx;
 
-    private static final String VAL_0_50_MPX = "49";
+    private static final String VAL_0_50_MPX = "30";
     private static final String VAL_50_MPX = "50";
     private static final String VAL_64_MPX = "64";
-    private static final String VAL_64_MORE_MPX = "65";
+    private static final String VAL_64_MORE_MPX = "100";
     public PrimaryCameraQ6Fragment() {
         // Required empty public constructor
     }

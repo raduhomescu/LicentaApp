@@ -13,9 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.example.licentaapp.R;
-import com.example.licentaapp.fragments.HomeFragment;
 import com.example.licentaapp.utils.Phone;
 import com.example.licentaapp.utils.PhoneAdapter;
 import com.example.licentaapp.utils.User;
@@ -50,6 +50,7 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
     private ArrayList<String> documentIds = new ArrayList<>();
     ArrayList<String> phonesCodes = new ArrayList<>();
     String userID;
+    ProgressBar progressBarSugg;
     private static final String PHONES_COLLECTION_KEY = "phones";
     private Button btn_start_over_survey;
     private String platformValidator = null;
@@ -91,6 +92,8 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
         adapter.setOnFavoriteButtonClickListener(this);
         btn_start_over_survey = view.findViewById(R.id.btn_start_over_survey);
         btn_start_over_survey.setVisibility(View.INVISIBLE);
+        progressBarSugg = view.findViewById(R.id.progressBar_sugg);
+        progressBarSugg.setVisibility(View.VISIBLE);
 
 
         fStore = FirebaseFirestore.getInstance();
@@ -157,8 +160,8 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
                                                     //progressBarMain.setVisibility(View.INVISIBLE);
                                                     // You can now use the Phone object with the downloaded image file
                                                     // ...
-                                                    if(filterList.get(1) == "Apple") {
-                                                        platformValidator = "Ios";
+                                                    if(filterList.get(1).equals("Apple")) {
+                                                        platformValidator = "iOS";
                                                     } else {
                                                         platformValidator = "Android";
                                                     }
@@ -168,10 +171,10 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
                                                                    if(Integer.valueOf(filterList.get(4)) >= Integer.valueOf(phone.getResolution().substring(0, phone.getResolution().indexOf('x'))) - 720
                                                                            && Integer.valueOf(filterList.get(4)) <= Integer.valueOf(phone.getResolution().substring(0, phone.getResolution().indexOf('x'))) + 720) {
                                                                        if(Integer.valueOf(filterList.get(5)) >= phone.getRam()-4 && Integer.valueOf(filterList.get(5)) <= phone.getRam()+4) {
-                                                                          if(Integer.valueOf(filterList.get(6)) >= phone.getPrimaryCamera()- 10
-                                                                                  && Integer.valueOf(filterList.get(6)) <= phone.getPrimaryCamera() + 10) {
+                                                                          if(Integer.valueOf(filterList.get(6)) >= phone.getPrimaryCamera()- 20
+                                                                                  && Integer.valueOf(filterList.get(6)) <= phone.getPrimaryCamera() + 100) {
                                                                               String[] parts =filterList.get(7).split("/");
-                                                                              if(phone.getPrice()>= Double.valueOf(parts[1]) && phone.getPrice()<= Double.valueOf(parts[2])) {
+                                                                              if(phone.getPrice()>= Double.valueOf(parts[0]) && phone.getPrice()<= Double.valueOf(parts[1])) {
                                                                                   phonesList.add(phone);
                                                                                   btn_start_over_survey.setVisibility(View.VISIBLE);
                                                                               }
@@ -184,9 +187,12 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
                                                         }
                                                     //TODO sa filtrez lista si sa pun un loading din ala si fa din buton invizibil in buton vizibil, de testat astea
                                                     //loading la inceput de for si posibil la final de for daca merge, sau la fiecare prelucrare telefon
-                                                    if(phonesList != null) {
+                                                    if(!phonesList.isEmpty()) {
                                                         lvPhones.setAdapter(adapter);
+                                                    } else {
+                                                        btn_start_over_survey.setVisibility(View.VISIBLE);
                                                     }
+                                                    progressBarSugg.setVisibility(View.INVISIBLE);
 
 
                                                 }
