@@ -1,7 +1,9 @@
 package com.example.licentaapp.fragments;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.licentaapp.R;
 import com.example.licentaapp.utils.Phone;
@@ -26,6 +29,7 @@ public class ProductFragment extends Fragment {
     private TextView prodFragTitle;
     private TextView prodFragPrice;
     private Button prodPageBtnShowSpecs;
+    private Button prodPageBtnSiteBuy;
     private ListView listView;
     private ArrayList<String> phoneSpecs = new ArrayList<>();
 
@@ -65,6 +69,7 @@ public class ProductFragment extends Fragment {
         prodFragTitle = view.findViewById(R.id.prod_frag_title);
         prodFragPrice = view.findViewById(R.id.prod_frag_price);
         prodPageBtnShowSpecs = view.findViewById(R.id.prod_frag_btn_show_specs);
+        prodPageBtnSiteBuy = view.findViewById(R.id.prod_frag_btn_send_to_buy);
         listView = view.findViewById(R.id.prod_frag_list_view);
         SpecAdapter adapter = new SpecAdapter(view.getContext().getApplicationContext(), R.layout.lw_row_item_specs, phoneSpecs, getLayoutInflater());
 
@@ -79,6 +84,27 @@ public class ProductFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 listView.setAdapter(adapter);
+            }
+        });
+
+        // Inside your button click listener
+        prodPageBtnSiteBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = phone.getLinkAltex(); // Replace with your desired URL
+
+                // Create an intent with ACTION_VIEW and the URL
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+
+                // Check if there is a web browser available to handle the intent
+                if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
+                    // Start the activity with the intent
+                    startActivity(intent);
+                } else {
+                    // Handle the case where no web browser is available
+                    Toast.makeText(view.getContext().getApplicationContext(), "No web browser found", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

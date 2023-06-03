@@ -137,7 +137,8 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
                                     phone.setYear(Integer.valueOf(documentR.getData().get("Year").toString()));
                                     phone.setPrice(Double.valueOf(documentR.getData().get("Price").toString()));
                                     phone.setConnector(documentR.getData().get("Connector").toString());
-
+                                    phone.setLinkAltex(documentR.getData().get("Link Altex").toString());
+                                    phone.setLinkEmag(documentR.getData().get("Link emag").toString());
 
                                     Log.d(TAG, "Phones map: " + phonesList.toString());
                                     FirebaseStorage storage = FirebaseStorage.getInstance();

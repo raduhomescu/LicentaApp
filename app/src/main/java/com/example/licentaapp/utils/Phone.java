@@ -27,13 +27,15 @@ public class Phone implements Parcelable {
     private int year;
     private double price;
     private String connector;
+    private String linkAltex;
+    private String linkEmag;
     private File localFile;
 
     public Phone() {}
 
     public Phone(String uId, String brand, String model, String platform, int ram, String resolution, int battery, int storage,
                  String colour, double width, double height, double depth, double mass, boolean dualSim, double primaryCamera,
-                 double frontCamera, int year, double price, String connector, File localFile) {
+                 double frontCamera, int year, double price, String connector, String linkAltex, String linkEmag,File localFile) {
         this.uId = uId;
         this.brand = brand;
         this.model = model;
@@ -53,6 +55,8 @@ public class Phone implements Parcelable {
         this.year = year;
         this.price = price;
         this.connector = connector;
+        this.linkAltex = linkAltex;
+        this.linkEmag = linkEmag;
         this.localFile = localFile;
     }
 
@@ -216,6 +220,22 @@ public class Phone implements Parcelable {
         this.connector = connector;
     }
 
+    public String getLinkAltex() {
+        return linkAltex;
+    }
+
+    public void setLinkAltex(String linkAltex) {
+        this.linkAltex = linkAltex;
+    }
+
+    public String getLinkEmag() {
+        return linkEmag;
+    }
+
+    public void setLinkEmag(String linkEmag) {
+        this.linkEmag = linkEmag;
+    }
+
     public File getLocalFile() { return localFile; }
 
     public void setLocalFile(File localFile) { this.localFile = localFile; }
@@ -265,6 +285,8 @@ public class Phone implements Parcelable {
         year = in.readInt();
         price = in.readDouble();
         connector = in.readString();
+        linkAltex = in.readString();
+        linkEmag = in.readString();
     }
     @Override
     public int describeContents() {
@@ -292,5 +314,7 @@ public class Phone implements Parcelable {
         dest.writeInt(year);
         dest.writeDouble(price);
         dest.writeString(connector);
+        dest.writeString(linkAltex);
+        dest.writeString(linkEmag);
     }
 }
