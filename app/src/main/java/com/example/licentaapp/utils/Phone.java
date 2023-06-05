@@ -29,13 +29,14 @@ public class Phone implements Parcelable {
     private String connector;
     private String linkAltex;
     private String linkEmag;
+    private String linkFlanco;
     private File localFile;
 
     public Phone() {}
 
     public Phone(String uId, String brand, String model, String platform, int ram, String resolution, int battery, int storage,
                  String colour, double width, double height, double depth, double mass, boolean dualSim, double primaryCamera,
-                 double frontCamera, int year, double price, String connector, String linkAltex, String linkEmag,File localFile) {
+                 double frontCamera, int year, double price, String connector, String linkAltex, String linkEmag,String linkFlanco, File localFile) {
         this.uId = uId;
         this.brand = brand;
         this.model = model;
@@ -57,6 +58,7 @@ public class Phone implements Parcelable {
         this.connector = connector;
         this.linkAltex = linkAltex;
         this.linkEmag = linkEmag;
+        this.linkFlanco = linkFlanco;
         this.localFile = localFile;
     }
 
@@ -236,6 +238,14 @@ public class Phone implements Parcelable {
         this.linkEmag = linkEmag;
     }
 
+    public String getLinkFlanco() {
+        return linkFlanco;
+    }
+
+    public void setLinkFlanco(String linkFlanco) {
+        this.linkFlanco = linkFlanco;
+    }
+
     public File getLocalFile() { return localFile; }
 
     public void setLocalFile(File localFile) { this.localFile = localFile; }
@@ -287,6 +297,7 @@ public class Phone implements Parcelable {
         connector = in.readString();
         linkAltex = in.readString();
         linkEmag = in.readString();
+        linkFlanco = in.readString();
     }
     @Override
     public int describeContents() {
@@ -316,5 +327,6 @@ public class Phone implements Parcelable {
         dest.writeString(connector);
         dest.writeString(linkAltex);
         dest.writeString(linkEmag);
+        dest.writeString(linkFlanco);
     }
 }

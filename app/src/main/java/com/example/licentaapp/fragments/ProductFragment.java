@@ -7,17 +7,20 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.licentaapp.R;
+import com.example.licentaapp.fragments.quetionnaire.PreferredPhoneQ1Fragment;
 import com.example.licentaapp.utils.Phone;
 import com.example.licentaapp.utils.SpecAdapter;
 
@@ -30,8 +33,12 @@ public class ProductFragment extends Fragment {
     private TextView prodFragPrice;
     private Button prodPageBtnShowSpecs;
     private Button prodPageBtnSiteBuy;
+    private Fragment currentFragment;
+    public static final String PHONE_KEY = "Phone key";
     private ListView listView;
     private ArrayList<String> phoneSpecs = new ArrayList<>();
+    //TODO back button care sa te duca inapoi pe lista.
+    private ImageButton btnProductFragmentBack;
 
     public ProductFragment() {
         // Required empty public constructor
@@ -40,7 +47,7 @@ public class ProductFragment extends Fragment {
     public static ProductFragment getInstance(Phone phone) {
         ProductFragment fragment = new ProductFragment();
         Bundle args = new Bundle();
-        args.putParcelable("Phone key", phone);
+        args.putParcelable(PHONE_KEY, phone);
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,12 +71,12 @@ public class ProductFragment extends Fragment {
 
     private void initComponents(View view) {
         addPhoneSpecs(phone, view);
-        //TODO DE ADAUGAT TOATE SPECS IN LISTA SI DE FACUT UN ADAPTER
         prodFragImage = view.findViewById(R.id.prod_frag_photo);
         prodFragTitle = view.findViewById(R.id.prod_frag_title);
         prodFragPrice = view.findViewById(R.id.prod_frag_price);
         prodPageBtnShowSpecs = view.findViewById(R.id.prod_frag_btn_show_specs);
         prodPageBtnSiteBuy = view.findViewById(R.id.prod_frag_btn_send_to_buy);
+        btnProductFragmentBack = view.findViewById(R.id.btn_product_fragment_back);
         listView = view.findViewById(R.id.prod_frag_list_view);
         SpecAdapter adapter = new SpecAdapter(view.getContext().getApplicationContext(), R.layout.lw_row_item_specs, phoneSpecs, getLayoutInflater());
 
@@ -91,23 +98,26 @@ public class ProductFragment extends Fragment {
         prodPageBtnSiteBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = phone.getLinkAltex(); // Replace with your desired URL
-
-                // Create an intent with ACTION_VIEW and the URL
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(url));
-
-                // Check if there is a web browser available to handle the intent
-                if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
-                    // Start the activity with the intent
-                    startActivity(intent);
-                } else {
-                    // Handle the case where no web browser is available
-                    Toast.makeText(view.getContext().getApplicationContext(), "No web browser found", Toast.LENGTH_SHORT).show();
-                }
+                currentFragment = BuyFragment.newInstance(phone);
+                openFragment(currentFragment);
             }
         });
 
+        btnProductFragmentBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+
+                // Check if there are any fragments in the back stack
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    // Pop the top fragment from the back stack
+                    fragmentManager.popBackStack();
+                } else {
+                    // If there are no fragments in the back stack, perform any other necessary action
+                    // For example, navigate to a different activity or close the current activity
+                }
+            }
+        });
     }
 
     private void addPhoneSpecs(Phone phone, View view) {
@@ -129,5 +139,12 @@ public class ProductFragment extends Fragment {
         phoneSpecs.add(view.getContext().getString(R.string.spec_connector, phone.getConnector()));
         phoneSpecs.add(view.getContext().getString(R.string.spec_year, String.valueOf(phone.getYear())));
 
+    }
+
+    private void openFragment(Fragment fragment){
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container_main, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

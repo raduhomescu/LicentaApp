@@ -29,6 +29,7 @@ import com.example.licentaapp.fragments.quetionnaire.StorageQ2Fragment;
 import com.example.licentaapp.fragments.quetionnaire.SuggestionFragment;
 import com.example.licentaapp.utils.Phone;
 import com.example.licentaapp.utils.User;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -160,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
                                     phone.setConnector(documentR.getData().get("Connector").toString());
                                     phone.setLinkAltex(documentR.getData().get("Link Altex").toString());
                                     phone.setLinkEmag(documentR.getData().get("Link emag").toString());
+                                    phone.setLinkFlanco(documentR.getData().get("Link Flanco").toString());
+                                    //TODO de scos stringurile de aici si pus frumos
                                     phonesList.add(phone);
                                     Log.d(TAG, "Phones map: " + phonesList.toString());
                                     progressBarMain2.setVisibility(View.INVISIBLE);
@@ -209,6 +212,8 @@ public class MainActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.search_gadget_30dp);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        // Before setContentView()
+        MapsInitializer.initialize(getApplicationContext());
         bottomNavigationView=findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
         currentFragment=HomeFragment.getInstance(phonesList, filterList, user);

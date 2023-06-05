@@ -54,6 +54,7 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
     private static final String PHONES_COLLECTION_KEY = "phones";
     private Button btn_start_over_survey;
     private String platformValidator = null;
+    private static final String FILTER_LIST_ITEM = "new filters";
 
     public SuggestionFragment() {
         // Required empty public constructor
@@ -88,6 +89,7 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
 
     private void initComponents(View view) {
         lvPhones = view.findViewById(R.id.lv_suggestion_fragment);
+        phonesList.clear();
         PhoneAdapter adapter = new PhoneAdapter(view.getContext().getApplicationContext(),R.layout.lv_row_item, phonesList, getLayoutInflater(), user, getActivity());
         adapter.setOnFavoriteButtonClickListener(this);
         btn_start_over_survey = view.findViewById(R.id.btn_start_over_survey);
@@ -139,7 +141,7 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
                                     phone.setConnector(documentR.getData().get("Connector").toString());
                                     phone.setLinkAltex(documentR.getData().get("Link Altex").toString());
                                     phone.setLinkEmag(documentR.getData().get("Link emag").toString());
-
+                                    phone.setLinkFlanco(documentR.getData().get("Link Flanco").toString());
                                     Log.d(TAG, "Phones map: " + phonesList.toString());
                                     FirebaseStorage storage = FirebaseStorage.getInstance();
                                     StorageReference storageRef = storage.getReference();
@@ -225,6 +227,7 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
             @Override
             public void onClick(View v) {
                 filterList.clear();
+                filterList.add(FILTER_LIST_ITEM);
                 currentFragment = PreferredPhoneQ1Fragment.newInstance(filterList, user);
                 openFragment(currentFragment);
             }

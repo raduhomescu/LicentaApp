@@ -126,7 +126,6 @@ public class RegisterActivity extends AppCompatActivity {
                     tietPhone.setError("Phone Number must be romanian type.");
                 }
 
-                //TODO alte conditii
                 progressBar.setVisibility(View.VISIBLE);
 
                 //register the user in firebase

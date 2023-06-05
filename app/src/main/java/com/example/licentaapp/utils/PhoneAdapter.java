@@ -97,6 +97,7 @@ public class PhoneAdapter extends ArrayAdapter<Phone> {
                 Log.d("ino click adapter", "merge");
                 activity.getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container_main, ProductFragment.getInstance(phone))
+                        .addToBackStack(null)
                         .commit();
             }
         });
