@@ -56,7 +56,13 @@ public class PhoneAdapter extends ArrayAdapter<Phone> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = inflater.inflate(resource, parent, false);
         Phone phone = phones.get(position);
-        addPhoto(phone.getLocalFile(), view);
+        if(phone.getLocalFile() != null) {
+            addPhoto(phone.getLocalFile(), view);
+        } else {
+            ImageView imageView = view.findViewById(R.id.row_item_image);
+
+            imageView.setImageResource(R.drawable.baseline_smartphone_24);
+        }
         addName(phone.getBrand(), phone.getModel(), view);
         addStorage(phone.getStorage(), view);
         addColour(phone.getColour(), view);

@@ -27,6 +27,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -106,12 +107,14 @@ public class MapFragment extends Fragment {
                     if (location != null) {
                         currentLat = location.getLatitude();
                         currentLong = location.getLongitude();
-
                         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
                             @Override
                             public void onMapReady(GoogleMap googleMap) {
                                 map = googleMap;
                                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLat, currentLong), 10));
+                                if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                                    map.setMyLocationEnabled(true);
+                                }
                             }
                         });
                         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" + "?location=" +
@@ -151,6 +154,9 @@ public class MapFragment extends Fragment {
                                public void onMapReady(GoogleMap googleMap) {
                                    map = googleMap;
                                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLat,currentLong), 10));
+                                   if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                                       map.setMyLocationEnabled(true);
+                                   }
                                }
                            });
                        }

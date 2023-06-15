@@ -6,7 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -53,6 +55,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBarMain2;
     private ArrayList<String> filterList = new ArrayList<>();
     private boolean shouldExitApp = false;
-
+    private Timer timer;
 
     //TODO de verificat valori null prin aplicatie
     private static final String PHONES_COLLECTION_KEY = "phones";
@@ -117,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         File finalLocalFile = localFile;
-                        imageRef.getFile(localFile)
+                        imageRef.getFile(finalLocalFile)
                                 .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                                     @Override
                                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -194,10 +198,12 @@ public class MainActivity extends AppCompatActivity {
                     user.setPhoneNumber(document.getData().get("phone").toString());
                     Log.d(TAG, "Utilizator: " + document.getData().get("favourites"));
                     if(document.getData().get("favourites") != null) {
-                        phonesCodes = new ArrayList<String> (Arrays.asList(document.getData().get("favourites").toString().split(",")));
+                        //phonesCodes = new ArrayList<String> (Arrays.asList(document.getData().get("favourites").toString().split(",")));
+                        phonesCodes = (ArrayList<String>) document.getData().get("favourites");
                         Log.d(TAG, "Coduri main: " + phonesCodes);
                         user.setFavouritePhones(phonesCodes);
                         Log.d(TAG, "Utilizator main: " + user.toString());
+                        startDataSavingTimer();
                     }
                 } else {
                     Log.d(TAG, "No such document");
@@ -205,6 +211,8 @@ public class MainActivity extends AppCompatActivity {
             }).addOnFailureListener(e -> {
                 Log.d(TAG, "Error getting document: ", e);
             });
+        } else {
+            startDataSavingTimer();
         }
     }
 
@@ -252,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
                                 System.out.println(fAuth.getCurrentUser());
                             }
                             else {
-                                currentFragment = AccountFragment.getInstance();
+                                currentFragment = AccountFragment.getInstance(phonesList, filterList, user);
                             }
                             break;
 
@@ -262,10 +270,11 @@ public class MainActivity extends AppCompatActivity {
 
                         case R.id.nav_favorite:
                             if(fAuth.getCurrentUser() != null) {
+                                Log.d("user main fav: ", user.toString());
                                 currentFragment = FavouritesFragment.getInstance(phonesList, user);
                                 System.out.println(fAuth.getCurrentUser());
                             } else {
-                                currentFragment = AccountFragment.getInstance();
+                                currentFragment = AccountFragment.getInstance(phonesList, filterList, user);
                             }
                             break;
                     }
@@ -277,45 +286,22 @@ public class MainActivity extends AppCompatActivity {
     private void openFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container_main, fragment)
-                .addToBackStack(null)
                 .commit();
     }
 
     @Override
     public void onBackPressed() {
-        // Check if any fragments in the back stack
-//        moveTaskToBack(true);
-//        super.onBackPressed();
-        if (shouldExitApp) {
-            super.onBackPressed();
-        } else {
-            moveTaskToBack(true);
-        }
+            if (shouldExitApp) {
+                super.onBackPressed();
+            } else {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    fragmentManager.popBackStack();
+                } else {
+                    moveTaskToBack(true);
 
-//        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-//            // Pop the back stack to return to the previous fragment
-//            getSupportFragmentManager().popBackStack();
-//            int selectedItemId = getSelectedItemIdForFragment(currentFragment);
-//            bottomNavigationView.setSelectedItemId(selectedItemId);
-//            //TODO de verificat ce se intampla in momentul in care se da back in activitatile cu survey, ar mege modificat acolo intr un obiect
-//        }
-    }
-
-    private int getSelectedItemIdForFragment(Fragment fragment) {
-        // Determine the menu item ID based on the fragment being opened
-        if (fragment instanceof HomeFragment) {
-            return R.id.nav_home;
-        } else if (fragment instanceof ProfileFragment) {
-            return R.id.nav_account;
-        } else if (fragment instanceof SearchFragment) {
-            return R.id.nav_search;
-        } else if (fragment instanceof FavouritesFragment) {
-            return R.id.nav_favorite;
-        }
-        // Add more cases for other fragments if needed
-
-        // Return the default item ID if the fragment doesn't match any case
-        return R.id.nav_home;
+                }
+            }
     }
 
     @Override
@@ -328,4 +314,91 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         shouldExitApp = true;
     }
+
+
+    @Override
+    protected void onDestroy() {
+        // Stop the data-saving timer
+        stopDataSavingTimer();
+
+        super.onDestroy();
+    }
+
+    public void handleActivityResult(Intent data) {
+        bottomNavigationView.setSelectedItemId(R.id.nav_account);
+        user = data.getParcelableExtra(LoginActivity.USER_KEY);
+        Log.d("user main fav 1: ", user.toString());
+        // Handle the received data here in the host activity
+    }
+
+    public void handleRegister() {
+        bottomNavigationView.setSelectedItemId(R.id.nav_account);
+        userID = fAuth.getCurrentUser().getUid();
+        user.setUserId(userID);
+        DocumentReference documentReference = fStore.collection("clients").document(userID);
+        documentReference.get().addOnSuccessListener(document -> {
+            if (document.exists()) {
+                user.setfName(document.getData().get("fName").toString());
+                user.setEmail(document.getData().get("email").toString());
+                user.setPhoneNumber(document.getData().get("phone").toString());
+                Log.d(TAG, "Utilizator: " + document.getData().get("favourites"));
+                if(document.getData().get("favourites") != null) {
+                    //phonesCodes = new ArrayList<String> (Arrays.asList(document.getData().get("favourites").toString().split(",")));
+                    phonesCodes = (ArrayList<String>) document.getData().get("favourites");
+                    Log.d(TAG, "Coduri main: " + phonesCodes);
+                    user.setFavouritePhones(phonesCodes);
+                    Log.d(TAG, "Utilizator main: " + user.toString());
+                }
+            } else {
+                Log.d(TAG, "No such document");
+            }
+        }).addOnFailureListener(e -> {
+            Log.d(TAG, "Error getting document: ", e);
+        });
+        Log.d("user main fav 1: ", user.toString());
+        // Handle the received data here in the host activity
+    }
+
+    private void startDataSavingTimer() {
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                saveFavoritePhonesToFirestore();
+            }
+        }, 0, 10 * 60 * 10); // Execute the task every 10 minutes
+    }
+
+    private void stopDataSavingTimer() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+    }
+
+    private void saveFavoritePhonesToFirestore() {
+        if (fAuth.getCurrentUser() != null) {
+            Map<String, Object> updates = new HashMap<>();
+            if (!user.getFavouritePhones().isEmpty()) {
+                updates.put("favourites", user.getFavouritePhones());
+            } else {
+                updates.put("favourites", new ArrayList<String>());
+            }
+            fStore.collection("clients").document(user.getUserId())
+                    .update(updates)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Favorite phones saved successfully.");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error saving favorite phones.", e);
+                        }
+                    });
+        }
+    }
+
 }

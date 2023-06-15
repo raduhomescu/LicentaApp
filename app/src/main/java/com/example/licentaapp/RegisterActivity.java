@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.licentaapp.utils.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,6 +27,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,18 +40,21 @@ public class RegisterActivity extends AppCompatActivity {
     TextInputEditText tietRepeatPassword;
     TextInputEditText tietPhone;
     Button btnRegister;
-    TextView tvRegistered;
     FirebaseAuth fAuth;
     ProgressBar progressBar;
     FirebaseFirestore fStore;
     String userID;
+    private Intent intent;
+    private User userRegistered = new User();
+    ArrayList<String> phonesCodes = new ArrayList<>();
+    public static final String USER_KEY = "User key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         initComponents();
-
+        intent = getIntent();
     }
 
     private void initComponents() {
@@ -63,7 +69,6 @@ public class RegisterActivity extends AppCompatActivity {
         tietPhone = findViewById(R.id.register_tiet_phone);
 
         btnRegister = findViewById(R.id.btn_register);
-        tvRegistered = findViewById(R.id.tv_registered);
         progressBar = findViewById(R.id.progressBar);
 
         fAuth = FirebaseAuth.getInstance();
@@ -124,6 +129,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if(phone.length() != 10){
                     tietPhone.setError("Phone Number must be romanian type.");
+                    return;
                 }
 
                 progressBar.setVisibility(View.VISIBLE);
@@ -140,11 +146,14 @@ public class RegisterActivity extends AppCompatActivity {
                             user.put("fName", fullName);
                             user.put("email", email);
                             user.put("phone", phone);
-                            user.put("favourites", null);
+                            user.put("favourites", new ArrayList<String>());
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     Log.d(TAG, "onSuccess: user Profile is created for "+ userID);
+                                    setResult(RESULT_OK, intent);
+                                    finish();
+                                    progressBar.setVisibility(View.INVISIBLE);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -152,9 +161,8 @@ public class RegisterActivity extends AppCompatActivity {
                                     Log.d(TAG, "onFailure: " + e.toString());
                                 }
                             });
-                        fAuth.signOut();
+                        //fAuth.signOut();
                         progressBar.setVisibility(View.INVISIBLE);
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
                         } else {
                             Toast.makeText(RegisterActivity.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -163,13 +171,6 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
 
-            }
-        });
-
-        tvRegistered.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             }
         });
     }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class FavouritesFragment extends Fragment implements PhoneAdapter.OnFavor
         if (getArguments() != null) {
             phonesList= getArguments().getParcelableArrayList("Phone List Key");
             user= getArguments().getParcelable("User key");
+            Log.d("user favorite: ", user.toString());
         }
     }
 

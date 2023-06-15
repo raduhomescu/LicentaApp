@@ -37,6 +37,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executor;
@@ -110,9 +111,12 @@ public class ProfileFragment extends Fragment {
             btnProfileLogOut.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String favouritePhonesString = TextUtils.join(",", user.getFavouritePhones());
                     Map<String, Object> updates = new HashMap<>();
-                    updates.put("favourites", favouritePhonesString);
+                    if(!user.getFavouritePhones().isEmpty()) {
+                        updates.put("favourites", user.getFavouritePhones());
+                    } else {
+                        updates.put("favourites", new ArrayList<String>());
+                    }
                     fStore.collection("clients").document(user.getUserId())
                             .update(updates)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {

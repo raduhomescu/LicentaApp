@@ -35,7 +35,8 @@ public class User implements Parcelable {
         fName = in.readString();
         email = in.readString();
         phoneNumber = in.readString();
-        favouritePhones = in.createStringArrayList();
+        favouritePhones = new ArrayList<>();
+        favouritePhones = in.readArrayList(String.class.getClassLoader());
         Log.d(TAG, "favourite phones user: " + favouritePhones);
     }
 

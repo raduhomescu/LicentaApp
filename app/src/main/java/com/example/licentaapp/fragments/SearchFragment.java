@@ -92,7 +92,7 @@ public class SearchFragment extends Fragment implements PhoneAdapter.OnFavoriteB
                 // Filter the allPhones list based on the search query
                 filteredPhoneList.clear();
                 for (Phone phone : phonesList) {
-                    if (s.toString().toLowerCase().contains(phone.getBrand().toLowerCase()) ||
+                    if (phone.getBrand().toLowerCase().toLowerCase().contains(s.toString()) ||
                         phone.getModel().toLowerCase().contains(s.toString().toLowerCase()) ||
                         s.toString().toLowerCase().contains(phone.getPlatform().toLowerCase()) ||
                         s.toString().toLowerCase().contains(String.valueOf(phone.getRam()).toLowerCase()) ||
