@@ -3,7 +3,6 @@ package com.example.licentaapp.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +16,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 
 import com.example.licentaapp.R;
 import com.example.licentaapp.fragments.ProductFragment;
-import com.example.licentaapp.fragments.SearchFragment;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PhoneAdapter extends ArrayAdapter<Phone> {
 
@@ -64,9 +60,8 @@ public class PhoneAdapter extends ArrayAdapter<Phone> {
             imageView.setImageResource(R.drawable.baseline_smartphone_24);
         }
         addName(phone.getBrand(), phone.getModel(), view);
-        addStorage(phone.getStorage(), view);
-        addColour(phone.getColour(), view);
-        addPrice(phone.getPrice(), view);
+        addStorage(phone.getStorages(), view);
+        addColour(phone.getColours(), view);
         ImageButton btnFavortie = view.findViewById(R.id.row_item_favourites_button);
         if (user.getUserId()!=null) {
             User user1 = user;
@@ -121,19 +116,21 @@ public class PhoneAdapter extends ArrayAdapter<Phone> {
         textView.setText(calculateTextViewValue(brand + " " + model));
     }
 
-    private void addStorage(int storage, View view) {
+    private void addStorage(ArrayList<Integer> storagesInt, View view) {
         TextView textView = view.findViewById(R.id.row_item_tv_memorie);
-        textView.setText(context.getString(R.string.ro_item_memorie_completation, calculateTextViewValue(String.valueOf(storage))));
+        ArrayList<String> storagesList = new ArrayList<>();
+        for (Integer storageValue : storagesInt) {
+            String convertedNumber = String.valueOf(storageValue);
+            storagesList.add(convertedNumber);
+        }
+        String storages = String.join(", ", storagesList);
+        textView.setText(context.getString(R.string.ro_item_memorie_completation, calculateTextViewValue(storages)));
     }
 
-    private void addColour(String colour, View view) {
+    private void addColour(ArrayList<String> colour, View view) {
         TextView textView = view.findViewById(R.id.row_item_tv_culoare);
-        textView.setText(calculateTextViewValue(colour));
-    }
-
-    private void addPrice(double price, View view) {
-        TextView textView = view.findViewById(R.id.row_item_tv_pret);
-        textView.setText(context.getString(R.string.ro_item_pret_completation, calculateTextViewValue(String.valueOf(price))));
+        String colours = String.join(", ", colour);
+        textView.setText(calculateTextViewValue(colours));
     }
     private String calculateTextViewValue(String value) {
         if (value == null || value.isEmpty()) {

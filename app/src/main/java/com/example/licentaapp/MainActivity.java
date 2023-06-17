@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,8 +51,8 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -151,8 +150,13 @@ public class MainActivity extends AppCompatActivity {
                                     phone.setRam(Integer.valueOf(documentR.getData().get("RAM").toString()));
                                     phone.setResolution(documentR.getData().get("Resolution").toString());
                                     phone.setBattery(Integer.valueOf(documentR.getData().get("Battery").toString()));
-                                    phone.setStorage(Integer.valueOf(documentR.getData().get("Storage").toString()));
-                                    phone.setColour(documentR.getData().get("Colour").toString());
+                                    List<Long> firebaseStorages = (List<Long>) documentR.getData().get("Storage");
+                                    ArrayList<Integer> convertedStorages = new ArrayList<>();
+                                    for (Long firebaseStorage : firebaseStorages) {
+                                        convertedStorages.add(firebaseStorage.intValue());
+                                    }
+                                    phone.setStorages(convertedStorages);
+                                    phone.setColours((ArrayList<String>) documentR.getData().get("Colour"));
                                     phone.setWidth(Double.valueOf(documentR.getData().get("Width").toString()));
                                     phone.setHeight(Double.valueOf(documentR.getData().get("Height").toString()));
                                     phone.setDepth(Double.valueOf(documentR.getData().get("Depth").toString()));
@@ -161,7 +165,12 @@ public class MainActivity extends AppCompatActivity {
                                     phone.setPrimaryCamera(Double.valueOf(documentR.getData().get("Primary Camera").toString()));
                                     phone.setFrontCamera(Double.valueOf(documentR.getData().get("Front Camera").toString()));
                                     phone.setYear(Integer.valueOf(documentR.getData().get("Year").toString()));
-                                    phone.setPrice(Double.valueOf(documentR.getData().get("Price").toString()));
+                                    List<Long> firebasePrices = (List<Long>) documentR.getData().get("Price");
+                                    ArrayList<Double> convertedPrices = new ArrayList<>();
+                                    for (Long firebasePrice : firebasePrices) {
+                                        convertedPrices.add(firebasePrice.doubleValue());
+                                    }
+                                    phone.setPrices(convertedPrices);
                                     phone.setConnector(documentR.getData().get("Connector").toString());
                                     phone.setLinkAltex(documentR.getData().get("Link Altex").toString());
                                     phone.setLinkEmag(documentR.getData().get("Link emag").toString());

@@ -50,7 +50,8 @@ import java.util.List;
 public class MapFragment extends Fragment {
     private static final String SHOP_NAME_KEY = "shop name key";
     private String shopName;
-    ImageButton backFragmentMapButton;
+    private String shopNameSecond = "";
+    private String shopNameFirst = "";
     SupportMapFragment supportMapFragment;
     GoogleMap map;
     FusedLocationProviderClient fusedLocationProviderClient;
@@ -74,6 +75,16 @@ public class MapFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             shopName = getArguments().getString(SHOP_NAME_KEY);
+            if (shopName.contains(",")) {
+                String[] parts = shopName.split(",");
+                shopNameFirst = parts[0];
+                Log.d("nume magazin 1: ", shopNameFirst);
+                shopNameSecond = parts[1];
+                Log.d("nume magazin 2: ", shopNameSecond);
+            } else {
+                shopNameFirst = shopName;
+                shopNameSecond = shopName;
+            }
         }
     }
 
@@ -86,14 +97,6 @@ public class MapFragment extends Fragment {
     }
 
     private void initComponents(View view) {
-        backFragmentMapButton = view.findViewById(R.id.btn_map_fragment_back);
-        backFragmentMapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle the back button click
-                onBackPressed();
-            }
-        });
         supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
         String placeTypeList = "electronics_store";
 
@@ -214,7 +217,7 @@ public class MapFragment extends Fragment {
                 object = new JSONObject(strings[0]);
                 mapList = jsonParser.parseResult(object);
                 for (HashMap<String, String> map : mapList) {
-                    if (map.get("name").contains(shopName)) {
+                    if (map.get("name").contains(shopName) || map.get("name").contains(shopNameSecond) || map.get("name").contains(shopNameFirst)) {
                         filteredList.add(map);
                     }
                 }
@@ -241,20 +244,6 @@ public class MapFragment extends Fragment {
                 options.title(name);
                 map.addMarker(options);
             }
-        }
-    }
-
-    private void onBackPressed() {
-        // Get the FragmentManager
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-
-        // Check if there are any fragments in the back stack
-        if (fragmentManager.getBackStackEntryCount() > 0) {
-            // Pop the top fragment from the back stack
-            fragmentManager.popBackStack();
-        } else {
-            // If there are no fragments in the back stack, perform any other necessary action
-            // For example, navigate to a different activity or close the current activity
         }
     }
 }

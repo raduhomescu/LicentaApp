@@ -1,26 +1,20 @@
 package com.example.licentaapp.fragments;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.licentaapp.R;
-import com.example.licentaapp.fragments.quetionnaire.PreferredPhoneQ1Fragment;
 import com.example.licentaapp.utils.Phone;
 import com.example.licentaapp.utils.SpecAdapter;
 
@@ -33,12 +27,14 @@ public class ProductFragment extends Fragment {
     private TextView prodFragPrice;
     private Button prodPageBtnShowSpecs;
     private Button prodPageBtnSiteBuy;
+    private Button btnMemorie1;
+    private Button btnMemorie2;
+    private Button btnMemorie3;
     private Fragment currentFragment;
     public static final String PHONE_KEY = "Phone key";
     private ListView listView;
     private ArrayList<String> phoneSpecs = new ArrayList<>();
     //TODO back button care sa te duca inapoi pe lista.
-    private ImageButton btnProductFragmentBack;
 
     public ProductFragment() {
         // Required empty public constructor
@@ -76,7 +72,12 @@ public class ProductFragment extends Fragment {
         prodFragPrice = view.findViewById(R.id.prod_frag_price);
         prodPageBtnShowSpecs = view.findViewById(R.id.prod_frag_btn_show_specs);
         prodPageBtnSiteBuy = view.findViewById(R.id.prod_frag_btn_send_to_buy);
-        btnProductFragmentBack = view.findViewById(R.id.btn_product_fragment_back);
+        btnMemorie1 = view.findViewById(R.id.btn_memorie_1);
+        btnMemorie1.setText(phone.getStorages().get(0) +" GB");
+        btnMemorie2 = view.findViewById(R.id.btn_memorie_2);
+        btnMemorie2.setText(phone.getStorages().get(1)+ " GB");
+        btnMemorie3 = view.findViewById(R.id.btn_memorie_3);
+        btnMemorie3.setText(phone.getStorages().get(2) + " GB");
         listView = view.findViewById(R.id.prod_frag_list_view);
         SpecAdapter adapter = new SpecAdapter(view.getContext().getApplicationContext(), R.layout.lw_row_item_specs, phoneSpecs, getLayoutInflater());
 
@@ -85,7 +86,7 @@ public class ProductFragment extends Fragment {
         prodFragImage.setImageBitmap(bitmap);
 
         prodFragTitle.setText(phone.getBrand()+ " " + phone.getModel());
-        prodFragPrice.setText(view.getContext().getString(R.string.ro_item_pret_completation,String.valueOf(phone.getPrice())));
+        prodFragPrice.setText(view.getContext().getString(R.string.ro_item_pret_completation,String.valueOf(phone.getPrices().get(0))));
 
         prodPageBtnShowSpecs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,28 +103,30 @@ public class ProductFragment extends Fragment {
                 openFragment(currentFragment);
             }
         });
-
-        btnProductFragmentBack.setOnClickListener(new View.OnClickListener() {
+        btnMemorie1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-
-                // Check if there are any fragments in the back stack
-                if (fragmentManager.getBackStackEntryCount() > 0) {
-                    // Pop the top fragment from the back stack
-                    fragmentManager.popBackStack();
-                } else {
-                    // If there are no fragments in the back stack, perform any other necessary action
-                    // For example, navigate to a different activity or close the current activity
-                }
+                prodFragPrice.setText(view.getContext().getString(R.string.ro_item_pret_completation,String.valueOf(phone.getPrices().get(0))));
+            }
+        });
+        btnMemorie2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prodFragPrice.setText(view.getContext().getString(R.string.ro_item_pret_completation,String.valueOf(phone.getPrices().get(1))));
+            }
+        });
+        btnMemorie3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prodFragPrice.setText(view.getContext().getString(R.string.ro_item_pret_completation,String.valueOf(phone.getPrices().get(2))));
             }
         });
     }
 
     private void addPhoneSpecs(Phone phone, View view) {
         phoneSpecs.add(view.getContext().getString(R.string.spec_platform, phone.getPlatform()));
-        phoneSpecs.add(view.getContext().getString(R.string.spec_colour, phone.getColour()));
-        phoneSpecs.add(view.getContext().getString(R.string.spec_storage, String.valueOf(phone.getStorage())));
+        phoneSpecs.add(view.getContext().getString(R.string.spec_colour, phone.getColours()));
+        phoneSpecs.add(view.getContext().getString(R.string.spec_storage, String.valueOf(phone.getStorages())));
         phoneSpecs.add(view.getContext().getString(R.string.spec_ram, String.valueOf(phone.getRam())));
         phoneSpecs.add(view.getContext().getString(R.string.spec_battery, String.valueOf(phone.getBattery())));
         if(phone.isDualSim()) {

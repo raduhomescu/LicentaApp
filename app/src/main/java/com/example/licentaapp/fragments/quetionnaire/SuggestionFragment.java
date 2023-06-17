@@ -36,6 +36,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavoriteButtonClickListener{
     private ArrayList<String> filterList;
@@ -55,6 +56,7 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
     private Button btn_start_over_survey;
     private String platformValidator = null;
     private static final String FILTER_LIST_ITEM = "new filters";
+    private int validator = 7;
 
     public SuggestionFragment() {
         // Required empty public constructor
@@ -127,8 +129,13 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
                                     phone.setRam(Integer.valueOf(documentR.getData().get("RAM").toString()));
                                     phone.setResolution(documentR.getData().get("Resolution").toString());
                                     phone.setBattery(Integer.valueOf(documentR.getData().get("Battery").toString()));
-                                    phone.setStorage(Integer.valueOf(documentR.getData().get("Storage").toString()));
-                                    phone.setColour(documentR.getData().get("Colour").toString());
+                                    List<Long> firebaseStorages = (List<Long>) documentR.getData().get("Storage");
+                                    ArrayList<Integer> convertedStorages = new ArrayList<>();
+                                    for (Long firebaseStorage : firebaseStorages) {
+                                        convertedStorages.add(firebaseStorage.intValue());
+                                    }
+                                    phone.setStorages(convertedStorages);
+                                    phone.setColours((ArrayList<String>) documentR.getData().get("Colour"));
                                     phone.setWidth(Double.valueOf(documentR.getData().get("Width").toString()));
                                     phone.setHeight(Double.valueOf(documentR.getData().get("Height").toString()));
                                     phone.setDepth(Double.valueOf(documentR.getData().get("Depth").toString()));
@@ -137,7 +144,12 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
                                     phone.setPrimaryCamera(Double.valueOf(documentR.getData().get("Primary Camera").toString()));
                                     phone.setFrontCamera(Double.valueOf(documentR.getData().get("Front Camera").toString()));
                                     phone.setYear(Integer.valueOf(documentR.getData().get("Year").toString()));
-                                    phone.setPrice(Double.valueOf(documentR.getData().get("Price").toString()));
+                                    List<Long> firebasePrices = (List<Long>) documentR.getData().get("Price");
+                                    ArrayList<Double> convertedPrices = new ArrayList<>();
+                                    for (Long firebasePrice : firebasePrices) {
+                                        convertedPrices.add(firebasePrice.doubleValue());
+                                    }
+                                    phone.setPrices(convertedPrices);
                                     phone.setConnector(documentR.getData().get("Connector").toString());
                                     phone.setLinkAltex(documentR.getData().get("Link Altex").toString());
                                     phone.setLinkEmag(documentR.getData().get("Link emag").toString());
@@ -163,33 +175,47 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
                                                     //progressBarMain.setVisibility(View.INVISIBLE);
                                                     // You can now use the Phone object with the downloaded image file
                                                     // ...
+                                                    int contor = 0;
                                                     if(filterList.get(1).equals("Apple")) {
                                                         platformValidator = "iOS";
                                                     } else {
                                                         platformValidator = "Android";
                                                     }
-                                                        if(phone.getPlatform().equals(platformValidator)) {
-                                                            if(Integer.valueOf(filterList.get(2)) >= phone.getStorage()/2 && Integer.valueOf(filterList.get(2)) <= phone.getStorage()*2) {
-                                                               if(Integer.valueOf(filterList.get(3))>= phone.getBattery()-1000 && Integer.valueOf(filterList.get(3))<= phone.getBattery()+1000) {
-                                                                   if(Integer.valueOf(filterList.get(4)) >= Integer.valueOf(phone.getResolution().substring(0, phone.getResolution().indexOf('x'))) - 720
-                                                                           && Integer.valueOf(filterList.get(4)) <= Integer.valueOf(phone.getResolution().substring(0, phone.getResolution().indexOf('x'))) + 720) {
-                                                                       if(Integer.valueOf(filterList.get(5)) >= phone.getRam()-4 && Integer.valueOf(filterList.get(5)) <= phone.getRam()+4) {
-                                                                          if(Integer.valueOf(filterList.get(6)) >= phone.getPrimaryCamera()- 20
-                                                                                  && Integer.valueOf(filterList.get(6)) <= phone.getPrimaryCamera() + 100) {
-                                                                              String[] parts =filterList.get(7).split("/");
-                                                                              if(phone.getPrice()>= Double.valueOf(parts[0]) && phone.getPrice()<= Double.valueOf(parts[1])) {
-                                                                                  phonesList.add(phone);
-                                                                                  btn_start_over_survey.setVisibility(View.VISIBLE);
-                                                                              }
-                                                                          }
-                                                                       }
-                                                                   }
-                                                                   //TODO de reanalizat putin conditiile, loading ul
-                                                               }
-                                                            }
+                                                    if(phone.getPlatform().equals(platformValidator)) {
+                                                        contor++;
+                                                    }
+                                                    for (int i = 0; i < 3; i++) {
+                                                        if(Integer.valueOf(filterList.get(2)) >= phone.getStorages().get(i)/2 && Integer.valueOf(filterList.get(2)) <= phone.getStorages().get(i)*2) {
+                                                            contor++;
+                                                            break;
                                                         }
-                                                    //TODO sa filtrez lista si sa pun un loading din ala si fa din buton invizibil in buton vizibil, de testat astea
-                                                    //loading la inceput de for si posibil la final de for daca merge, sau la fiecare prelucrare telefon
+                                                    }
+                                                    if(Integer.valueOf(filterList.get(3))>= phone.getBattery()-1000 && Integer.valueOf(filterList.get(3))<= phone.getBattery()+1000) {
+                                                        contor++;
+                                                    }
+                                                    if(Integer.valueOf(filterList.get(4)) >= Integer.valueOf(phone.getResolution().substring(0, phone.getResolution().indexOf('x'))) - 720
+                                                            && Integer.valueOf(filterList.get(4)) <= Integer.valueOf(phone.getResolution().substring(0, phone.getResolution().indexOf('x'))) + 720) {
+                                                        contor++;
+                                                    }
+                                                    if(Integer.valueOf(filterList.get(5)) >= phone.getRam()-4 && Integer.valueOf(filterList.get(5)) <= phone.getRam()+4) {
+                                                        contor++;
+                                                    }
+                                                    if(Integer.valueOf(filterList.get(6)) >= phone.getPrimaryCamera()- 20
+                                                            && Integer.valueOf(filterList.get(6)) <= phone.getPrimaryCamera() + 100) {
+                                                        contor++;
+                                                    }
+                                                    String[] parts =filterList.get(7).split("/");
+                                                    for (int i = 0; i < 3; i++) {
+                                                        if(phone.getPrices().get(i)>= Double.valueOf(parts[0]) && phone.getPrices().get(i)<= Double.valueOf(parts[1])) {
+                                                            contor++;
+                                                            break;
+                                                        }
+                                                    }
+
+                                                    if (contor == validator) {
+                                                        phonesList.add(phone);
+                                                        btn_start_over_survey.setVisibility(View.VISIBLE);
+                                                    }//TODO de reanalizat putin conditiile, loading ul
                                                     if(!phonesList.isEmpty()) {
                                                         lvPhones.setAdapter(adapter);
                                                     } else {

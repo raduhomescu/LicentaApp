@@ -4,7 +4,6 @@ import static android.content.ContentValues.TAG;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -21,20 +19,9 @@ import com.example.licentaapp.R;
 import com.example.licentaapp.utils.Phone;
 import com.example.licentaapp.utils.PhoneAdapter;
 import com.example.licentaapp.utils.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SearchFragment extends Fragment implements PhoneAdapter.OnFavoriteButtonClickListener {
     private ArrayList<Phone> phonesList = new ArrayList<>();
@@ -96,7 +83,7 @@ public class SearchFragment extends Fragment implements PhoneAdapter.OnFavoriteB
                         phone.getModel().toLowerCase().contains(s.toString().toLowerCase()) ||
                         s.toString().toLowerCase().contains(phone.getPlatform().toLowerCase()) ||
                         s.toString().toLowerCase().contains(String.valueOf(phone.getRam()).toLowerCase()) ||
-                        s.toString().toLowerCase().contains(String.valueOf(phone.getStorage()).toLowerCase())
+                        s.toString().toLowerCase().contains(String.valueOf(phone.getStorages()).toLowerCase())
                     ) {
                         filteredPhoneList.add(phone);
                     }

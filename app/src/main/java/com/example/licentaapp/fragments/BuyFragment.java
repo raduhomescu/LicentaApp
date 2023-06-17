@@ -30,7 +30,6 @@ public class BuyFragment extends Fragment {
     ImageButton btnMapsEmag;
     ImageButton btnMapsFlanco;
     private Fragment currentFragment;
-    ImageButton backFragmentBuyButton;
 
     public BuyFragment() {
         // Required empty public constructor
@@ -69,14 +68,6 @@ public class BuyFragment extends Fragment {
         btnMapsAltex = view.findViewById(R.id.btn_maps_altex);
         btnMapsEmag = view.findViewById(R.id.btn_maps_emag);
         btnMapsFlanco = view.findViewById(R.id.btn_maps_flanco);
-        backFragmentBuyButton = view.findViewById(R.id.btn_buy_fragment_back);
-        backFragmentBuyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle the back button click
-                onBackPressed();
-            }
-        });
         btnLogoAltex.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,7 +131,7 @@ public class BuyFragment extends Fragment {
         btnMapsAltex.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentFragment = MapFragment.newInstance("Media Galaxy");
+                currentFragment = MapFragment.newInstance("Altex,Media Galaxy");
                 openFragment(currentFragment);
             }
         });
@@ -167,19 +158,5 @@ public class BuyFragment extends Fragment {
                 .replace(R.id.fragment_container_main, fragment)
                 .addToBackStack(null)
                 .commit();
-    }
-
-    private void onBackPressed() {
-        // Get the FragmentManager
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-
-        // Check if there are any fragments in the back stack
-        if (fragmentManager.getBackStackEntryCount() > 0) {
-            // Pop the top fragment from the back stack
-            fragmentManager.popBackStack();
-        } else {
-            // If there are no fragments in the back stack, perform any other necessary action
-            // For example, navigate to a different activity or close the current activity
-        }
     }
 }

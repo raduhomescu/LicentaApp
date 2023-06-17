@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class Phone implements Parcelable {
     private String uId;
@@ -15,8 +16,8 @@ public class Phone implements Parcelable {
     private int ram;
     private String resolution;
     private int battery;
-    private int storage;
-    private String colour;
+    private ArrayList<Integer> storages;
+    private ArrayList<String> colours;
     private double width;
     private double height;
     private double depth;
@@ -25,7 +26,7 @@ public class Phone implements Parcelable {
     private double primaryCamera;
     private double frontCamera;
     private int year;
-    private double price;
+    private ArrayList<Double> prices;
     private String connector;
     private String linkAltex;
     private String linkEmag;
@@ -34,9 +35,9 @@ public class Phone implements Parcelable {
 
     public Phone() {}
 
-    public Phone(String uId, String brand, String model, String platform, int ram, String resolution, int battery, int storage,
-                 String colour, double width, double height, double depth, double mass, boolean dualSim, double primaryCamera,
-                 double frontCamera, int year, double price, String connector, String linkAltex, String linkEmag,String linkFlanco, File localFile) {
+    public Phone(String uId, String brand, String model, String platform, int ram, String resolution, int battery, ArrayList<Integer> storages,
+                 ArrayList<String> colours, double width, double height, double depth, double mass, boolean dualSim, double primaryCamera,
+                 double frontCamera, int year, ArrayList<Double> prices, String connector, String linkAltex, String linkEmag, String linkFlanco, File localFile) {
         this.uId = uId;
         this.brand = brand;
         this.model = model;
@@ -44,8 +45,8 @@ public class Phone implements Parcelable {
         this.ram = ram;
         this.resolution = resolution;
         this.battery = battery;
-        this.storage = storage;
-        this.colour = colour;
+        this.storages = storages;
+        this.colours = colours;
         this.width = width;
         this.height = height;
         this.depth = depth;
@@ -54,7 +55,7 @@ public class Phone implements Parcelable {
         this.primaryCamera = primaryCamera;
         this.frontCamera = frontCamera;
         this.year = year;
-        this.price = price;
+        this.prices = prices;
         this.connector = connector;
         this.linkAltex = linkAltex;
         this.linkEmag = linkEmag;
@@ -126,20 +127,20 @@ public class Phone implements Parcelable {
         this.battery = battery;
     }
 
-    public int getStorage() {
-        return storage;
+    public ArrayList<Integer> getStorages() {
+        return storages;
     }
 
-    public void setStorage(int storage) {
-        this.storage = storage;
+    public void setStorages(ArrayList<Integer> storages) {
+        this.storages = storages;
     }
 
-    public String getColour() {
-        return colour;
+    public ArrayList<String> getColours() {
+        return colours;
     }
 
-    public void setColour(String colour) {
-        this.colour = colour;
+    public void setColours(ArrayList<String> colours) {
+        this.colours = colours;
     }
 
     public double getWidth() {
@@ -206,12 +207,12 @@ public class Phone implements Parcelable {
         this.year = year;
     }
 
-    public double getPrice() {
-        return price;
+    public ArrayList<Double> getPrices() {
+        return prices;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setPrices(ArrayList<Double> prices) {
+        this.prices = prices;
     }
 
     public String getConnector() {
@@ -260,8 +261,8 @@ public class Phone implements Parcelable {
                 ", ram=" + ram +
                 ", resolution='" + resolution + '\'' +
                 ", battery=" + battery +
-                ", storage=" + storage +
-                ", colour='" + colour + '\'' +
+                ", storage=" + storages +
+                ", colour='" + colours + '\'' +
                 ", width=" + width +
                 ", height=" + height +
                 ", depth=" + depth +
@@ -270,7 +271,7 @@ public class Phone implements Parcelable {
                 ", primaryCamera=" + primaryCamera +
                 ", frontCamera=" + frontCamera +
                 ", year=" + year +
-                ", price=" + price +
+                ", price=" + prices +
                 ", connector='" + connector + '\'' +
                 '}';
     }
@@ -283,8 +284,10 @@ public class Phone implements Parcelable {
         ram = in.readInt();
         resolution = in.readString();
         battery = in.readInt();
-        storage = in.readInt();
-        colour = in.readString();
+        storages = new ArrayList<>();
+        storages = in.readArrayList(Integer.class.getClassLoader());
+        colours = new ArrayList<>();
+        colours = in.readArrayList(String.class.getClassLoader());
         width = in.readDouble();
         height = in.readDouble();
         depth = in.readDouble();
@@ -293,7 +296,8 @@ public class Phone implements Parcelable {
         primaryCamera = in.readDouble();
         frontCamera = in.readDouble();
         year = in.readInt();
-        price = in.readDouble();
+        prices = new ArrayList<>();
+        prices = in.readArrayList(Double.class.getClassLoader());
         connector = in.readString();
         linkAltex = in.readString();
         linkEmag = in.readString();
@@ -313,8 +317,8 @@ public class Phone implements Parcelable {
         dest.writeInt(ram);
         dest.writeString(resolution);
         dest.writeInt(battery);
-        dest.writeInt(storage);
-        dest.writeString(colour);
+        dest.writeList(storages);
+        dest.writeList(colours);
         dest.writeDouble(width);
         dest.writeDouble(height);
         dest.writeDouble(depth);
@@ -323,7 +327,7 @@ public class Phone implements Parcelable {
         dest.writeDouble(primaryCamera);
         dest.writeDouble(frontCamera);
         dest.writeInt(year);
-        dest.writeDouble(price);
+        dest.writeList(prices);
         dest.writeString(connector);
         dest.writeString(linkAltex);
         dest.writeString(linkEmag);

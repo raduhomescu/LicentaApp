@@ -78,26 +78,57 @@
         android:id="@+id/prod_frag_btn_send_to_buy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="@string/buy"
+        android:layout_marginTop="24dp"
         android:background="@drawable/rounded_corner"
         android:fontFamily="@font/audiowide"
+        android:text="@string/buy"
         android:textColor="@android:color/secondary_text_light"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/prod_frag_price" />
-    <ImageButton
-        android:id="@+id/btn_product_fragment_back"
+        app:layout_constraintTop_toBottomOf="@+id/btn_memorie_1" />
+
+    <Button
+        android:id="@+id/btn_memorie_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:background="@color/background_beige"
-        android:src="@drawable/baseline_arrow_circle_left_24"
+        android:layout_marginTop="24dp"
+        android:text="Button"
+        android:background="@drawable/rounded_corner"
+        android:fontFamily="@font/audiowide"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintHorizontal_bias="0.14"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/prod_frag_price" />
+    <Button
+        android:id="@+id/btn_memorie_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Button"
+        android:background="@drawable/rounded_corner"
+        android:fontFamily="@font/audiowide"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/prod_frag_price" />
+    <Button
+        android:id="@+id/btn_memorie_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Button"
+        android:background="@drawable/rounded_corner"
+        android:fontFamily="@font/audiowide"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.86"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/prod_frag_price" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
