@@ -11,4 +11,6 @@
     <color name="background_beige">#EDECDA</color>
     <color name="bottom_grey">#AAA9A3</color>
     <color name="clicked_button_color">#D89D7C</color>
+    <color name="primary_calm_teal">#009688</color>
+    <color name="secondary_earthy_brown">#F5F5DC</color>
 </resources>

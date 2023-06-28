@@ -20,6 +20,7 @@ import com.example.licentaapp.fragments.FavouritesFragment;
 import com.example.licentaapp.fragments.HomeFragment;
 import com.example.licentaapp.fragments.ProfileFragment;
 import com.example.licentaapp.fragments.SearchFragment;
+import com.example.licentaapp.fragments.TestFragment;
 import com.example.licentaapp.fragments.quetionnaire.BatteryQ3Fragment;
 import com.example.licentaapp.fragments.quetionnaire.PreferredPhoneQ1Fragment;
 import com.example.licentaapp.fragments.quetionnaire.PriceQ7Fragment;

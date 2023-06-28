@@ -78,10 +78,15 @@ public class PhoneAdapter extends ArrayAdapter<Phone> {
                 public void onClick(View v) {
                     if (user.getUserId()!=null) {
                         Log.d("Drawable", String.valueOf(R.drawable.ic_baseline_favorite_border_24));
-                        if ((Integer) btnFavortie.getTag() == R.drawable.ic_baseline_favorite_border_24) {
+                        Integer tag_btn_favorite = (Integer) btnFavortie.getTag();
+                        Integer id_icon = R.drawable.ic_baseline_favorite_border_24;
+                        if (tag_btn_favorite.equals(id_icon)) {
                             btnFavortie.setImageResource(R.drawable.ic_baseline_favorite_red_24);
+                            btnFavortie.setTag(R.drawable.ic_baseline_favorite_red_24);
+                            Integer tag_btn_favorite_2 = (Integer) btnFavortie.getTag();
                         } else {
                             btnFavortie.setImageResource(R.drawable.ic_baseline_favorite_border_24);
+                            btnFavortie.setTag(R.drawable.ic_baseline_favorite_border_24);
                         }
                         if (mListener != null) {
                             mListener.onFavoriteButtonClicked(phone);
