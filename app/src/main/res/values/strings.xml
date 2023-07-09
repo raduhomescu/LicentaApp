@@ -96,6 +96,17 @@
     <string name="start_over">START OVER</string>
     <string name="buy">BUY</string>
     <string name="google_map_key">AIzaSyCaqUWylYAOuNcuO8DKhrWuwdJrZpx6llc</string>
-
+    <string name="ios">iOS</string>
+    <string name="android">Android</string>
+    <string name="emui_huawei">EMUI</string>
+    <string name="title_activity_maps">Current Place Details</string>
+    <string name="default_info_title">Default Location</string>
+    <string name="default_info_snippet">No places found, because location permission is disabled.</string>
+    <string name="option_get_place">Get place</string>
+    <string name="pick_place">Choose a place</string>
+    <string name="irrelevant">irrelevant</string>
+    <string name="medium_quality">medium quality</string>
+    <string name="high_quality">high quality</string>
+    <string name="professional">professional</string>
 
 </resources>

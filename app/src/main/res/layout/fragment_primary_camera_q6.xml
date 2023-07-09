@@ -23,70 +23,64 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_0_50_mpx"
-        android:layout_width="142dp"
+        android:id="@+id/btn_q6_irrelevant"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:background="@drawable/rounded_corner"
         android:fontFamily="@font/audiowide"
-        android:text="@string/_0_50_mpx"
+        android:text="Irrelevant"
+        android:textAllCaps="false"
         android:textColor="@android:color/secondary_text_light"
         android:textSize="28sp"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_question6"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_question6" />
 
     <Button
-        android:id="@+id/btn_50_mpx"
-        android:layout_width="142dp"
+        android:id="@+id/btn_q6_medium_quality"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:background="@drawable/rounded_corner"
         android:fontFamily="@font/audiowide"
-        android:text="@string/_50_mpx"
+        android:text="Medium quality"
         android:textAllCaps="false"
         android:textColor="@android:color/secondary_text_light"
         android:textSize="28sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_question6"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_q6_irrelevant" />
 
     <Button
-        android:id="@+id/btn_64_mpx"
-        android:layout_width="142dp"
+        android:id="@+id/btn_q6_high_quality"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="48dp"
         android:background="@drawable/rounded_corner"
         android:fontFamily="@font/audiowide"
-        android:text="@string/_64_mpx"
+        android:text="High quality"
         android:textAllCaps="false"
         android:textColor="@android:color/secondary_text_light"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_0_50_mpx" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_q6_medium_quality" />
 
     <Button
-        android:id="@+id/btn_64_more_mpx"
-        android:layout_width="142dp"
+        android:id="@+id/btn_q6_professional"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="48dp"
         android:background="@drawable/rounded_corner"
         android:fontFamily="@font/audiowide"
-        android:text="@string/_64_more_mpx"
+        android:text="Professional"
         android:textAllCaps="false"
         android:textColor="@android:color/secondary_text_light"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_50_mpx" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_q6_high_quality" />
 
     <ImageButton
         android:id="@+id/btn_info_q6"

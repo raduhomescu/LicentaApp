@@ -26,15 +26,11 @@ public class PrimaryCameraQ6Fragment extends Fragment {
     public static final String FILTER_LIST_KEY = "filter list";
     public static final String USER_KEY = "User key";
     private User user;
-    private Button btn0_50Mpx;
-    private Button btn50Mpx;
-    private Button btn64Mpx;
-    private Button btn64moreMpx;
+    private Button btnQ6Irrelevant;
+    private Button btnQ6MediumQuality;
+    private Button btnQ6HighQuality;
+    private Button btnQ6Professional;
 
-    private static final String VAL_0_50_MPX = "30";
-    private static final String VAL_50_MPX = "50";
-    private static final String VAL_64_MPX = "64";
-    private static final String VAL_64_MORE_MPX = "100";
     public PrimaryCameraQ6Fragment() {
         // Required empty public constructor
     }
@@ -67,10 +63,10 @@ public class PrimaryCameraQ6Fragment extends Fragment {
     }
 
     private void initComponents(View view) {
-        btn0_50Mpx = view.findViewById(R.id.btn_0_50_mpx);
-        btn50Mpx = view.findViewById(R.id.btn_50_mpx);
-        btn64Mpx = view.findViewById(R.id.btn_64_mpx);
-        btn64moreMpx = view.findViewById(R.id.btn_64_more_mpx);
+        btnQ6Irrelevant = view.findViewById(R.id.btn_q6_irrelevant);
+        btnQ6MediumQuality = view.findViewById(R.id.btn_q6_medium_quality);
+        btnQ6HighQuality = view.findViewById(R.id.btn_q6_high_quality);
+        btnQ6Professional = view.findViewById(R.id.btn_q6_professional);
         btnInfoQ6 = view.findViewById(R.id.btn_info_q6);
         btnInfoQ6.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,36 +90,36 @@ public class PrimaryCameraQ6Fragment extends Fragment {
             }
         });
 
-        btn0_50Mpx.setOnClickListener(new View.OnClickListener() {
+        btnQ6Irrelevant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filterList.add(VAL_0_50_MPX);
+                filterList.add(getString(R.string.irrelevant));
                 currentFragment = PriceQ7Fragment.newInstance(filterList, user);
                 openFragment(currentFragment);
             }
         });
 
-        btn50Mpx.setOnClickListener(new View.OnClickListener() {
+        btnQ6MediumQuality.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filterList.add(VAL_50_MPX);
+                filterList.add(getString(R.string.medium_quality));
                 currentFragment = PriceQ7Fragment.newInstance(filterList, user);
                 openFragment(currentFragment);
             }
         });
 
-        btn64Mpx.setOnClickListener(new View.OnClickListener() {
+        btnQ6HighQuality.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filterList.add(VAL_64_MPX);
+                filterList.add(getString(R.string.high_quality));
                 currentFragment = PriceQ7Fragment.newInstance(filterList, user);
                 openFragment(currentFragment);
             }
         });
-        btn64moreMpx.setOnClickListener(new View.OnClickListener() {
+        btnQ6Professional.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filterList.add(VAL_64_MORE_MPX);
+                filterList.add(getString(R.string.professional));
                 currentFragment = PriceQ7Fragment.newInstance(filterList, user);
                 openFragment(currentFragment);
             }

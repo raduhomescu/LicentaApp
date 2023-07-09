@@ -70,7 +70,7 @@ public class PreferredPhoneQ1Fragment extends Fragment {
         btn_apple_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filterList.add(getString(R.string.apple));
+                filterList.add(getString(R.string.ios));
                 currentFragment = StorageQ2Fragment.newInstance(filterList, user);
                 openFragment(currentFragment);
             }
@@ -78,7 +78,7 @@ public class PreferredPhoneQ1Fragment extends Fragment {
         btn_samsung_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filterList.add(getString(R.string.samsung));
+                filterList.add(getString(R.string.android));
                 currentFragment = StorageQ2Fragment.newInstance(filterList, user);
                 openFragment(currentFragment);
             }
@@ -86,7 +86,7 @@ public class PreferredPhoneQ1Fragment extends Fragment {
         btn_xiaomi_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filterList.add(getString(R.string.xiaomi));
+                filterList.add(getString(R.string.android));
                 currentFragment = StorageQ2Fragment.newInstance(filterList, user);
                 openFragment(currentFragment);
             }
@@ -94,7 +94,7 @@ public class PreferredPhoneQ1Fragment extends Fragment {
         btn_google_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filterList.add(getString(R.string.google));
+                filterList.add(getString(R.string.android));
                 currentFragment = StorageQ2Fragment.newInstance(filterList, user);
                 openFragment(currentFragment);
             }
@@ -102,7 +102,7 @@ public class PreferredPhoneQ1Fragment extends Fragment {
         btn_huawei_logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filterList.add(getString(R.string.huawei));
+                filterList.add(getString(R.string.emui_huawei));
                 currentFragment = StorageQ2Fragment.newInstance(filterList, user);
                 openFragment(currentFragment);
             }

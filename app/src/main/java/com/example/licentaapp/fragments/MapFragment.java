@@ -10,14 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.example.licentaapp.R;
 import com.example.licentaapp.utils.JsonParser;
@@ -27,7 +24,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -57,6 +53,7 @@ public class MapFragment extends Fragment {
     FusedLocationProviderClient fusedLocationProviderClient;
     double currentLat = 0;
     double currentLong = 0;
+    private String next_page_key = "Aaw_FcI2do1pLpTisjUXJy2YbxLXwyFW6k9X-cb0BO9S5sPRP1zX-HLcZoTGOJZaAQ5mfABAWNSXOp83PZxeWuSKTFx5Ro3SY_S5GDcO-GaTzF-FwB4mD-hMfnfFGmdFJcO3JivpvbAghP7yopMyl0kZuU4cdoRGm8KUhvL8r7SxnVV3O2JSDuoDQXNaWpCZbMDWgVOMrErDfAgNqsmMLub8qSOOIvXEz6YpG6MY2pOgU-qCL2PyJ2N4Y_zQDEXBNdqJVIwer4caf26ghf2WaJveG-MbGm2PuYZH5T6RDy5C3cQEVzZTpwbhxAn1d6wA_pDFw_CUCnqksVWW7AEe3qEEawwDPSEe-Mkj0lAZXSO_s12JzKsJoWyd_7uk9km0MvPn761dJKokAuWXzZ7LtK4iUmPAxw7stkXAwp233iUAO_1uu3zEQoLibZd7jvMjQyVrsXNp6A";
 
     public MapFragment() {
         // Required empty public constructor
@@ -108,8 +105,9 @@ public class MapFragment extends Fragment {
                 @Override
                 public void onSuccess(Location location) {
                     if (location != null) {
-                        currentLat = location.getLatitude();
-                        currentLong = location.getLongitude();
+                        currentLat = 44.4490628;
+                        currentLong = 26.1253156;
+
                         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
                             @Override
                             public void onMapReady(GoogleMap googleMap) {
@@ -122,7 +120,8 @@ public class MapFragment extends Fragment {
                         });
                         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" + "?location=" +
                                 currentLat + "," + currentLong + "&radius=5000" + "&type=" +
-                                placeTypeList + "&sensor=true" + "&key=" + getResources().getString(R.string.google_map_key);
+                                placeTypeList + "&sensor=true" + "&key=" + getResources().getString(R.string.google_map_key) +
+                                "&next_page_token=" + next_page_key;
                         Log.d("link locatie", url);
 
                         new PlaceTask().execute(url);
@@ -134,41 +133,6 @@ public class MapFragment extends Fragment {
         }
 
     }
-
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 44) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                Task<Location> task = fusedLocationProviderClient.getLastLocation();
-               task.addOnSuccessListener(new OnSuccessListener<Location>() {
-                   @Override
-                   public void onSuccess(Location location) {
-                       if(location != null) {
-                           currentLat = location.getLatitude();
-                           currentLong = location.getLongitude();
-
-                           supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-                               @Override
-                               public void onMapReady(GoogleMap googleMap) {
-                                   map = googleMap;
-                                   map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLat,currentLong), 10));
-                                   if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                                       map.setMyLocationEnabled(true);
-                                   }
-                               }
-                           });
-                       }
-                   }
-               });
-           }
-       }
-    }
-
 
     private class PlaceTask extends AsyncTask<String, Integer, String> {
 
@@ -215,6 +179,8 @@ public class MapFragment extends Fragment {
             JSONObject object = null;
             try {
                 object = new JSONObject(strings[0]);
+                String nextPageToken = object.getString("next_page_token");
+                Log.d("token pt next page", nextPageToken);
                 mapList = jsonParser.parseResult(object);
                 for (HashMap<String, String> map : mapList) {
                     if (map.get("name").contains(shopName) || map.get("name").contains(shopNameSecond) || map.get("name").contains(shopNameFirst)) {

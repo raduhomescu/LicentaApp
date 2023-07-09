@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.example.licentaapp.R;
 import com.example.licentaapp.fragments.ProductFragment;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -52,16 +53,17 @@ public class PhoneAdapter extends ArrayAdapter<Phone> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = inflater.inflate(resource, parent, false);
         Phone phone = phones.get(position);
-        if(phone.getLocalFile() != null) {
-            addPhoto(phone.getLocalFile(), view);
+        if(phone.getLink_imagine() != null) {
+            addPhoto(phone.getLink_imagine(), view);
         } else {
             ImageView imageView = view.findViewById(R.id.row_item_image);
 
             imageView.setImageResource(R.drawable.baseline_smartphone_24);
         }
         addName(phone.getBrand(), phone.getModel(), view);
-        addStorage(phone.getStorages(), view);
-        addColour(phone.getColours(), view);
+        addPrice(phone.getPrice(), view);
+        addStorage(phone.getStorage(), view);
+        addColour(phone.getColour(), view);
         ImageButton btnFavortie = view.findViewById(R.id.row_item_favourites_button);
         if (user.getUserId()!=null) {
             User user1 = user;
@@ -83,7 +85,6 @@ public class PhoneAdapter extends ArrayAdapter<Phone> {
                         if (tag_btn_favorite.equals(id_icon)) {
                             btnFavortie.setImageResource(R.drawable.ic_baseline_favorite_red_24);
                             btnFavortie.setTag(R.drawable.ic_baseline_favorite_red_24);
-                            Integer tag_btn_favorite_2 = (Integer) btnFavortie.getTag();
                         } else {
                             btnFavortie.setImageResource(R.drawable.ic_baseline_favorite_border_24);
                             btnFavortie.setTag(R.drawable.ic_baseline_favorite_border_24);
@@ -110,10 +111,11 @@ public class PhoneAdapter extends ArrayAdapter<Phone> {
         return view;
     }
 
-    private void addPhoto(File imageFile, View view) {
-        Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+    private void addPhoto(String link_imagine, View view) {
         ImageView imageView = view.findViewById(R.id.row_item_image);
-        imageView.setImageBitmap(bitmap);
+        Picasso.get()
+                .load(link_imagine)
+                .into(imageView);
     }
 
     private void addName(String brand, String model, View view) {
@@ -121,21 +123,19 @@ public class PhoneAdapter extends ArrayAdapter<Phone> {
         textView.setText(calculateTextViewValue(brand + " " + model));
     }
 
-    private void addStorage(ArrayList<Integer> storagesInt, View view) {
+    private void addPrice(Double price, View view) {
+        TextView textView = view.findViewById(R.id.row_item_tv_pret);
+        textView.setText(context.getString(R.string.ro_item_pret_completation, calculateTextViewValue(String.valueOf(price))));
+    }
+    private void addStorage(int storage, View view) {
         TextView textView = view.findViewById(R.id.row_item_tv_memorie);
-        ArrayList<String> storagesList = new ArrayList<>();
-        for (Integer storageValue : storagesInt) {
-            String convertedNumber = String.valueOf(storageValue);
-            storagesList.add(convertedNumber);
-        }
-        String storages = String.join(", ", storagesList);
-        textView.setText(context.getString(R.string.ro_item_memorie_completation, calculateTextViewValue(storages)));
+        String storageText = String.valueOf(storage);
+        textView.setText(context.getString(R.string.ro_item_memorie_completation, calculateTextViewValue(storageText)));
     }
 
-    private void addColour(ArrayList<String> colour, View view) {
+    private void addColour(String colour, View view) {
         TextView textView = view.findViewById(R.id.row_item_tv_culoare);
-        String colours = String.join(", ", colour);
-        textView.setText(calculateTextViewValue(colours));
+        textView.setText(calculateTextViewValue(colour));
     }
     private String calculateTextViewValue(String value) {
         if (value == null || value.isEmpty()) {

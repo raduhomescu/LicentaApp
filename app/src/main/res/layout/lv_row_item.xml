@@ -24,22 +24,34 @@
         android:layout_marginTop="16dp"
         android:fontFamily="@font/audiowide"
         android:text="@string/ro_item_titlu"
-        android:textSize="12sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/row_item_image" />
 
     <TextView
+        android:id="@+id/row_item_tv_pret"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/audiowide"
+        android:text="@string/ro_item_pret"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/row_item_tv_titlu" />
+
+    <TextView
         android:id="@+id/row_item_tv_memorie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/audiowide"
         android:text="@string/ro_item_memorie"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/row_item_tv_titlu" />
+        app:layout_constraintTop_toBottomOf="@+id/row_item_tv_pret" />
 
     <TextView
         android:id="@+id/row_item_tv_culoare"

@@ -6,58 +6,55 @@
     android:layout_height="match_parent"
     android:background="@color/background_beige"
     tools:context=".fragments.SearchFragment">
-
-    <ListView
-        android:id="@+id/lv_phones"
+    <AutoCompleteTextView
+        android:id="@+id/a_c_t_v_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@color/background_beige"
-        android:dividerHeight="8dp"
-        android:padding="8dp"
-        android:gravity="top"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:completionThreshold="1"
+        android:fontFamily="@font/audiowide"
+        android:hint="@android:string/search_go"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/btn_search_sf"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_search" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="64dp"
-        app:boxBackgroundMode="outline"
-        app:boxCornerRadiusBottomEnd="16dp"
-        app:boxCornerRadiusBottomStart="16dp"
-        app:boxCornerRadiusTopEnd="16dp"
-        app:boxCornerRadiusTopStart="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tiet_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/audiowide"
-            android:hint="@android:string/search_go"
-            android:textSize="24sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/btn_search_sf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginTop="8dp"
         android:background="@color/background_beige"
         android:src="@drawable/ic_baseline_search_54_grey"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/til_search"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="613dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/a_c_t_v_search">
+
+        <ListView
+            android:id="@+id/lv_phones"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:divider="@color/background_beige"
+            android:dividerHeight="8dp"
+            android:focusable="true"
+            android:gravity="top"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent" />
+    </FrameLayout>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

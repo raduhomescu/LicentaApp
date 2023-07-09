@@ -12,24 +12,30 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.licentaapp.R;
 import com.example.licentaapp.utils.Phone;
 import com.example.licentaapp.utils.PhoneAdapter;
+import com.example.licentaapp.utils.SpecAdapter;
 import com.example.licentaapp.utils.User;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SearchFragment extends Fragment implements PhoneAdapter.OnFavoriteButtonClickListener {
     private ArrayList<Phone> phonesList = new ArrayList<>();
     private ArrayList<Phone> filteredPhoneList = new ArrayList<>();
+    private ArrayList<Phone> filteredPhoneList2 = new ArrayList<>();
     private ListView lvPhones;
     private ImageButton imageButton;
     private User user;
-    private TextInputEditText tietSearch;
+    private AutoCompleteTextView aCTVSearch;
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -67,35 +73,45 @@ public class SearchFragment extends Fragment implements PhoneAdapter.OnFavoriteB
         PhoneAdapter adapter = new PhoneAdapter(view.getContext().getApplicationContext(),R.layout.lv_row_item, filteredPhoneList, getLayoutInflater(), user, getActivity());
         adapter.setOnFavoriteButtonClickListener(this);
         lvPhones.setAdapter(adapter);
-        tietSearch = view.findViewById(R.id.tiet_search);
-        tietSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Do nothing
+       //tietSearch = view.findViewById(R.id.tiet_search);
+        aCTVSearch = view.findViewById(R.id.a_c_t_v_search);
+        ArrayList<String> suggestions = new ArrayList<>();
+        for (Phone phone : phonesList) {
+            if (phone.getBrand().equals("Apple")) {
+                if(!suggestions.contains(phone.getModel())) {
+                    suggestions.add(phone.getModel());
+                }
+            } else {
+                if(!suggestions.contains(phone.getBrand() + " " + phone.getModel())) {
+                    suggestions.add(phone.getBrand() + " " + phone.getModel());
+                }
             }
+        }
 
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getContext().getApplicationContext(), R.layout.lw_row_item_specs, R.id.row_item_specs_tv_titlu, suggestions);
+        aCTVSearch.setAdapter(adapter1);
+        aCTVSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Filter the allPhones list based on the search query
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 filteredPhoneList.clear();
-                for (Phone phone : phonesList) {
-                    if (phone.getBrand().toLowerCase().toLowerCase().contains(s.toString()) ||
-                        phone.getModel().toLowerCase().contains(s.toString().toLowerCase()) ||
-                        s.toString().toLowerCase().contains(phone.getPlatform().toLowerCase()) ||
-                        s.toString().toLowerCase().contains(String.valueOf(phone.getRam()).toLowerCase()) ||
-                        s.toString().toLowerCase().contains(String.valueOf(phone.getStorages()).toLowerCase())
-                    ) {
-                        filteredPhoneList.add(phone);
+                filteredPhoneList2.clear();
+                for(Phone phone : phonesList) {
+                    if (phone.getBrand().equals("Apple")) {
+                        if (aCTVSearch.getText().toString().equals(phone.getModel())) {
+                            filteredPhoneList.add(phone);
+                        } else if (phone.getModel().contains(aCTVSearch.getText().toString().split("\\s+", 2)[0])){
+                            filteredPhoneList2.add(phone);
+                        }
+                    } else {
+                        if(aCTVSearch.getText().toString().equals(phone.getBrand() + " " + phone.getModel())) {
+                            filteredPhoneList.add(phone);
+                        } else if (phone.getBrand().equals(aCTVSearch.getText().toString().split("\\s+", 2)[0])){
+                            filteredPhoneList2.add(phone);
+                        }
                     }
                 }
-
-                // Update the adapter with the filtered list
+                filteredPhoneList.addAll(filteredPhoneList2);
                 adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // Do nothing
             }
         });
 

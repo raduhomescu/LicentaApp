@@ -20,7 +20,6 @@ import com.example.licentaapp.fragments.FavouritesFragment;
 import com.example.licentaapp.fragments.HomeFragment;
 import com.example.licentaapp.fragments.ProfileFragment;
 import com.example.licentaapp.fragments.SearchFragment;
-import com.example.licentaapp.fragments.TestFragment;
 import com.example.licentaapp.fragments.quetionnaire.BatteryQ3Fragment;
 import com.example.licentaapp.fragments.quetionnaire.PreferredPhoneQ1Fragment;
 import com.example.licentaapp.fragments.quetionnaire.PriceQ7Fragment;
@@ -45,15 +44,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -78,15 +71,12 @@ public class MainActivity extends AppCompatActivity {
     private Timer timer;
 
     //TODO de verificat valori null prin aplicatie
-    private static final String PHONES_COLLECTION_KEY = "phones";
+    private static final String PHONES_COLLECTION_KEY = "phones_from_flanco";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        for (int i = 0; i < 10; i++) {
-//            loadFromDataBase();
-//        }
         loadFromDataBase();
         initComponents();
     }
@@ -98,49 +88,20 @@ public class MainActivity extends AppCompatActivity {
             progressBarMain2.setVisibility(View.VISIBLE);
             fStore = FirebaseFirestore.getInstance();
             phonesRef = fStore.collection(PHONES_COLLECTION_KEY);
-            phonesRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        phonesRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 Log.d(TAG, "Query complete");
                 if (task.isSuccessful()) {
                     QuerySnapshot querySnapshot = task.getResult();
-                    // iterate over the documents in the query result
                     for (QueryDocumentSnapshot documentSnapshot : querySnapshot) {
                         String documentId = documentSnapshot.getId();
                         Log.d(TAG, "Document Id: " + documentId);
                         documentIds.add(documentId);
                         Phone phone = new Phone();
                         phone.setuId(documentId);
-                        FirebaseStorage storage = FirebaseStorage.getInstance();
-                        StorageReference storageRef = storage.getReference();
-                        StorageReference imageRef = storageRef.child(documentId + ".jpg");
-                        File localFile = null;
-                        try {
-                            localFile = File.createTempFile("images", ".jpg");
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        File finalLocalFile = localFile;
-                        imageRef.getFile(finalLocalFile)
-                                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                    @Override
-                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                        // Set the imageFile attribute of the Phone object to the downloaded file
-                                        phone.setLocalFile(finalLocalFile);
-                                        Log.d(TAG, "Phones map local file " + phone.getLocalFile());
-                                        progressBarMain.setVisibility(View.INVISIBLE);
-                                        // You can now use the Phone object with the downloaded image file
-                                        // ...
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception exception) {
-                                        onFailure(exception);
-                                    }
-                                });
                         progressBarMain.setVisibility(View.VISIBLE);
-                        DocumentReference documentReference = fStore.collection("phones").document(documentId);
+                        DocumentReference documentReference = fStore.collection(PHONES_COLLECTION_KEY).document(documentId);
                         documentReference.get().addOnCompleteListener(task2 -> {
                             if (task2.isSuccessful()) {
                                 DocumentSnapshot documentR = task2.getResult();
@@ -151,36 +112,22 @@ public class MainActivity extends AppCompatActivity {
                                     phone.setRam(Integer.valueOf(documentR.getData().get("RAM").toString()));
                                     phone.setResolution(documentR.getData().get("Resolution").toString());
                                     phone.setBattery(Integer.valueOf(documentR.getData().get("Battery").toString()));
-                                    List<Long> firebaseStorages = (List<Long>) documentR.getData().get("Storage");
-                                    ArrayList<Integer> convertedStorages = new ArrayList<>();
-                                    for (Long firebaseStorage : firebaseStorages) {
-                                        convertedStorages.add(firebaseStorage.intValue());
-                                    }
-                                    phone.setStorages(convertedStorages);
-                                    phone.setColours((ArrayList<String>) documentR.getData().get("Colour"));
                                     phone.setWidth(Double.valueOf(documentR.getData().get("Width").toString()));
-                                    phone.setHeight(Double.valueOf(documentR.getData().get("Height").toString()));
+                                    phone.setHeight(Double.valueOf(documentR.getData().get("height_number").toString()));
                                     phone.setDepth(Double.valueOf(documentR.getData().get("Depth").toString()));
                                     phone.setMass(Double.valueOf(documentR.getData().get("Mass").toString()));
                                     phone.setDualSim(Boolean.getBoolean(documentR.getData().get("Dual Sim").toString()));
                                     phone.setPrimaryCamera(Double.valueOf(documentR.getData().get("Primary Camera").toString()));
                                     phone.setFrontCamera(Double.valueOf(documentR.getData().get("Front Camera").toString()));
-                                    phone.setYear(Integer.valueOf(documentR.getData().get("Year").toString()));
-                                    List<Long> firebasePrices = (List<Long>) documentR.getData().get("Price");
-                                    ArrayList<Double> convertedPrices = new ArrayList<>();
-                                    for (Long firebasePrice : firebasePrices) {
-                                        convertedPrices.add(firebasePrice.doubleValue());
-                                    }
-                                    phone.setPrices(convertedPrices);
                                     phone.setConnector(documentR.getData().get("Connector").toString());
-                                    phone.setLinkAltex(documentR.getData().get("Link Altex").toString());
-                                    phone.setLinkEmag(documentR.getData().get("Link emag").toString());
                                     phone.setLinkFlanco(documentR.getData().get("Link Flanco").toString());
+                                    phone.setPrice(Double.valueOf(documentR.getData().get("Price").toString()));
+                                    phone.setStorage(Integer.valueOf(documentR.getData().get("Storage").toString()));
+                                    phone.setColour(documentR.getData().get("Colour").toString());
+                                    phone.setLink_imagine(documentR.getData().get("Link Imagine").toString());
                                     //TODO de scos stringurile de aici si pus frumos
                                     phonesList.add(phone);
                                     Log.d(TAG, "Phones map: " + phonesList.toString());
-                                    progressBarMain2.setVisibility(View.INVISIBLE);
-                                    // Put the code that needs to be executed after the data is processed here
                                 } else {
                                     Log.d(TAG, "No such document");
                                 }
@@ -188,8 +135,8 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, "Error getting document: ", task2.getException());
                             }
                         });
-
                     }
+                    progressBarMain2.setVisibility(View.INVISIBLE);
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
@@ -208,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
                     user.setPhoneNumber(document.getData().get("phone").toString());
                     Log.d(TAG, "Utilizator: " + document.getData().get("favourites"));
                     if(document.getData().get("favourites") != null) {
-                        //phonesCodes = new ArrayList<String> (Arrays.asList(document.getData().get("favourites").toString().split(",")));
                         phonesCodes = (ArrayList<String>) document.getData().get("favourites");
                         Log.d(TAG, "Coduri main: " + phonesCodes);
                         user.setFavouritePhones(phonesCodes);
@@ -276,6 +222,8 @@ public class MainActivity extends AppCompatActivity {
 
                         case R.id.nav_search:
                             currentFragment = SearchFragment.getInstance(phonesList, user);
+//                            Intent intent = new Intent(MainActivity.this, MapActivity.class);
+//                            startActivity(intent);
                             break;
 
                         case R.id.nav_favorite:

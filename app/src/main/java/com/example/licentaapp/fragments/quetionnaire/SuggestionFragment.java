@@ -27,6 +27,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
@@ -49,14 +50,10 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
     private ListView lvPhones;
     private ArrayList <Phone> phonesList = new ArrayList<>();
     private ArrayList<String> documentIds = new ArrayList<>();
-    ArrayList<String> phonesCodes = new ArrayList<>();
-    String userID;
     ProgressBar progressBarSugg;
-    private static final String PHONES_COLLECTION_KEY = "phones";
+    private static final String PHONES_COLLECTION_KEY = "phones_from_flanco";
     private Button btn_start_over_survey;
-    private String platformValidator = null;
     private static final String FILTER_LIST_ITEM = "new filters";
-    private int validator = 7;
 
     public SuggestionFragment() {
         // Required empty public constructor
@@ -98,27 +95,30 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
         btn_start_over_survey.setVisibility(View.INVISIBLE);
         progressBarSugg = view.findViewById(R.id.progressBar_sugg);
         progressBarSugg.setVisibility(View.VISIBLE);
-
+        String[] parts =filterList.get(7).split("/");
 
         fStore = FirebaseFirestore.getInstance();
         phonesRef = fStore.collection(PHONES_COLLECTION_KEY);
-        phonesRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        Query queryPhones = phonesRef.whereEqualTo("Storage", Integer.valueOf(filterList.get(2)))
+                        .whereGreaterThanOrEqualTo("Price", Integer.valueOf(parts[0]))
+                        .whereLessThanOrEqualTo("Price", Integer.valueOf(parts[1]));
+        //TODO Filtrare cu if pt model
+        //TODO Si clar regandit cu datele merge rpd pe tel
+        //TODO de rezolvat frumos si partea cu maps
+
+        queryPhones.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 Log.d(TAG, "Query complete");
                 if (task.isSuccessful()) {
                     QuerySnapshot querySnapshot = task.getResult();
-                    // iterate over the documents in the query result
                     for (QueryDocumentSnapshot documentSnapshot : querySnapshot) {
                         String documentId = documentSnapshot.getId();
                         Log.d(TAG, "Document Id: " + documentId);
                         documentIds.add(documentId);
                         Phone phone = new Phone();
                         phone.setuId(documentId);
-
-
-                        //progressBarMain.setVisibility(View.VISIBLE);
-                        DocumentReference documentReference = fStore.collection("phones").document(documentId);
+                        DocumentReference documentReference = fStore.collection(PHONES_COLLECTION_KEY).document(documentId);
                         documentReference.get().addOnCompleteListener(task2 -> {
                             if (task2.isSuccessful()) {
                                 DocumentSnapshot documentR = task2.getResult();
@@ -129,112 +129,29 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
                                     phone.setRam(Integer.valueOf(documentR.getData().get("RAM").toString()));
                                     phone.setResolution(documentR.getData().get("Resolution").toString());
                                     phone.setBattery(Integer.valueOf(documentR.getData().get("Battery").toString()));
-                                    List<Long> firebaseStorages = (List<Long>) documentR.getData().get("Storage");
-                                    ArrayList<Integer> convertedStorages = new ArrayList<>();
-                                    for (Long firebaseStorage : firebaseStorages) {
-                                        convertedStorages.add(firebaseStorage.intValue());
-                                    }
-                                    phone.setStorages(convertedStorages);
-                                    phone.setColours((ArrayList<String>) documentR.getData().get("Colour"));
                                     phone.setWidth(Double.valueOf(documentR.getData().get("Width").toString()));
-                                    phone.setHeight(Double.valueOf(documentR.getData().get("Height").toString()));
+                                    phone.setHeight(Double.valueOf(documentR.getData().get("height_number").toString()));
                                     phone.setDepth(Double.valueOf(documentR.getData().get("Depth").toString()));
                                     phone.setMass(Double.valueOf(documentR.getData().get("Mass").toString()));
                                     phone.setDualSim(Boolean.getBoolean(documentR.getData().get("Dual Sim").toString()));
                                     phone.setPrimaryCamera(Double.valueOf(documentR.getData().get("Primary Camera").toString()));
                                     phone.setFrontCamera(Double.valueOf(documentR.getData().get("Front Camera").toString()));
-                                    phone.setYear(Integer.valueOf(documentR.getData().get("Year").toString()));
-                                    List<Long> firebasePrices = (List<Long>) documentR.getData().get("Price");
-                                    ArrayList<Double> convertedPrices = new ArrayList<>();
-                                    for (Long firebasePrice : firebasePrices) {
-                                        convertedPrices.add(firebasePrice.doubleValue());
-                                    }
-                                    phone.setPrices(convertedPrices);
                                     phone.setConnector(documentR.getData().get("Connector").toString());
-                                    phone.setLinkAltex(documentR.getData().get("Link Altex").toString());
-                                    phone.setLinkEmag(documentR.getData().get("Link emag").toString());
                                     phone.setLinkFlanco(documentR.getData().get("Link Flanco").toString());
-                                    Log.d(TAG, "Phones map: " + phonesList.toString());
-                                    FirebaseStorage storage = FirebaseStorage.getInstance();
-                                    StorageReference storageRef = storage.getReference();
-                                    StorageReference imageRef = storageRef.child(documentId + ".jpg");
-                                    File localFile = null;
-                                    try {
-                                        localFile = File.createTempFile("images", ".jpg");
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                                    phone.setPrice(Double.valueOf(documentR.getData().get("Price").toString()));
+                                    phone.setStorage(Integer.valueOf(documentR.getData().get("Storage").toString()));
+                                    phone.setColour(documentR.getData().get("Colour").toString());
+                                    phone.setLink_imagine(documentR.getData().get("Link Imagine").toString());
+                                    //TODO de scos stringurile de aici si pus frumos
+                                    if(filterPhone(phone)) {
+                                        phonesList.add(phone);
                                     }
-                                    File finalLocalFile = localFile;
-                                    imageRef.getFile(localFile)
-                                            .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                                @Override
-                                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                                    // Set the imageFile attribute of the Phone object to the downloaded file
-                                                    phone.setLocalFile(finalLocalFile);
-                                                    Log.d(TAG, "Phones map local file " + phone.getLocalFile());
-                                                    //progressBarMain.setVisibility(View.INVISIBLE);
-                                                    // You can now use the Phone object with the downloaded image file
-                                                    // ...
-                                                    int contor = 0;
-                                                    if(filterList.get(1).equals("Apple")) {
-                                                        platformValidator = "iOS";
-                                                    } else {
-                                                        platformValidator = "Android";
-                                                    }
-                                                    if(phone.getPlatform().equals(platformValidator)) {
-                                                        contor++;
-                                                    }
-                                                    for (int i = 0; i < 3; i++) {
-                                                        if(Integer.valueOf(filterList.get(2)) >= phone.getStorages().get(i)/2 && Integer.valueOf(filterList.get(2)) <= phone.getStorages().get(i)*2) {
-                                                            contor++;
-                                                            break;
-                                                        }
-                                                    }
-                                                    if(Integer.valueOf(filterList.get(3))>= phone.getBattery()-1000 && Integer.valueOf(filterList.get(3))<= phone.getBattery()+1000) {
-                                                        contor++;
-                                                    }
-                                                    if(Integer.valueOf(filterList.get(4)) >= Integer.valueOf(phone.getResolution().substring(0, phone.getResolution().indexOf('x'))) - 720
-                                                            && Integer.valueOf(filterList.get(4)) <= Integer.valueOf(phone.getResolution().substring(0, phone.getResolution().indexOf('x'))) + 720) {
-                                                        contor++;
-                                                    }
-                                                    if(Integer.valueOf(filterList.get(5)) >= phone.getRam()-4 && Integer.valueOf(filterList.get(5)) <= phone.getRam()+4) {
-                                                        contor++;
-                                                    }
-                                                    if(Integer.valueOf(filterList.get(6)) >= phone.getPrimaryCamera()- 20
-                                                            && Integer.valueOf(filterList.get(6)) <= phone.getPrimaryCamera() + 100) {
-                                                        contor++;
-                                                    }
-                                                    String[] parts =filterList.get(7).split("/");
-                                                    for (int i = 0; i < 3; i++) {
-                                                        if(phone.getPrices().get(i)>= Double.valueOf(parts[0]) && phone.getPrices().get(i)<= Double.valueOf(parts[1])) {
-                                                            contor++;
-                                                            break;
-                                                        }
-                                                    }
-
-                                                    if (contor == validator) {
-                                                        phonesList.add(phone);
-                                                        btn_start_over_survey.setVisibility(View.VISIBLE);
-                                                    }//TODO de reanalizat putin conditiile, loading ul
-                                                    if(!phonesList.isEmpty()) {
-                                                        lvPhones.setAdapter(adapter);
-                                                    } else {
-                                                        btn_start_over_survey.setVisibility(View.VISIBLE);
-                                                    }
-                                                    progressBarSugg.setVisibility(View.INVISIBLE);
-
-
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception exception) {
-                                                    onFailure(exception);
-                                                }
-                                            });
-                                    //progressBarMain2.setVisibility(View.INVISIBLE);
-                                    // Put the code that needs to be executed after the data is processed here
-
+                                    if(!phonesList.isEmpty()) {
+                                        lvPhones.setAdapter(adapter);
+                                    } else {
+                                        btn_start_over_survey.setVisibility(View.VISIBLE);
+                                    }
+                                    Log.d(TAG, "Phones map: " + phonesList.toString());
                                 } else {
                                     Log.d(TAG, "No such document");
                                 }
@@ -242,13 +159,16 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
                                 Log.d(TAG, "Error getting document: ", task2.getException());
                             }
                         });
-
                     }
+                    progressBarSugg.setVisibility(View.INVISIBLE);
+                    btn_start_over_survey.setVisibility(View.VISIBLE);
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
             }
         });
+
+
         btn_start_over_survey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -274,5 +194,52 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container_main, fragment)
                 .commit();
+    }
+
+    private boolean filterPhone(Phone phone) {
+        Boolean filterStorage = false;
+        Boolean filterBattery = false;
+        Boolean filterResolution = false;
+        Boolean filterRam = false;
+        Boolean filterCamera = false;
+
+        if(Integer.valueOf(filterList.get(2)) >= phone.getStorage()/2 && Integer.valueOf(filterList.get(2)) <= phone.getStorage()*2) {
+            filterStorage = true;
+        }
+        if(Integer.valueOf(filterList.get(3))>= phone.getBattery()-1000 && Integer.valueOf(filterList.get(3))<= phone.getBattery()+1000) {
+            filterBattery = true;
+        }
+        int resolution1 = Integer.valueOf(phone.getResolution().substring(0, phone.getResolution().indexOf('x')).replaceAll("\\s+", ""));
+        int resolution2 = Integer.valueOf(phone.getResolution().substring(1, phone.getResolution().indexOf('x')).replaceAll("\\s+", ""));
+        if(resolution1 < resolution2) {
+            if (Integer.valueOf(filterList.get(4)) >= resolution1 - 720
+                    && Integer.valueOf(filterList.get(4)) <= resolution1 + 720) {
+                filterResolution = true;
+            }
+        } else {
+            if (Integer.valueOf(filterList.get(4)) >= resolution2 - 720
+                    && Integer.valueOf(filterList.get(4)) <= resolution2 + 720) {
+                filterResolution = true;
+            }
+        }
+        if(Integer.valueOf(filterList.get(5)) >= phone.getRam()-4 && Integer.valueOf(filterList.get(5)) <= phone.getRam()+4) {
+            filterRam = true;
+        }
+        if(filterList.get(6).equals(getString(R.string.irrelevant))) {
+            filterCamera = true;
+        } else if (filterList.get(6).equals(getString(R.string.medium_quality))) {
+            if (phone.getPrimaryCamera() <= 20) {
+                filterCamera = true;
+            }
+        } else if (filterList.get(6).equals(getString(R.string.high_quality))) {
+            if (phone.getPrimaryCamera() >= 20 && phone.getPrimaryCamera() <= 40) {
+                filterCamera = true;
+            }
+        } else if (filterList.get(6).equals(getString(R.string.high_quality))) {
+            if (phone.getPrimaryCamera() >= 40) {
+                filterCamera = true;
+            }
+        }
+        return filterStorage && filterBattery && filterResolution && filterRam && filterCamera;
     }
 }

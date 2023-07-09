@@ -26,7 +26,6 @@ public class FavouritesFragment extends Fragment implements PhoneAdapter.OnFavor
         // Required empty public constructor
     }
 
-    //TODO de verificat problema necolorare inimioara din lista de favorite
     public static FavouritesFragment getInstance(ArrayList<Phone> phonesList, User user) {
         FavouritesFragment fragment = new FavouritesFragment();
         Bundle args = new Bundle();

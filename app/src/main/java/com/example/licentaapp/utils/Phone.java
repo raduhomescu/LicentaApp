@@ -16,8 +16,6 @@ public class Phone implements Parcelable {
     private int ram;
     private String resolution;
     private int battery;
-    private ArrayList<Integer> storages;
-    private ArrayList<String> colours;
     private double width;
     private double height;
     private double depth;
@@ -25,19 +23,20 @@ public class Phone implements Parcelable {
     private boolean dualSim;
     private double primaryCamera;
     private double frontCamera;
-    private int year;
-    private ArrayList<Double> prices;
     private String connector;
-    private String linkAltex;
-    private String linkEmag;
     private String linkFlanco;
     private File localFile;
+    private double price;
+    private int storage;
+    private String colour;
+    private String link_imagine;
 
     public Phone() {}
 
-    public Phone(String uId, String brand, String model, String platform, int ram, String resolution, int battery, ArrayList<Integer> storages,
-                 ArrayList<String> colours, double width, double height, double depth, double mass, boolean dualSim, double primaryCamera,
-                 double frontCamera, int year, ArrayList<Double> prices, String connector, String linkAltex, String linkEmag, String linkFlanco, File localFile) {
+    public Phone(String uId, String brand, String model, String platform, int ram, String resolution, int battery,
+                 double width, double height, double depth, double mass, boolean dualSim, double primaryCamera,
+                 double frontCamera, String connector, String linkFlanco, File localFile, double price, int storage,
+                 String colour, String link_imagine) {
         this.uId = uId;
         this.brand = brand;
         this.model = model;
@@ -45,8 +44,6 @@ public class Phone implements Parcelable {
         this.ram = ram;
         this.resolution = resolution;
         this.battery = battery;
-        this.storages = storages;
-        this.colours = colours;
         this.width = width;
         this.height = height;
         this.depth = depth;
@@ -54,13 +51,13 @@ public class Phone implements Parcelable {
         this.dualSim = dualSim;
         this.primaryCamera = primaryCamera;
         this.frontCamera = frontCamera;
-        this.year = year;
-        this.prices = prices;
         this.connector = connector;
-        this.linkAltex = linkAltex;
-        this.linkEmag = linkEmag;
         this.linkFlanco = linkFlanco;
         this.localFile = localFile;
+        this.price = price;
+        this.storage = storage;
+        this.colour = colour;
+        this.link_imagine = link_imagine;
     }
 
     public static final Creator<Phone> CREATOR = new Creator<Phone>() {
@@ -127,22 +124,6 @@ public class Phone implements Parcelable {
         this.battery = battery;
     }
 
-    public ArrayList<Integer> getStorages() {
-        return storages;
-    }
-
-    public void setStorages(ArrayList<Integer> storages) {
-        this.storages = storages;
-    }
-
-    public ArrayList<String> getColours() {
-        return colours;
-    }
-
-    public void setColours(ArrayList<String> colours) {
-        this.colours = colours;
-    }
-
     public double getWidth() {
         return width;
     }
@@ -199,44 +180,12 @@ public class Phone implements Parcelable {
         this.frontCamera = frontCamera;
     }
 
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public ArrayList<Double> getPrices() {
-        return prices;
-    }
-
-    public void setPrices(ArrayList<Double> prices) {
-        this.prices = prices;
-    }
-
     public String getConnector() {
         return connector;
     }
 
     public void setConnector(String connector) {
         this.connector = connector;
-    }
-
-    public String getLinkAltex() {
-        return linkAltex;
-    }
-
-    public void setLinkAltex(String linkAltex) {
-        this.linkAltex = linkAltex;
-    }
-
-    public String getLinkEmag() {
-        return linkEmag;
-    }
-
-    public void setLinkEmag(String linkEmag) {
-        this.linkEmag = linkEmag;
     }
 
     public String getLinkFlanco() {
@@ -251,6 +200,38 @@ public class Phone implements Parcelable {
 
     public void setLocalFile(File localFile) { this.localFile = localFile; }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getStorage() {
+        return storage;
+    }
+
+    public void setStorage(int storage) {
+        this.storage = storage;
+    }
+
+    public String getColour() {
+        return colour;
+    }
+
+    public void setColour(String colour) {
+        this.colour = colour;
+    }
+
+    public String getLink_imagine() {
+        return link_imagine;
+    }
+
+    public void setLink_imagine(String link_imagine) {
+        this.link_imagine = link_imagine;
+    }
+
     @Override
     public String toString() {
         return "Phone{" +
@@ -261,8 +242,6 @@ public class Phone implements Parcelable {
                 ", ram=" + ram +
                 ", resolution='" + resolution + '\'' +
                 ", battery=" + battery +
-                ", storage=" + storages +
-                ", colour='" + colours + '\'' +
                 ", width=" + width +
                 ", height=" + height +
                 ", depth=" + depth +
@@ -270,9 +249,13 @@ public class Phone implements Parcelable {
                 ", dualSim=" + dualSim +
                 ", primaryCamera=" + primaryCamera +
                 ", frontCamera=" + frontCamera +
-                ", year=" + year +
-                ", price=" + prices +
                 ", connector='" + connector + '\'' +
+                ", linkFlanco='" + linkFlanco + '\'' +
+                ", localFile=" + localFile +
+                ", price=" + price +
+                ", storage=" + storage +
+                ", colour='" + colour + '\'' +
+                ", link_imagine='" + link_imagine + '\'' +
                 '}';
     }
 
@@ -284,10 +267,6 @@ public class Phone implements Parcelable {
         ram = in.readInt();
         resolution = in.readString();
         battery = in.readInt();
-        storages = new ArrayList<>();
-        storages = in.readArrayList(Integer.class.getClassLoader());
-        colours = new ArrayList<>();
-        colours = in.readArrayList(String.class.getClassLoader());
         width = in.readDouble();
         height = in.readDouble();
         depth = in.readDouble();
@@ -295,13 +274,13 @@ public class Phone implements Parcelable {
         dualSim = in.readByte() != 0;
         primaryCamera = in.readDouble();
         frontCamera = in.readDouble();
-        year = in.readInt();
-        prices = new ArrayList<>();
-        prices = in.readArrayList(Double.class.getClassLoader());
         connector = in.readString();
-        linkAltex = in.readString();
-        linkEmag = in.readString();
         linkFlanco = in.readString();
+        price = in.readDouble();
+        storage = in.readInt();
+        colour = in.readString();
+        link_imagine = in.readString();
+
     }
     @Override
     public int describeContents() {
@@ -317,8 +296,6 @@ public class Phone implements Parcelable {
         dest.writeInt(ram);
         dest.writeString(resolution);
         dest.writeInt(battery);
-        dest.writeList(storages);
-        dest.writeList(colours);
         dest.writeDouble(width);
         dest.writeDouble(height);
         dest.writeDouble(depth);
@@ -326,11 +303,11 @@ public class Phone implements Parcelable {
         dest.writeByte((byte) (dualSim ? 1 : 0));
         dest.writeDouble(primaryCamera);
         dest.writeDouble(frontCamera);
-        dest.writeInt(year);
-        dest.writeList(prices);
         dest.writeString(connector);
-        dest.writeString(linkAltex);
-        dest.writeString(linkEmag);
         dest.writeString(linkFlanco);
+        dest.writeDouble(price);
+        dest.writeInt(storage);
+        dest.writeString(colour);
+        dest.writeString(link_imagine);
     }
 }
