@@ -20,18 +20,20 @@ import java.util.ArrayList;
 
 public class FavouritesFragment extends Fragment implements PhoneAdapter.OnFavoriteButtonClickListener{
     private ArrayList<Phone> phonesList = new ArrayList<>();
+    private ArrayList<Phone> comparePhonesList = new ArrayList<>();
     private ListView lvPhones;
     private User user;
     public FavouritesFragment() {
         // Required empty public constructor
     }
 
-    public static FavouritesFragment getInstance(ArrayList<Phone> phonesList, User user) {
+    public static FavouritesFragment getInstance(ArrayList<Phone> phonesList, User user, ArrayList<Phone> comparePhonesList) {
         FavouritesFragment fragment = new FavouritesFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList("Phone List Key", phonesList);
         args.putParcelable("User key", user);
         fragment.setArguments(args);
+        args.putParcelableArrayList("compare phone list key", comparePhonesList);
         return fragment;
     }
 
@@ -41,6 +43,7 @@ public class FavouritesFragment extends Fragment implements PhoneAdapter.OnFavor
         if (getArguments() != null) {
             phonesList= getArguments().getParcelableArrayList("Phone List Key");
             user= getArguments().getParcelable("User key");
+            comparePhonesList= getArguments().getParcelableArrayList("compare phone list key");
             Log.d("user favorite: ", user.toString());
         }
     }
@@ -62,7 +65,7 @@ public class FavouritesFragment extends Fragment implements PhoneAdapter.OnFavor
                 filteredList.add(phone);
             }
         }
-        PhoneAdapter adapter = new PhoneAdapter(view.getContext().getApplicationContext(),R.layout.lv_row_item, filteredList, getLayoutInflater(), user, getActivity());
+        PhoneAdapter adapter = new PhoneAdapter(view.getContext().getApplicationContext(),R.layout.lv_row_item, filteredList, getLayoutInflater(), user, getActivity(), comparePhonesList);
         adapter.setOnFavoriteButtonClickListener(this);
         lvPhones.setAdapter(adapter);
     }

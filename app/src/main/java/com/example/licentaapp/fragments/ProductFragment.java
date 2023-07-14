@@ -34,15 +34,19 @@ public class ProductFragment extends Fragment {
     public static final String PHONE_KEY = "Phone key";
     private ListView listView;
     private ArrayList<String> phoneSpecs = new ArrayList<>();
+    private ArrayList<Phone> comparePhonesList = new ArrayList<>();
     private ImageButton btnMapsFlanco;
+    private Button addToCompare;
+
     public ProductFragment() {
         // Required empty public constructor
     }
 
-    public static ProductFragment getInstance(Phone phone) {
+    public static ProductFragment getInstance(Phone phone, ArrayList<Phone> comparePhonesList) {
         ProductFragment fragment = new ProductFragment();
         Bundle args = new Bundle();
         args.putParcelable(PHONE_KEY, phone);
+        args.putParcelableArrayList("lista key", comparePhonesList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,6 +56,7 @@ public class ProductFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             phone= getArguments().getParcelable("Phone key");
+            comparePhonesList = getArguments().getParcelableArrayList("lista key");
         }
     }
 
@@ -72,6 +77,7 @@ public class ProductFragment extends Fragment {
         prodPageBtnShowSpecs = view.findViewById(R.id.prod_frag_btn_show_specs);
         prodPageBtnSiteBuy = view.findViewById(R.id.prod_frag_btn_send_to_buy);
         btnMapsFlanco = view.findViewById(R.id.btn_maps_flanco);
+        addToCompare = view.findViewById(R.id.btn_send_to_compare);
 
         listView = view.findViewById(R.id.prod_frag_list_view);
         SpecAdapter adapter = new SpecAdapter(view.getContext().getApplicationContext(), R.layout.lw_row_item_specs, phoneSpecs, getLayoutInflater());
@@ -108,6 +114,18 @@ public class ProductFragment extends Fragment {
                 openFragment(currentFragment);
             }
         });
+
+        addToCompare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (comparePhonesList.size() < 2) {
+                    comparePhonesList.add(phone);
+                    Toast.makeText(view.getContext(), "Phone added to compare.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(view.getContext(), "You have reached the limit, please remove a phone.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void addPhoneSpecs(Phone phone, View view) {
@@ -127,8 +145,6 @@ public class ProductFragment extends Fragment {
         phoneSpecs.add(view.getContext().getString(R.string.spec_primary_camera, String.valueOf(phone.getPrimaryCamera())));
         phoneSpecs.add(view.getContext().getString(R.string.spec_front_camera, String.valueOf(phone.getFrontCamera())));
         phoneSpecs.add(view.getContext().getString(R.string.spec_connector, phone.getConnector()));
-
-
     }
 
     private void openFragment(Fragment fragment){

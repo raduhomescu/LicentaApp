@@ -51,15 +51,15 @@
         android:id="@+id/prod_frag_btn_show_specs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="@string/show_specs"
+        android:layout_marginTop="24dp"
         android:background="@drawable/rounded_corner"
         android:fontFamily="@font/audiowide"
+        android:text="@string/show_specs"
         android:textColor="@android:color/secondary_text_light"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/prod_frag_btn_send_to_buy" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_send_to_compare" />
 
     <ListView
         android:id="@+id/prod_frag_list_view"
@@ -100,6 +100,20 @@
         app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toEndOf="@+id/prod_frag_btn_send_to_buy"
         app:layout_constraintTop_toBottomOf="@+id/prod_frag_price" />
+
+    <Button
+        android:id="@+id/btn_send_to_compare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/compare"
+        android:background="@drawable/rounded_corner"
+        android:fontFamily="@font/audiowide"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/prod_frag_btn_send_to_buy" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

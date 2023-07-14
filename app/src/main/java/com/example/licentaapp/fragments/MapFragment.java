@@ -54,7 +54,9 @@ public class MapFragment extends Fragment {
     double currentLat = 0;
     double currentLong = 0;
     private String next_page_key = "Aaw_FcI2do1pLpTisjUXJy2YbxLXwyFW6k9X-cb0BO9S5sPRP1zX-HLcZoTGOJZaAQ5mfABAWNSXOp83PZxeWuSKTFx5Ro3SY_S5GDcO-GaTzF-FwB4mD-hMfnfFGmdFJcO3JivpvbAghP7yopMyl0kZuU4cdoRGm8KUhvL8r7SxnVV3O2JSDuoDQXNaWpCZbMDWgVOMrErDfAgNqsmMLub8qSOOIvXEz6YpG6MY2pOgU-qCL2PyJ2N4Y_zQDEXBNdqJVIwer4caf26ghf2WaJveG-MbGm2PuYZH5T6RDy5C3cQEVzZTpwbhxAn1d6wA_pDFw_CUCnqksVWW7AEe3qEEawwDPSEe-Mkj0lAZXSO_s12JzKsJoWyd_7uk9km0MvPn761dJKokAuWXzZ7LtK4iUmPAxw7stkXAwp233iUAO_1uu3zEQoLibZd7jvMjQyVrsXNp6A";
-
+    private String nextPageToken = "";
+    List<HashMap<String, String>> mapList = new ArrayList<>();
+    List<HashMap<String, String>> filteredList = new ArrayList<>();
     public MapFragment() {
         // Required empty public constructor
     }
@@ -105,8 +107,8 @@ public class MapFragment extends Fragment {
                 @Override
                 public void onSuccess(Location location) {
                     if (location != null) {
-                        currentLat = 44.4490628;
-                        currentLong = 26.1253156;
+                        currentLat = location.getLatitude();
+                        currentLong = location.getLongitude();
 
                         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
                             @Override
@@ -119,9 +121,9 @@ public class MapFragment extends Fragment {
                             }
                         });
                         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" + "?location=" +
-                                currentLat + "," + currentLong + "&radius=5000" + "&type=" +
+                                currentLat + "," + currentLong + "&radius=15000" + "&type=" +
                                 placeTypeList + "&sensor=true" + "&key=" + getResources().getString(R.string.google_map_key) +
-                                "&next_page_token=" + next_page_key;
+                                "&next_page_token=" + nextPageToken;
                         Log.d("link locatie", url);
 
                         new PlaceTask().execute(url);
@@ -141,7 +143,11 @@ public class MapFragment extends Fragment {
             String data = null;
             try {
                 data = downloadUrl(strings[0]);
-            } catch (IOException e) {
+                JSONObject object = new JSONObject(data);
+                if (object.has("next_page_token")) {
+                    nextPageToken = object.optString("next_page_token", "");
+                }
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
             return data;
@@ -174,31 +180,47 @@ public class MapFragment extends Fragment {
         @Override
         protected List<HashMap<String, String>> doInBackground(String... strings) {
             JsonParser jsonParser = new JsonParser();
-            List<HashMap<String, String>> mapList = null;
-            List<HashMap<String, String>> filteredList = new ArrayList<>();
             JSONObject object = null;
             try {
                 object = new JSONObject(strings[0]);
-                String nextPageToken = object.getString("next_page_token");
+                if (object.has("next_page_token")) {
+                    nextPageToken = object.getString("next_page_token");
+                }
                 Log.d("token pt next page", nextPageToken);
                 mapList = jsonParser.parseResult(object);
-                for (HashMap<String, String> map : mapList) {
-                    if (map.get("name").contains(shopName) || map.get("name").contains(shopNameSecond) || map.get("name").contains(shopNameFirst)) {
-                        filteredList.add(map);
-                    }
-                }
+                while (!nextPageToken.isEmpty()) {
+                    loadNextPage(nextPageToken);
+                    Thread.sleep(2000); // Delay for 2 seconds between subsequent page requests
+
+                    // Fetch results for the current page
+                    String resultUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
+                            "?sensor=true" +
+                            "&key=" + getResources().getString(R.string.google_map_key) +
+                            "&pagetoken=" + nextPageToken+
+                            "&radius=" + 15000;
+                    Log.d("link locatie", resultUrl);
+                    String resultData = downloadUrl(resultUrl);
+                    JSONObject resultObject = new JSONObject(resultData);
+                    nextPageToken = resultObject.optString("next_page_token", "");
+                    List<HashMap<String, String>> resultMapList = jsonParser.parseResult(resultObject);
+                    mapList.addAll(resultMapList);
                 Log.d("obiect din json", mapList.toString());
                 Log.d("obiect din json", filteredList.toString());
-            } catch (JSONException e) {
+                }
+            } catch (JSONException | InterruptedException | IOException e) {
                 e.printStackTrace();
             }
-
+            for (HashMap<String, String> map : mapList) {
+                if (map.get("name").contains(shopName) || map.get("name").contains(shopNameSecond) || map.get("name").contains(shopNameFirst)) {
+                    filteredList.add(map);
+                }
+            }
             return filteredList;
         }
 
         @Override
         protected void onPostExecute(List<HashMap<String, String>> hashMaps) {
-            map.clear();
+            //map.clear();
             for (int i = 0; i < hashMaps.size(); i++) {
                 HashMap<String,String> hashMapList = hashMaps.get(i);
                 double lat = Double.parseDouble(hashMapList.get("lat"));
@@ -211,5 +233,14 @@ public class MapFragment extends Fragment {
                 map.addMarker(options);
             }
         }
+    }
+    private void loadNextPage(String nextPageToken) {
+        String nextUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
+                "?sensor=true" +
+                "&key=" + getResources().getString(R.string.google_map_key) +
+                "&pagetoken=" + nextPageToken +
+                "&radius=" + 10000;
+
+        new PlaceTask().execute(nextUrl);
     }
 }

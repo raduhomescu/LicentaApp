@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.licentaapp.R;
+import com.example.licentaapp.utils.Phone;
 import com.example.licentaapp.utils.User;
 
 import java.util.ArrayList;
@@ -34,16 +35,18 @@ public class ResolutionQ4Fragment extends Fragment {
     private static final String VAL_FHD = "1080";
     private static final String VAL_QHD = "1440";
     private static final String VAL_4K = "2160";
+    private ArrayList<Phone> comparePhones = new ArrayList<>();
 
     public ResolutionQ4Fragment() {
         // Required empty public constructor
     }
 
-    public static ResolutionQ4Fragment newInstance(ArrayList<String> filterList, User user) {
+    public static ResolutionQ4Fragment newInstance(ArrayList<String> filterList, User user, ArrayList<Phone> comparePhonesList) {
         ResolutionQ4Fragment fragment = new ResolutionQ4Fragment();
         Bundle args = new Bundle();
         args.putStringArrayList(FILTER_LIST_KEY,filterList);
         args.putParcelable(USER_KEY, user);
+        args.putParcelableArrayList("compare phones", comparePhonesList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,6 +57,7 @@ public class ResolutionQ4Fragment extends Fragment {
         if (getArguments() != null) {
             filterList = getArguments().getStringArrayList(FILTER_LIST_KEY);
             user = getArguments().getParcelable(USER_KEY);
+            comparePhones = getArguments().getParcelableArrayList("compare phones");
         }
     }
 
@@ -97,7 +101,7 @@ public class ResolutionQ4Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(VAL_HD);
-                currentFragment = RamQ5Fragment.newInstance(filterList, user);
+                currentFragment = RamQ5Fragment.newInstance(filterList, user, comparePhones);
                 openFragment(currentFragment);
             }
         });
@@ -105,7 +109,7 @@ public class ResolutionQ4Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(VAL_FHD);
-                currentFragment = RamQ5Fragment.newInstance(filterList, user);
+                currentFragment = RamQ5Fragment.newInstance(filterList, user, comparePhones);
                 openFragment(currentFragment);
             }
         });
@@ -113,7 +117,7 @@ public class ResolutionQ4Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(VAL_QHD);
-                currentFragment = RamQ5Fragment.newInstance(filterList, user);
+                currentFragment = RamQ5Fragment.newInstance(filterList, user, comparePhones);
                 openFragment(currentFragment);
             }
         });
@@ -121,7 +125,7 @@ public class ResolutionQ4Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(VAL_4K);
-                currentFragment = RamQ5Fragment.newInstance(filterList, user);
+                currentFragment = RamQ5Fragment.newInstance(filterList, user, comparePhones);
                 openFragment(currentFragment);
             }
         });

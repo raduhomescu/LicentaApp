@@ -29,12 +29,13 @@ public class PhoneAdapter extends ArrayAdapter<Phone> {
     private Context context;
     private int resource;
     private ArrayList<Phone> phones;
+    private ArrayList<Phone> comparePhonesList;
     private LayoutInflater inflater;
     private OnFavoriteButtonClickListener mListener;
     private User user;
     private FragmentActivity activity;
 
-    public PhoneAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Phone> objects, LayoutInflater inflater, User user, FragmentActivity activity) {
+    public PhoneAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Phone> objects, LayoutInflater inflater, User user, FragmentActivity activity, ArrayList<Phone> comparePhonesList) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
@@ -42,6 +43,7 @@ public class PhoneAdapter extends ArrayAdapter<Phone> {
         this.inflater = inflater;
         this.user = user;
         this.activity = activity;
+        this.comparePhonesList = comparePhonesList;
     }
 
     public void setOnFavoriteButtonClickListener(OnFavoriteButtonClickListener listener) {
@@ -103,7 +105,7 @@ public class PhoneAdapter extends ArrayAdapter<Phone> {
             public void onClick(View v) {
                 Log.d("ino click adapter", "merge");
                 activity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container_main, ProductFragment.getInstance(phone))
+                        .replace(R.id.fragment_container_main, ProductFragment.getInstance(phone, comparePhonesList))
                         .addToBackStack(null)
                         .commit();
             }

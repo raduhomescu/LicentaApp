@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.licentaapp.R;
+import com.example.licentaapp.utils.Phone;
 import com.example.licentaapp.utils.User;
 
 import java.util.ArrayList;
@@ -35,16 +36,18 @@ public class RamQ5Fragment extends Fragment {
     private static final String VAL_6 = "6";
     private static final String VAL_8 = "8";
     private static final String VAL_12 = "12";
+    private ArrayList<Phone> comparePhones = new ArrayList<>();
 
     public RamQ5Fragment() {
         // Required empty public constructor
     }
 
-    public static RamQ5Fragment newInstance(ArrayList<String> filterList, User user) {
+    public static RamQ5Fragment newInstance(ArrayList<String> filterList, User user, ArrayList<Phone> comparePhonesList) {
         RamQ5Fragment fragment = new RamQ5Fragment();
         Bundle args = new Bundle();
         args.putStringArrayList(FILTER_LIST_KEY,filterList);
         args.putParcelable(USER_KEY, user);
+        args.putParcelableArrayList("compare phones", comparePhonesList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,6 +58,7 @@ public class RamQ5Fragment extends Fragment {
         if (getArguments() != null) {
             filterList = getArguments().getStringArrayList(FILTER_LIST_KEY);
             user = getArguments().getParcelable(USER_KEY);
+            comparePhones = getArguments().getParcelableArrayList("compare phones");
         }
     }
 
@@ -99,7 +103,7 @@ public class RamQ5Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(VAL_4);
-                currentFragment = PrimaryCameraQ6Fragment.newInstance(filterList, user);
+                currentFragment = PrimaryCameraQ6Fragment.newInstance(filterList, user, comparePhones);
                 openFragment(currentFragment);
             }
         });
@@ -108,7 +112,7 @@ public class RamQ5Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(VAL_6);
-                currentFragment = PrimaryCameraQ6Fragment.newInstance(filterList, user);
+                currentFragment = PrimaryCameraQ6Fragment.newInstance(filterList, user, comparePhones);
                 openFragment(currentFragment);
             }
         });
@@ -116,7 +120,7 @@ public class RamQ5Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(VAL_8);
-                currentFragment = PrimaryCameraQ6Fragment.newInstance(filterList, user);
+                currentFragment = PrimaryCameraQ6Fragment.newInstance(filterList, user, comparePhones);
                 openFragment(currentFragment);
             }
         });
@@ -125,7 +129,7 @@ public class RamQ5Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(VAL_12);
-                currentFragment = PrimaryCameraQ6Fragment.newInstance(filterList, user);
+                currentFragment = PrimaryCameraQ6Fragment.newInstance(filterList, user, comparePhones);
                 openFragment(currentFragment);
             }
         });

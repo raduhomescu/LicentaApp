@@ -49,6 +49,7 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
     CollectionReference phonesRef;
     private ListView lvPhones;
     private ArrayList <Phone> phonesList = new ArrayList<>();
+    private ArrayList <Phone> comparePhonesList = new ArrayList<>();
     private ArrayList<String> documentIds = new ArrayList<>();
     ProgressBar progressBarSugg;
     private static final String PHONES_COLLECTION_KEY = "phones_from_flanco";
@@ -59,11 +60,12 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
         // Required empty public constructor
     }
 
-    public static SuggestionFragment newInstance(ArrayList<String> filterList, User user) {
+    public static SuggestionFragment newInstance(ArrayList<String> filterList, User user, ArrayList<Phone> comparePhonesList) {
         SuggestionFragment fragment = new SuggestionFragment();
         Bundle args = new Bundle();
         args.putStringArrayList(FILTER_LIST_KEY,filterList);
         args.putParcelable(USER_KEY, user);
+        args.putParcelableArrayList("compare phones", comparePhonesList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,6 +76,7 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
         if (getArguments() != null) {
             filterList = getArguments().getStringArrayList(FILTER_LIST_KEY);
             user = getArguments().getParcelable(USER_KEY);
+            comparePhonesList = getArguments().getParcelableArrayList("compare phones");
         }
     }
 
@@ -89,7 +92,7 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
     private void initComponents(View view) {
         lvPhones = view.findViewById(R.id.lv_suggestion_fragment);
         phonesList.clear();
-        PhoneAdapter adapter = new PhoneAdapter(view.getContext().getApplicationContext(),R.layout.lv_row_item, phonesList, getLayoutInflater(), user, getActivity());
+        PhoneAdapter adapter = new PhoneAdapter(view.getContext().getApplicationContext(),R.layout.lv_row_item, phonesList, getLayoutInflater(), user, getActivity(), comparePhonesList);
         adapter.setOnFavoriteButtonClickListener(this);
         btn_start_over_survey = view.findViewById(R.id.btn_start_over_survey);
         btn_start_over_survey.setVisibility(View.INVISIBLE);
@@ -168,13 +171,12 @@ public class SuggestionFragment extends Fragment implements PhoneAdapter.OnFavor
             }
         });
 
-
         btn_start_over_survey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 filterList.clear();
                 filterList.add(FILTER_LIST_ITEM);
-                currentFragment = PreferredPhoneQ1Fragment.newInstance(filterList, user);
+                currentFragment = PreferredPhoneQ1Fragment.newInstance(filterList, user, comparePhonesList);
                 openFragment(currentFragment);
             }
         });

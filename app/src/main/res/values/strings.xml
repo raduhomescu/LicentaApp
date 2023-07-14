@@ -108,5 +108,21 @@
     <string name="medium_quality">medium quality</string>
     <string name="high_quality">high quality</string>
     <string name="professional">professional</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="compare">Compare</string>
+    <string name="spec_1">Spec 1</string>
+    <string name="spec_2">Spec 2</string>
+    <string name="spec_3">Spec 3</string>
+    <string name="spec_4">Spec 4</string>
+    <string name="spec_5">Spec 5</string>
+    <string name="spec_6">Spec 6</string>
+    <string name="spec_7">Spec 7</string>
+    <string name="spec_8">Spec 8</string>
+    <string name="spec_9">Spec 9</string>
+    <string name="spec_10">Spec 10</string>
+    <string name="spec_11">Spec 11</string>
+    <string name="spec_12">Spec 12</string>
+    <string name="delete">Delete</string>
 
 </resources>

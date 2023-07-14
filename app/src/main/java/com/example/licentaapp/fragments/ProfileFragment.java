@@ -3,6 +3,7 @@ package com.example.licentaapp.fragments;
 import static android.content.ContentValues.TAG;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -52,6 +54,8 @@ public class ProfileFragment extends Fragment {
     FirebaseFirestore fStore;
     String userID;
     private User user;
+    private Button btnDialogEditData;
+    private AlertDialog dialog;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -85,6 +89,7 @@ public class ProfileFragment extends Fragment {
             tvFullName = view.findViewById(R.id.tv_profile_name);
             tvEmail = view.findViewById(R.id.tv_profile_email);
             tvPhoneNumber = view.findViewById(R.id.tv_profile_phone);
+            btnDialogEditData = view.findViewById(R.id.btn_edit_date);
 
             fAuth = FirebaseAuth.getInstance();
             fStore = FirebaseFirestore.getInstance();
@@ -137,6 +142,60 @@ public class ProfileFragment extends Fragment {
                     startActivity(new Intent(view.getContext().getApplicationContext(), MainActivity.class));
                 }
             });
+
+            btnDialogEditData.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    View dialogEditLayout = getLayoutInflater().inflate(R.layout.edit_account_data_dialog_layout, null);
+                    builder.setView(dialogEditLayout);
+                    TextInputEditText tietName = dialogEditLayout.findViewById(R.id.tiet_name_dialog_edit);
+                    tietName.setText(tvFullName.getText());
+                    TextInputEditText tietPhone = dialogEditLayout.findViewById(R.id.tiet_phone_dialog_edit);
+                    tietPhone.setText(tvPhoneNumber.getText());
+                    Button saveBtn = dialogEditLayout.findViewById(R.id.btn_save_dialog_edit);
+                    saveBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (TextUtils.isEmpty(tietName.getText().toString())) {
+                                tietName.setError("Full name is required.");
+                                return;
+                            }
+                            if (TextUtils.isEmpty(tietPhone.getText().toString())) {
+                                tietPhone.setError("Phone Number is required.");
+                                return;
+                            }
+                            if(tietPhone.getText().toString().length() != 10){
+                                tietPhone.setError("Phone Number must be romanian type.");
+                                return;
+                            }
+                            tvFullName.setText(tietName.getText());
+                            tvPhoneNumber.setText(tietPhone.getText());
+
+                            DocumentReference documentReference = fStore.collection("clients").document(userID);
+                            Map<String, Object> user= new HashMap<>();
+                            user.put("email", tvEmail.getText().toString());
+                            user.put("fName", tietName.getText().toString());
+                            user.put("phone", tietPhone.getText().toString());
+                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Log.d(TAG, "onSuccess: user Profile is created for "+ userID);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d(TAG, "onFailure: " + e.toString());
+                                }
+                            });
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog = builder.create();
+                    dialog.show();
+                }
+            });
+
         }
     }
 }

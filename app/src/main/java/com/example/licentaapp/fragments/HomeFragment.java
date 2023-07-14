@@ -31,16 +31,18 @@ public class HomeFragment extends Fragment {
     public static final String USER_KEY = "User key";
     private User user;
     private static final String FILTER_LIST_ITEM = "new filters";
+    private ArrayList<Phone> comparePhones = new ArrayList<>();
     public HomeFragment() {
         // Required empty public constructor
     }
 
-    public static HomeFragment getInstance(ArrayList<Phone> phones, ArrayList<String> filterList, User user) {
+    public static HomeFragment getInstance(ArrayList<Phone> phones, ArrayList<String> filterList, User user, ArrayList<Phone> comparePhonesList) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList("phones", phones);
         args.putStringArrayList(FILTER_LIST_KEY,filterList);
         args.putParcelable(USER_KEY, user);
+        args.putParcelableArrayList("compare phones", comparePhonesList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,6 +54,7 @@ public class HomeFragment extends Fragment {
             phones = getArguments().getParcelableArrayList("phones");
             filterList = getArguments().getStringArrayList(FILTER_LIST_KEY);
             user = getArguments().getParcelable(USER_KEY);
+            comparePhones = getArguments().getParcelableArrayList("compare phones");
             Log.d("Phones list in home: ", phones.toString());
         }
     }
@@ -72,10 +75,12 @@ public class HomeFragment extends Fragment {
                     filterList.add(FILTER_LIST_ITEM);
                     Log.d("home fragment listtt: ", filterList.toString());
                     getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container_main, PreferredPhoneQ1Fragment.newInstance(filterList, user))
+                            .replace(R.id.fragment_container_main, PreferredPhoneQ1Fragment.newInstance(filterList, user, comparePhones))
                             .commit();
                 }
             });
+
+
         }
     }
 }

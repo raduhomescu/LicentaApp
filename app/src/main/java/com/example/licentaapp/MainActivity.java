@@ -9,13 +9,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.licentaapp.fragments.AccountFragment;
+import com.example.licentaapp.fragments.CompareFragment;
 import com.example.licentaapp.fragments.FavouritesFragment;
 import com.example.licentaapp.fragments.HomeFragment;
 import com.example.licentaapp.fragments.ProfileFragment;
@@ -69,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> filterList = new ArrayList<>();
     private boolean shouldExitApp = false;
     private Timer timer;
+    private ArrayList<Phone> comparePhonesList = new ArrayList<>();
 
     //TODO de verificat valori null prin aplicatie
     private static final String PHONES_COLLECTION_KEY = "phones_from_flanco";
@@ -116,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                                     phone.setHeight(Double.valueOf(documentR.getData().get("height_number").toString()));
                                     phone.setDepth(Double.valueOf(documentR.getData().get("Depth").toString()));
                                     phone.setMass(Double.valueOf(documentR.getData().get("Mass").toString()));
-                                    phone.setDualSim(Boolean.getBoolean(documentR.getData().get("Dual Sim").toString()));
+                                    phone.setDualSim((Boolean) (documentR.getData().get("Dual Sim")));
                                     phone.setPrimaryCamera(Double.valueOf(documentR.getData().get("Primary Camera").toString()));
                                     phone.setFrontCamera(Double.valueOf(documentR.getData().get("Front Camera").toString()));
                                     phone.setConnector(documentR.getData().get("Connector").toString());
@@ -176,11 +184,12 @@ public class MainActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.search_gadget_30dp);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        // Before setContentView()
+
+
         MapsInitializer.initialize(getApplicationContext());
         bottomNavigationView=findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
-        currentFragment=HomeFragment.getInstance(phonesList, filterList, user);
+        currentFragment=HomeFragment.getInstance(phonesList, filterList, user, comparePhonesList);
         openFragment(currentFragment);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
         @Override
@@ -189,24 +198,24 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.nav_home:
                             if(filterList.size() == 0) {
                                 Log.d("main listtt: ", filterList.toString());
-                                currentFragment = HomeFragment.getInstance(phonesList, filterList, user);
+                                currentFragment = HomeFragment.getInstance(phonesList, filterList, user, comparePhonesList);
                             } else if (filterList.size() == 1) {
                                 Log.d("main listtt: ", filterList.toString());
-                                currentFragment = PreferredPhoneQ1Fragment.newInstance(filterList, user);
+                                currentFragment = PreferredPhoneQ1Fragment.newInstance(filterList, user, comparePhonesList);
                             } else if (filterList.size() == 2) {
-                                currentFragment = StorageQ2Fragment.newInstance(filterList, user);
+                                currentFragment = StorageQ2Fragment.newInstance(filterList, user, comparePhonesList);
                             } else if (filterList.size() == 3) {
-                                currentFragment = BatteryQ3Fragment.newInstance(filterList, user);
+                                currentFragment = BatteryQ3Fragment.newInstance(filterList, user, comparePhonesList);
                             } else if (filterList.size() == 4) {
-                                currentFragment = ResolutionQ4Fragment.newInstance(filterList, user);
+                                currentFragment = ResolutionQ4Fragment.newInstance(filterList, user, comparePhonesList);
                             } else if (filterList.size() == 5) {
-                                currentFragment = RamQ5Fragment.newInstance(filterList, user);
+                                currentFragment = RamQ5Fragment.newInstance(filterList, user, comparePhonesList);
                             } else if (filterList.size() == 6) {
-                                currentFragment = PrimaryCameraQ6Fragment.newInstance(filterList, user);
+                                currentFragment = PrimaryCameraQ6Fragment.newInstance(filterList, user, comparePhonesList);
                             } else if (filterList.size() == 7) {
-                                currentFragment = PriceQ7Fragment.newInstance(filterList, user);
+                                currentFragment = PriceQ7Fragment.newInstance(filterList, user, comparePhonesList);
                             } else if (filterList.size() == 8) {
-                                currentFragment = SuggestionFragment.newInstance(filterList, user);
+                                currentFragment = SuggestionFragment.newInstance(filterList, user, comparePhonesList);
                             }
                             break;
 
@@ -221,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
 
                         case R.id.nav_search:
-                            currentFragment = SearchFragment.getInstance(phonesList, user);
+                            currentFragment = SearchFragment.getInstance(phonesList, user, comparePhonesList);
 //                            Intent intent = new Intent(MainActivity.this, MapActivity.class);
 //                            startActivity(intent);
                             break;
@@ -229,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.nav_favorite:
                             if(fAuth.getCurrentUser() != null) {
                                 Log.d("user main fav: ", user.toString());
-                                currentFragment = FavouritesFragment.getInstance(phonesList, user);
+                                currentFragment = FavouritesFragment.getInstance(phonesList, user, comparePhonesList);
                                 System.out.println(fAuth.getCurrentUser());
                             } else {
                                 currentFragment = AccountFragment.getInstance(phonesList, filterList, user);
@@ -333,6 +342,29 @@ public class MainActivity extends AppCompatActivity {
             timer = null;
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_compare, menu);
+        MenuItem buttonItem = menu.findItem(R.id.action_button);
+        buttonItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem item) {
+                if(comparePhonesList.size() == 2) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container_main, CompareFragment.newInstance(comparePhonesList))
+                            .commit();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please add two phones for comparison.", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
+        return true;
+    }
+
+
+
 
     private void saveFavoritePhonesToFirestore() {
         if (fAuth.getCurrentUser() != null) {

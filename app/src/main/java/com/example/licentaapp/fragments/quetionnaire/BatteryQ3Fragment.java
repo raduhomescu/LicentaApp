@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.licentaapp.R;
+import com.example.licentaapp.utils.Phone;
 import com.example.licentaapp.utils.User;
 
 import java.util.ArrayList;
@@ -36,16 +37,18 @@ public class BatteryQ3Fragment extends Fragment {
 
 
     public static final String FILTER_LIST_KEY = "filter list";
+    private ArrayList<Phone> comparePhones = new ArrayList<>();
     public BatteryQ3Fragment() {
         // Required empty public constructor
     }
 
 
-    public static BatteryQ3Fragment newInstance(ArrayList<String> filterList, User user) {
+    public static BatteryQ3Fragment newInstance(ArrayList<String> filterList, User user, ArrayList<Phone> comparePhonesList) {
         BatteryQ3Fragment fragment = new BatteryQ3Fragment();
         Bundle args = new Bundle();
         args.putStringArrayList(FILTER_LIST_KEY,filterList);
         args.putParcelable(USER_KEY, user);
+        args.putParcelableArrayList("compare phones", comparePhonesList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,6 +59,7 @@ public class BatteryQ3Fragment extends Fragment {
         if (getArguments() != null) {
             filterList = getArguments().getStringArrayList(FILTER_LIST_KEY);
             user = getArguments().getParcelable(USER_KEY);
+            comparePhones = getArguments().getParcelableArrayList("compare phones");
             Log.d("filter listtt:", filterList.toString());
         }
     }
@@ -101,7 +105,7 @@ public class BatteryQ3Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(VAL_3000);
-                currentFragment = ResolutionQ4Fragment.newInstance(filterList, user);
+                currentFragment = ResolutionQ4Fragment.newInstance(filterList, user, comparePhones);
                 openFragment(currentFragment);
             }
         });
@@ -110,7 +114,7 @@ public class BatteryQ3Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(VAL_4000);
-                currentFragment = ResolutionQ4Fragment.newInstance(filterList, user);
+                currentFragment = ResolutionQ4Fragment.newInstance(filterList, user, comparePhones);
                 openFragment(currentFragment);
             }
         });
@@ -119,7 +123,7 @@ public class BatteryQ3Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(VAL_5000);
-                currentFragment = ResolutionQ4Fragment.newInstance(filterList, user);
+                currentFragment = ResolutionQ4Fragment.newInstance(filterList, user, comparePhones);
                 openFragment(currentFragment);
             }
         });
@@ -128,7 +132,7 @@ public class BatteryQ3Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(VAL_6000);
-                currentFragment = ResolutionQ4Fragment.newInstance(filterList, user);
+                currentFragment = ResolutionQ4Fragment.newInstance(filterList, user, comparePhones);
                 openFragment(currentFragment);
             }
         });

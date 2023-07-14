@@ -30,6 +30,7 @@ import java.util.Arrays;
 
 public class SearchFragment extends Fragment implements PhoneAdapter.OnFavoriteButtonClickListener {
     private ArrayList<Phone> phonesList = new ArrayList<>();
+    private ArrayList<Phone> comparePhonesList = new ArrayList<>();
     private ArrayList<Phone> filteredPhoneList = new ArrayList<>();
     private ArrayList<Phone> filteredPhoneList2 = new ArrayList<>();
     private ListView lvPhones;
@@ -40,12 +41,13 @@ public class SearchFragment extends Fragment implements PhoneAdapter.OnFavoriteB
         // Required empty public constructor
     }
 
-    public static SearchFragment getInstance(ArrayList<Phone> phonesList, User user) {
+    public static SearchFragment getInstance(ArrayList<Phone> phonesList, User user, ArrayList<Phone> comparePhonesList) {
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList("Phone List Key", phonesList);
         Log.d(TAG, "Phones map sf: " + phonesList);
         args.putParcelable("User key", user);
+        args.putParcelableArrayList("compare phone list key", comparePhonesList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,6 +58,7 @@ public class SearchFragment extends Fragment implements PhoneAdapter.OnFavoriteB
         if (getArguments() != null) {
             phonesList= getArguments().getParcelableArrayList("Phone List Key");
             user= getArguments().getParcelable("User key");
+            comparePhonesList= getArguments().getParcelableArrayList("compare phone list key");
             Log.d(TAG, "Phones map sf: " + user);
         }
     }
@@ -70,10 +73,9 @@ public class SearchFragment extends Fragment implements PhoneAdapter.OnFavoriteB
 
     private void initComponents(View view) {
         lvPhones = view.findViewById(R.id.lv_phones);
-        PhoneAdapter adapter = new PhoneAdapter(view.getContext().getApplicationContext(),R.layout.lv_row_item, filteredPhoneList, getLayoutInflater(), user, getActivity());
+        PhoneAdapter adapter = new PhoneAdapter(view.getContext().getApplicationContext(),R.layout.lv_row_item, filteredPhoneList, getLayoutInflater(), user, getActivity(), comparePhonesList);
         adapter.setOnFavoriteButtonClickListener(this);
         lvPhones.setAdapter(adapter);
-       //tietSearch = view.findViewById(R.id.tiet_search);
         aCTVSearch = view.findViewById(R.id.a_c_t_v_search);
         ArrayList<String> suggestions = new ArrayList<>();
         for (Phone phone : phonesList) {

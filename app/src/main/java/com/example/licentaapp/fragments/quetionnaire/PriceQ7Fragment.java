@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.licentaapp.R;
+import com.example.licentaapp.utils.Phone;
 import com.example.licentaapp.utils.User;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -31,16 +32,18 @@ public class PriceQ7Fragment extends Fragment {
     private Button btnFindPhone;
 
     public static final String FILTER_LIST_KEY = "filter list";
+    private ArrayList<Phone> comparePhones = new ArrayList<>();
     public PriceQ7Fragment() {
         // Required empty public constructor
     }
 
 
-    public static PriceQ7Fragment newInstance(ArrayList<String> filterList, User user) {
+    public static PriceQ7Fragment newInstance(ArrayList<String> filterList, User user, ArrayList<Phone> comparePhonesList) {
         PriceQ7Fragment fragment = new PriceQ7Fragment();
         Bundle args = new Bundle();
         args.putStringArrayList(FILTER_LIST_KEY,filterList);
         args.putParcelable(USER_KEY, user);
+        args.putParcelableArrayList("compare phones", comparePhonesList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,6 +54,7 @@ public class PriceQ7Fragment extends Fragment {
         if (getArguments() != null) {
             filterList = getArguments().getStringArrayList(FILTER_LIST_KEY);
             user = getArguments().getParcelable(USER_KEY);
+            comparePhones = getArguments().getParcelableArrayList("compare phones");
         }
     }
 
@@ -73,7 +77,7 @@ public class PriceQ7Fragment extends Fragment {
                 if(!minPrice.getText().toString().isEmpty() && !maxPrice.getText().toString().isEmpty()) {
                     priceRange = minPrice.getText().toString() + "/" + maxPrice.getText().toString();
                     filterList.add(priceRange);
-                    currentFragment = SuggestionFragment.newInstance(filterList, user);
+                    currentFragment = SuggestionFragment.newInstance(filterList, user, comparePhones);
                     openFragment(currentFragment);
                 } else {
                     Toast.makeText(view.getContext(), getString(R.string.q7_error_msg), Toast.LENGTH_SHORT).show();

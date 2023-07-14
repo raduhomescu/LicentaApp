@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.licentaapp.R;
+import com.example.licentaapp.utils.Phone;
 import com.example.licentaapp.utils.User;
 
 import java.util.ArrayList;
@@ -30,16 +31,18 @@ public class PrimaryCameraQ6Fragment extends Fragment {
     private Button btnQ6MediumQuality;
     private Button btnQ6HighQuality;
     private Button btnQ6Professional;
+    private ArrayList<Phone> comparePhones = new ArrayList<>();
 
     public PrimaryCameraQ6Fragment() {
         // Required empty public constructor
     }
 
-    public static PrimaryCameraQ6Fragment newInstance(ArrayList<String> filterList, User user) {
+    public static PrimaryCameraQ6Fragment newInstance(ArrayList<String> filterList, User user, ArrayList<Phone> comparePhonesList) {
         PrimaryCameraQ6Fragment fragment = new PrimaryCameraQ6Fragment();
         Bundle args = new Bundle();
         args.putStringArrayList(FILTER_LIST_KEY,filterList);
         args.putParcelable(USER_KEY, user);
+        args.putParcelableArrayList("compare phones", comparePhonesList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,6 +53,7 @@ public class PrimaryCameraQ6Fragment extends Fragment {
         if (getArguments() != null) {
             filterList = getArguments().getStringArrayList(FILTER_LIST_KEY);
             user = getArguments().getParcelable(USER_KEY);
+            comparePhones = getArguments().getParcelableArrayList("compare phones");
         }
     }
 
@@ -94,7 +98,7 @@ public class PrimaryCameraQ6Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(getString(R.string.irrelevant));
-                currentFragment = PriceQ7Fragment.newInstance(filterList, user);
+                currentFragment = PriceQ7Fragment.newInstance(filterList, user, comparePhones);
                 openFragment(currentFragment);
             }
         });
@@ -103,7 +107,7 @@ public class PrimaryCameraQ6Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(getString(R.string.medium_quality));
-                currentFragment = PriceQ7Fragment.newInstance(filterList, user);
+                currentFragment = PriceQ7Fragment.newInstance(filterList, user, comparePhones);
                 openFragment(currentFragment);
             }
         });
@@ -112,7 +116,7 @@ public class PrimaryCameraQ6Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(getString(R.string.high_quality));
-                currentFragment = PriceQ7Fragment.newInstance(filterList, user);
+                currentFragment = PriceQ7Fragment.newInstance(filterList, user, comparePhones);
                 openFragment(currentFragment);
             }
         });
@@ -120,7 +124,7 @@ public class PrimaryCameraQ6Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 filterList.add(getString(R.string.professional));
-                currentFragment = PriceQ7Fragment.newInstance(filterList, user);
+                currentFragment = PriceQ7Fragment.newInstance(filterList, user, comparePhones);
                 openFragment(currentFragment);
             }
         });
