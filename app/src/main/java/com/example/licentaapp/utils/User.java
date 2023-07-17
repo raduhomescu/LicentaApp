@@ -1,10 +1,7 @@
 package com.example.licentaapp.utils;
 
-import static android.content.ContentValues.TAG;
-
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -37,7 +34,6 @@ public class User implements Parcelable {
         phoneNumber = in.readString();
         favouritePhones = new ArrayList<>();
         favouritePhones = in.readArrayList(String.class.getClassLoader());
-        Log.d(TAG, "favourite phones user: " + favouritePhones);
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {

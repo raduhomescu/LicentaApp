@@ -4,19 +4,16 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.licentaapp.R;
 import com.example.licentaapp.utils.Phone;
-import com.example.licentaapp.utils.SpecAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -53,7 +50,6 @@ public class CompareFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             comparePhonesList = getArguments().getParcelableArrayList("lista key");
-            Log.d("lista de comparat", comparePhonesList.toString());
         }
     }
 
@@ -98,7 +94,11 @@ public class CompareFragment extends Fragment {
         btnDeletePhone2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                comparePhonesList.remove(1);
+                if(comparePhonesList.size() == 2) {
+                    comparePhonesList.remove(1);
+                } else {
+                    comparePhonesList.remove(0);
+                }
                 Toast.makeText(view.getContext(), "Phone deleted.", Toast.LENGTH_SHORT).show();
             }
         });

@@ -1,24 +1,22 @@
 package com.example.licentaapp.fragments;
 
-import android.content.Intent;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+
 import android.widget.Button;
 
 import com.example.licentaapp.R;
-import com.example.licentaapp.RegisterActivity;
+
 import com.example.licentaapp.fragments.quetionnaire.PreferredPhoneQ1Fragment;
 import com.example.licentaapp.utils.Phone;
 import com.example.licentaapp.utils.User;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 
 import java.util.ArrayList;
 
@@ -55,7 +53,6 @@ public class HomeFragment extends Fragment {
             filterList = getArguments().getStringArrayList(FILTER_LIST_KEY);
             user = getArguments().getParcelable(USER_KEY);
             comparePhones = getArguments().getParcelableArrayList("compare phones");
-            Log.d("Phones list in home: ", phones.toString());
         }
     }
 
@@ -73,7 +70,6 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     filterList.add(FILTER_LIST_ITEM);
-                    Log.d("home fragment listtt: ", filterList.toString());
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container_main, PreferredPhoneQ1Fragment.newInstance(filterList, user, comparePhones))
                             .commit();

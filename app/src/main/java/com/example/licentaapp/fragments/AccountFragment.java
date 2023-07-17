@@ -14,33 +14,28 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import com.example.licentaapp.LoginActivity;
 import com.example.licentaapp.MainActivity;
 import com.example.licentaapp.R;
 import com.example.licentaapp.RegisterActivity;
-import com.example.licentaapp.fragments.quetionnaire.PreferredPhoneQ1Fragment;
 import com.example.licentaapp.utils.Phone;
 import com.example.licentaapp.utils.User;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
 public class AccountFragment extends Fragment {
-    Button btn_spre_login;
-    Button btn_spre_register;
-    FirebaseAuth fAuth;
+    private Button btn_spre_login;
+    private Button btn_spre_register;
+    private FirebaseAuth fAuth;
     private User user;
 
     private ArrayList<Phone> phones;
     private ArrayList<String> filterList = new ArrayList<>();
     public static final String FILTER_LIST_KEY = "filter list";
     public static final String USER_KEY = "User key";
-    BottomNavigationView navigationView;
     private ActivityResultLauncher<Intent> loginLauncher;
     private ActivityResultLauncher<Intent> registerLauncher;
 
@@ -53,7 +48,7 @@ public class AccountFragment extends Fragment {
         Bundle args = new Bundle();
         args.putParcelableArrayList("phones", phones);
         args.putStringArrayList(FILTER_LIST_KEY,filterList);
-        args.putParcelable("User key", user);
+        args.putParcelable(USER_KEY, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,7 +60,6 @@ public class AccountFragment extends Fragment {
             phones = getArguments().getParcelableArrayList("phones");
             filterList = getArguments().getStringArrayList(FILTER_LIST_KEY);
             user= getArguments().getParcelable("User key");
-            //aici pui datele pe care le aduci
         }
 
     }
@@ -73,7 +67,6 @@ public class AccountFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_account, container, false);
         initComponents(view);
         loginLauncher = registerLoginLauncher();
@@ -83,7 +76,7 @@ public class AccountFragment extends Fragment {
 
     private void initComponents(View view) {
         if (getContext() != null) {
-            navigationView = view.findViewById(R.id.bottom_navigation);
+            //navigationView = view.findViewById(R.id.bottom_navigation);
             fAuth = FirebaseAuth.getInstance();
             btn_spre_login=view.findViewById(R.id.btn_login_page);
             btn_spre_login.setOnClickListener(new View.OnClickListener() {

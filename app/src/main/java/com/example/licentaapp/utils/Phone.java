@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import java.io.File;
-import java.util.ArrayList;
 
 public class Phone implements Parcelable {
     private String uId;

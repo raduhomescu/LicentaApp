@@ -6,12 +6,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.Manifest;
 
-import androidx.annotation.NonNull;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,15 +48,16 @@ public class MapFragment extends Fragment {
     private String shopName;
     private String shopNameSecond = "";
     private String shopNameFirst = "";
-    SupportMapFragment supportMapFragment;
-    GoogleMap map;
-    FusedLocationProviderClient fusedLocationProviderClient;
+    private SupportMapFragment supportMapFragment;
+    private GoogleMap map;
+    private FusedLocationProviderClient fusedLocationProviderClient;
     double currentLat = 0;
     double currentLong = 0;
-    private String next_page_key = "Aaw_FcI2do1pLpTisjUXJy2YbxLXwyFW6k9X-cb0BO9S5sPRP1zX-HLcZoTGOJZaAQ5mfABAWNSXOp83PZxeWuSKTFx5Ro3SY_S5GDcO-GaTzF-FwB4mD-hMfnfFGmdFJcO3JivpvbAghP7yopMyl0kZuU4cdoRGm8KUhvL8r7SxnVV3O2JSDuoDQXNaWpCZbMDWgVOMrErDfAgNqsmMLub8qSOOIvXEz6YpG6MY2pOgU-qCL2PyJ2N4Y_zQDEXBNdqJVIwer4caf26ghf2WaJveG-MbGm2PuYZH5T6RDy5C3cQEVzZTpwbhxAn1d6wA_pDFw_CUCnqksVWW7AEe3qEEawwDPSEe-Mkj0lAZXSO_s12JzKsJoWyd_7uk9km0MvPn761dJKokAuWXzZ7LtK4iUmPAxw7stkXAwp233iUAO_1uu3zEQoLibZd7jvMjQyVrsXNp6A";
+    double lat = 0;
+    double longi = 0;
     private String nextPageToken = "";
-    List<HashMap<String, String>> mapList = new ArrayList<>();
-    List<HashMap<String, String>> filteredList = new ArrayList<>();
+    private List<HashMap<String, String>> mapList = new ArrayList<>();
+    private List<HashMap<String, String>> filteredList = new ArrayList<>();
     public MapFragment() {
         // Required empty public constructor
     }
@@ -77,9 +78,7 @@ public class MapFragment extends Fragment {
             if (shopName.contains(",")) {
                 String[] parts = shopName.split(",");
                 shopNameFirst = parts[0];
-                Log.d("nume magazin 1: ", shopNameFirst);
                 shopNameSecond = parts[1];
-                Log.d("nume magazin 2: ", shopNameSecond);
             } else {
                 shopNameFirst = shopName;
                 shopNameSecond = shopName;
@@ -109,6 +108,8 @@ public class MapFragment extends Fragment {
                     if (location != null) {
                         currentLat = location.getLatitude();
                         currentLong = location.getLongitude();
+                        lat = 44.4494467;
+                        longi = 26.1255262;
 
                         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
                             @Override
@@ -121,10 +122,9 @@ public class MapFragment extends Fragment {
                             }
                         });
                         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" + "?location=" +
-                                currentLat + "," + currentLong + "&radius=15000" + "&type=" +
+                                lat + "," + longi + "&radius=15000" + "&type=" +
                                 placeTypeList + "&sensor=true" + "&key=" + getResources().getString(R.string.google_map_key) +
                                 "&next_page_token=" + nextPageToken;
-                        Log.d("link locatie", url);
 
                         new PlaceTask().execute(url);
                     }
@@ -186,7 +186,6 @@ public class MapFragment extends Fragment {
                 if (object.has("next_page_token")) {
                     nextPageToken = object.getString("next_page_token");
                 }
-                Log.d("token pt next page", nextPageToken);
                 mapList = jsonParser.parseResult(object);
                 while (!nextPageToken.isEmpty()) {
                     loadNextPage(nextPageToken);
@@ -198,14 +197,11 @@ public class MapFragment extends Fragment {
                             "&key=" + getResources().getString(R.string.google_map_key) +
                             "&pagetoken=" + nextPageToken+
                             "&radius=" + 15000;
-                    Log.d("link locatie", resultUrl);
                     String resultData = downloadUrl(resultUrl);
                     JSONObject resultObject = new JSONObject(resultData);
                     nextPageToken = resultObject.optString("next_page_token", "");
                     List<HashMap<String, String>> resultMapList = jsonParser.parseResult(resultObject);
                     mapList.addAll(resultMapList);
-                Log.d("obiect din json", mapList.toString());
-                Log.d("obiect din json", filteredList.toString());
                 }
             } catch (JSONException | InterruptedException | IOException e) {
                 e.printStackTrace();

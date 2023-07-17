@@ -13,10 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.licentaapp.utils.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,25 +26,23 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
-    ActionBar actionBar;
-    TextInputEditText tietName;
-    TextInputEditText tietEmail;
-    TextInputEditText tietPassword;
-    TextInputEditText tietRepeatPassword;
-    TextInputEditText tietPhone;
-    Button btnRegister;
-    FirebaseAuth fAuth;
-    ProgressBar progressBar;
-    FirebaseFirestore fStore;
-    String userID;
+    private ActionBar actionBar;
+    private TextInputEditText tietName;
+    private TextInputEditText tietEmail;
+    private TextInputEditText tietPassword;
+    private TextInputEditText tietRepeatPassword;
+    private TextInputEditText tietPhone;
+    private Button btnRegister;
+    private FirebaseAuth fAuth;
+    private ProgressBar progressBar;
+    private FirebaseFirestore fStore;
+    private String userID;
     private Intent intent;
-    private User userRegistered = new User();
-    ArrayList<String> phonesCodes = new ArrayList<>();
+
     public static final String USER_KEY = "User key";
 
     @Override
@@ -161,7 +157,6 @@ public class RegisterActivity extends AppCompatActivity {
                                     Log.d(TAG, "onFailure: " + e.toString());
                                 }
                             });
-                        //fAuth.signOut();
                         progressBar.setVisibility(View.INVISIBLE);
 
                         } else {

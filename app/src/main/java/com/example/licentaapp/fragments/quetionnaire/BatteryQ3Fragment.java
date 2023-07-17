@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,24 +19,23 @@ import com.example.licentaapp.utils.User;
 import java.util.ArrayList;
 
 public class BatteryQ3Fragment extends Fragment {
+    public static final String USER_KEY = "User key";
+    public static final String FILTER_LIST_KEY = "filter list";
+    private static final String VAL_3000 = "3000";
+    private static final String VAL_4000 = "4000";
+    private static final String VAL_5000 = "5000";
+    private static final String VAL_6000 = "6000";
+    AlertDialog dialog;
     private ArrayList<String> filterList;
     private Fragment currentFragment;
-    AlertDialog dialog;
     private ImageButton btnInfoQ3;
     private Button btn3000mAh;
     private Button btn4000mAh;
     private Button btn5000mAh;
     private Button btn6000mAh;
-    public static final String USER_KEY = "User key";
     private User user;
-    private static final String VAL_3000 = "3000";
-    private static final String VAL_4000 = "4000";
-    private static final String VAL_5000 = "5000";
-    private static final String VAL_6000 = "6000";
-
-
-    public static final String FILTER_LIST_KEY = "filter list";
     private ArrayList<Phone> comparePhones = new ArrayList<>();
+
     public BatteryQ3Fragment() {
         // Required empty public constructor
     }
@@ -46,7 +44,7 @@ public class BatteryQ3Fragment extends Fragment {
     public static BatteryQ3Fragment newInstance(ArrayList<String> filterList, User user, ArrayList<Phone> comparePhonesList) {
         BatteryQ3Fragment fragment = new BatteryQ3Fragment();
         Bundle args = new Bundle();
-        args.putStringArrayList(FILTER_LIST_KEY,filterList);
+        args.putStringArrayList(FILTER_LIST_KEY, filterList);
         args.putParcelable(USER_KEY, user);
         args.putParcelableArrayList("compare phones", comparePhonesList);
         fragment.setArguments(args);
@@ -60,7 +58,6 @@ public class BatteryQ3Fragment extends Fragment {
             filterList = getArguments().getStringArrayList(FILTER_LIST_KEY);
             user = getArguments().getParcelable(USER_KEY);
             comparePhones = getArguments().getParcelableArrayList("compare phones");
-            Log.d("filter listtt:", filterList.toString());
         }
     }
 
@@ -138,7 +135,7 @@ public class BatteryQ3Fragment extends Fragment {
         });
     }
 
-    private void openFragment(Fragment fragment){
+    private void openFragment(Fragment fragment) {
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container_main, fragment)
                 .commit();

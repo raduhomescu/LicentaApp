@@ -36,7 +36,7 @@ public class PreferredPhoneQ1Fragment extends Fragment {
     public static PreferredPhoneQ1Fragment newInstance(ArrayList<String> filterList, User user, ArrayList<Phone> comparePhonesList) {
         PreferredPhoneQ1Fragment fragment = new PreferredPhoneQ1Fragment();
         Bundle args = new Bundle();
-        args.putStringArrayList(FILTER_LIST_KEY,filterList);
+        args.putStringArrayList(FILTER_LIST_KEY, filterList);
         args.putParcelable(USER_KEY, user);
         args.putParcelableArrayList("compare phones", comparePhonesList);
         fragment.setArguments(args);
@@ -57,7 +57,7 @@ public class PreferredPhoneQ1Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_preferred_phone_q1, container, false);
+        View view = inflater.inflate(R.layout.fragment_preferred_phone_q1, container, false);
         initComponents(view);
         return view;
     }
@@ -120,7 +120,7 @@ public class PreferredPhoneQ1Fragment extends Fragment {
         });
     }
 
-    private void openFragment(Fragment fragment){
+    private void openFragment(Fragment fragment) {
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container_main, fragment)
                 .commit();

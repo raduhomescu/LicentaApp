@@ -1,12 +1,10 @@
 package com.example.licentaapp.fragments.quetionnaire;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +60,6 @@ public class StorageQ2Fragment extends Fragment {
             filterList = getArguments().getStringArrayList(FILTER_LIST_KEY);
             user = getArguments().getParcelable(USER_KEY);
             comparePhones = getArguments().getParcelableArrayList("compare phones");
-            Log.d("filter listtt:", filterList.toString());
         }
     }
 

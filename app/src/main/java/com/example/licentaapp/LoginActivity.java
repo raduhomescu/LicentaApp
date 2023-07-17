@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.licentaapp.utils.User;
@@ -21,30 +20,22 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthSettings;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class LoginActivity extends AppCompatActivity {
-
-    TextInputEditText tietLoginEmail;
-    TextInputEditText tietLoginPassword;
-    Button btnLogin;
-    Button btnResetPassword;
-    ProgressBar progressBar;
-    FirebaseAuth fAuth;
+    private TextInputEditText tietLoginEmail;
+    private TextInputEditText tietLoginPassword;
+    private Button btnLogin;
+    private Button btnResetPassword;
+    private ProgressBar progressBar;
+    private FirebaseAuth fAuth;
     private Intent intent;
     private User user = new User();
-    ArrayList<String> phonesCodes = new ArrayList<>();
-    String userID;
-    FirebaseFirestore fStore;
+    private ArrayList<String> phonesCodes = new ArrayList<>();
+    private String userID;
+    private FirebaseFirestore fStore;
     public static final String USER_KEY = "User key";
 
     @Override
@@ -62,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         btnResetPassword = findViewById(R.id.btn_reset_password);
         progressBar = findViewById(R.id.progressBar_login);
         fAuth = FirebaseAuth.getInstance();
-        //Intent intent = new Intent(this, MainActivity.class);
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,13 +87,9 @@ public class LoginActivity extends AppCompatActivity {
                                     user.setfName(document.getData().get("fName").toString());
                                     user.setEmail(document.getData().get("email").toString());
                                     user.setPhoneNumber(document.getData().get("phone").toString());
-                                    Log.d(TAG, "Utilizator: " + document.getData().get("favourites"));
                                     if(document.getData().get("favourites") != null) {
-                                        //phonesCodes = new ArrayList<String> (Arrays.asList(document.getData().get("favourites").toString().split(",")));
                                         phonesCodes = (ArrayList<String>) document.getData().get("favourites");
-                                        Log.d(TAG, "Coduri login: " + phonesCodes);
                                         user.setFavouritePhones(phonesCodes);
-                                        Log.d(TAG, "Utilizator login: " + user.toString());
                                     }
                                     intent.putExtra(USER_KEY, user);
                                     setResult(RESULT_OK, intent);

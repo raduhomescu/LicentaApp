@@ -1,14 +1,10 @@
 package com.example.licentaapp.fragments;
 
-import static android.content.ContentValues.TAG;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +13,13 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.licentaapp.R;
 import com.example.licentaapp.utils.Phone;
 import com.example.licentaapp.utils.PhoneAdapter;
-import com.example.licentaapp.utils.SpecAdapter;
 import com.example.licentaapp.utils.User;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class SearchFragment extends Fragment implements PhoneAdapter.OnFavoriteButtonClickListener {
     private ArrayList<Phone> phonesList = new ArrayList<>();
@@ -45,7 +38,6 @@ public class SearchFragment extends Fragment implements PhoneAdapter.OnFavoriteB
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList("Phone List Key", phonesList);
-        Log.d(TAG, "Phones map sf: " + phonesList);
         args.putParcelable("User key", user);
         args.putParcelableArrayList("compare phone list key", comparePhonesList);
         fragment.setArguments(args);
@@ -59,7 +51,6 @@ public class SearchFragment extends Fragment implements PhoneAdapter.OnFavoriteB
             phonesList= getArguments().getParcelableArrayList("Phone List Key");
             user= getArguments().getParcelable("User key");
             comparePhonesList= getArguments().getParcelableArrayList("compare phone list key");
-            Log.d(TAG, "Phones map sf: " + user);
         }
     }
 

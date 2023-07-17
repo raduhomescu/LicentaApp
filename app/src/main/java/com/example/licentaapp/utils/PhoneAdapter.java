@@ -1,8 +1,6 @@
 package com.example.licentaapp.utils;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +19,6 @@ import com.example.licentaapp.R;
 import com.example.licentaapp.fragments.ProductFragment;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class PhoneAdapter extends ArrayAdapter<Phone> {
@@ -103,7 +100,6 @@ public class PhoneAdapter extends ArrayAdapter<Phone> {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("ino click adapter", "merge");
                 activity.getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container_main, ProductFragment.getInstance(phone, comparePhonesList))
                         .addToBackStack(null)

@@ -9,15 +9,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -63,22 +59,21 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     ActionBar actionBar;
     private Fragment currentFragment;
-    FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
-    CollectionReference phonesRef;
+    private FirebaseAuth fAuth;
+    private FirebaseFirestore fStore;
+    private CollectionReference phonesRef;
     private ArrayList <Phone> phonesList = new ArrayList<>();
     private ArrayList<String> documentIds = new ArrayList<>();
     private User user = new User();
-    ArrayList<String> phonesCodes = new ArrayList<>();
-    String userID;
-    ProgressBar progressBarMain;
-    ProgressBar progressBarMain2;
+    private ArrayList<String> phonesCodes = new ArrayList<>();
+    private String userID;
+    private ProgressBar progressBarMain;
+    private ProgressBar progressBarMain2;
     private ArrayList<String> filterList = new ArrayList<>();
     private boolean shouldExitApp = false;
     private Timer timer;
     private ArrayList<Phone> comparePhonesList = new ArrayList<>();
 
-    //TODO de verificat valori null prin aplicatie
     private static final String PHONES_COLLECTION_KEY = "phones_from_flanco";
 
     @Override
@@ -104,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
                     QuerySnapshot querySnapshot = task.getResult();
                     for (QueryDocumentSnapshot documentSnapshot : querySnapshot) {
                         String documentId = documentSnapshot.getId();
-                        Log.d(TAG, "Document Id: " + documentId);
                         documentIds.add(documentId);
                         Phone phone = new Phone();
                         phone.setuId(documentId);
@@ -133,9 +127,7 @@ public class MainActivity extends AppCompatActivity {
                                     phone.setStorage(Integer.valueOf(documentR.getData().get("Storage").toString()));
                                     phone.setColour(documentR.getData().get("Colour").toString());
                                     phone.setLink_imagine(documentR.getData().get("Link Imagine").toString());
-                                    //TODO de scos stringurile de aici si pus frumos
                                     phonesList.add(phone);
-                                    Log.d(TAG, "Phones map: " + phonesList.toString());
                                 } else {
                                     Log.d(TAG, "No such document");
                                 }
@@ -161,12 +153,9 @@ public class MainActivity extends AppCompatActivity {
                     user.setfName(document.getData().get("fName").toString());
                     user.setEmail(document.getData().get("email").toString());
                     user.setPhoneNumber(document.getData().get("phone").toString());
-                    Log.d(TAG, "Utilizator: " + document.getData().get("favourites"));
                     if(document.getData().get("favourites") != null) {
                         phonesCodes = (ArrayList<String>) document.getData().get("favourites");
-                        Log.d(TAG, "Coduri main: " + phonesCodes);
                         user.setFavouritePhones(phonesCodes);
-                        Log.d(TAG, "Utilizator main: " + user.toString());
                         startDataSavingTimer();
                     }
                 } else {
@@ -185,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.search_gadget_30dp);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-
         MapsInitializer.initialize(getApplicationContext());
         bottomNavigationView=findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
@@ -197,10 +185,8 @@ public class MainActivity extends AppCompatActivity {
                     switch (item.getItemId()) {
                         case R.id.nav_home:
                             if(filterList.size() == 0) {
-                                Log.d("main listtt: ", filterList.toString());
                                 currentFragment = HomeFragment.getInstance(phonesList, filterList, user, comparePhonesList);
                             } else if (filterList.size() == 1) {
-                                Log.d("main listtt: ", filterList.toString());
                                 currentFragment = PreferredPhoneQ1Fragment.newInstance(filterList, user, comparePhonesList);
                             } else if (filterList.size() == 2) {
                                 currentFragment = StorageQ2Fragment.newInstance(filterList, user, comparePhonesList);
@@ -222,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.nav_account:
                             if(fAuth.getCurrentUser() != null) {
                                 currentFragment = ProfileFragment.getInstance(user);
-                                System.out.println(fAuth.getCurrentUser());
                             }
                             else {
                                 currentFragment = AccountFragment.getInstance(phonesList, filterList, user);
@@ -231,15 +216,11 @@ public class MainActivity extends AppCompatActivity {
 
                         case R.id.nav_search:
                             currentFragment = SearchFragment.getInstance(phonesList, user, comparePhonesList);
-//                            Intent intent = new Intent(MainActivity.this, MapActivity.class);
-//                            startActivity(intent);
                             break;
 
                         case R.id.nav_favorite:
                             if(fAuth.getCurrentUser() != null) {
-                                Log.d("user main fav: ", user.toString());
                                 currentFragment = FavouritesFragment.getInstance(phonesList, user, comparePhonesList);
-                                System.out.println(fAuth.getCurrentUser());
                             } else {
                                 currentFragment = AccountFragment.getInstance(phonesList, filterList, user);
                             }
@@ -285,17 +266,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        // Stop the data-saving timer
         stopDataSavingTimer();
-
         super.onDestroy();
     }
 
     public void handleActivityResult(Intent data) {
         bottomNavigationView.setSelectedItemId(R.id.nav_account);
         user = data.getParcelableExtra(LoginActivity.USER_KEY);
-        Log.d("user main fav 1: ", user.toString());
-        // Handle the received data here in the host activity
     }
 
     public void handleRegister() {
@@ -308,13 +285,9 @@ public class MainActivity extends AppCompatActivity {
                 user.setfName(document.getData().get("fName").toString());
                 user.setEmail(document.getData().get("email").toString());
                 user.setPhoneNumber(document.getData().get("phone").toString());
-                Log.d(TAG, "Utilizator: " + document.getData().get("favourites"));
                 if(document.getData().get("favourites") != null) {
-                    //phonesCodes = new ArrayList<String> (Arrays.asList(document.getData().get("favourites").toString().split(",")));
                     phonesCodes = (ArrayList<String>) document.getData().get("favourites");
-                    Log.d(TAG, "Coduri main: " + phonesCodes);
                     user.setFavouritePhones(phonesCodes);
-                    Log.d(TAG, "Utilizator main: " + user.toString());
                 }
             } else {
                 Log.d(TAG, "No such document");
@@ -322,8 +295,6 @@ public class MainActivity extends AppCompatActivity {
         }).addOnFailureListener(e -> {
             Log.d(TAG, "Error getting document: ", e);
         });
-        Log.d("user main fav 1: ", user.toString());
-        // Handle the received data here in the host activity
     }
 
     private void startDataSavingTimer() {
@@ -362,9 +333,6 @@ public class MainActivity extends AppCompatActivity {
         });
         return true;
     }
-
-
-
 
     private void saveFavoritePhonesToFirestore() {
         if (fAuth.getCurrentUser() != null) {

@@ -13,7 +13,7 @@
         android:layout_marginTop="8dp"
         android:completionThreshold="1"
         android:fontFamily="@font/audiowide"
-        android:hint="@android:string/search_go"
+        android:hint="@string/search"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/btn_search_sf"
         app:layout_constraintStart_toStartOf="parent"
